@@ -12,7 +12,7 @@
 
 NAME = libft.a
 CC = cc
-CFLAGS = -Werror -Wall -Wextra
+CFLAGS = -Werror -Wall -Wextra -g
 AR = ar rcs
 SRC_PATH = src_libft/
 SRC_LINKED_LIST_PATH = src_linked_list_libft/

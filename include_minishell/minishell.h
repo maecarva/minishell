@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 14:41:06 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/01/30 18:05:34 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/03 14:39:57 by maecarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,23 @@
 
 # define ERROR_CODE 42      /* Generic error code */
 # define ERROR_COMMAND 127  /* Command not found error code */
+# define ENV_PARSING_ERROR 1
+# define ENV_PARSING_OK 0
+# define INIT_ERROR 1
+# define INIT_OK 0
+
+/******************************************************************************/
+/*                                COLORS                                      */
+/******************************************************************************/
+
+# define KNRM  "\x1B[0m"
+# define KRED  "\x1B[31m"
+# define KGRN  "\x1B[32m"
+# define KYEL  "\x1B[33m"
+# define KBLU  "\x1B[34m"
+# define KMAG  "\x1B[35m"
+# define KCYN  "\x1B[36m"
+# define KWHT  "\x1B[37m"
 
 /******************************************************************************/
 /*                                STRUCTURES                                  */
@@ -54,10 +71,20 @@
 
 /* Add your structures here */
 
+typedef struct s_envvar
+{
+	char	*name;
+	char	*value;
+}	t_envvar;
+
 typedef	struct s_minishell {
+	int		ac;
+	char	**av;
 	t_list	*environnement;
 	t_list	*env_commands;
 	char	*current_path;
+	char	*prompt;
+	int		last_error_code;
 }	t_minishell;
 
 /******************************************************************************/
@@ -66,6 +93,12 @@ typedef	struct s_minishell {
 
 /* Add your function prototypes here */
 
+// init
 t_minishell	*init(int ac, char **av, char **env);
+void		clear_minishell(t_minishell *minishell);
+// // env
+t_list		*init_environnement(char **env);
+t_envvar	*ptr_to_envvar(void	*content);
+char		*get_value_by_name(t_list *env, char *name);
 
 #endif /* MINISHELL_H */
