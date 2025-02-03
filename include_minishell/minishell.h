@@ -17,6 +17,11 @@
 /*                                LIBRARIES                                   */
 /******************************************************************************/
 
+/* Read Command */
+#include <stdio.h>
+#include <readline/readline.h>
+#include <readline/history.h>
+
 /* Process and System Calls */
 # include <sys/types.h>    /* For pid_t */
 # include <sys/wait.h>     /* For wait() */
@@ -33,8 +38,8 @@
 # include <fcntl.h>        /* For open(), O_RDONLY, O_WRONLY, etc. */
 
 /* Custom Libraries */
-# include "libft.h"        /* Custom library functions */
-# include "get_next_line.h" /* GNL for reading lines */
+# include "../libs/libft/include_libft/libft.h"
+// # include "../libs/gnl/include_gnl/get_next_line.h"
 
 /******************************************************************************/
 /*                                CONSTANTS                                   */
@@ -49,10 +54,18 @@
 
 /* Add your structures here */
 
+typedef	struct s_minishell {
+	t_list	*environnement;
+	t_list	*env_commands;
+	char	*current_path;
+}	t_minishell;
+
 /******************************************************************************/
 /*                                PROTOTYPES                                  */
 /******************************************************************************/
 
 /* Add your function prototypes here */
+
+t_minishell	*init(int ac, char **av, char **env);
 
 #endif /* MINISHELL_H */

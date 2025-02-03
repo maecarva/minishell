@@ -39,7 +39,7 @@ LIBFT_PATH = $(LIBS_PATH)/libft
 ################################################################################
 
 # Liste des fichiers sources
-SRC = main.c \
+SRC = main.c
 
 # Conversion des .c en .o dans le dossier obj
 OBJ = $(addprefix $(OBJ_PATH), $(SRC:.c=.o))
@@ -93,7 +93,7 @@ $(GNL): $(LIBFT)
 
 # Création de l'exécutable final
 $(NAME): $(LIBFT) $(GNL) $(OBJ)
-	$(CC) $(CFLAGS) -o $@ $(OBJ) $(GNL) $(LIBFT) $(INCLUDE)
+	$(CC) $(CFLAGS) -o $@ $(OBJ) $(GNL) $(LIBFT) $(INCLUDE) -lreadline
 
 ################################################################################
 #                              	CLEANING RULES                                 #
