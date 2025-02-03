@@ -6,7 +6,7 @@
 #    By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/08 14:19:08 by ebonutto          #+#    #+#              #
-#    Updated: 2025/02/03 17:58:32 by maecarva         ###   ########.fr        #
+#    Updated: 2025/02/03 18:00:40 by maecarva         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,7 +44,8 @@ SRC = src_minishell/main.c \
 	  src_minishell/init/env.c \
 	  src_minishell/init/env_utils.c \
 	  src_minishell/clear/clear.c \
-	  src_minishell/signals/signals.c
+	  src_minishell/signals/signals.c \
+	  src_minishell/parsing/parsing.c
 
 # Conversion des .c en .o dans le dossier obj
 OBJ = $(SRC:.c=.o)
