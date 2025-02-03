@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 14:41:06 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/01/30 18:05:34 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/03 17:30:03 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,9 @@
 # include "libft.h"        /* Custom library functions */
 # include "get_next_line.h" /* GNL for reading lines */
 
+/* Bool */
+# include <stdbool.h>
+
 /******************************************************************************/
 /*                                CONSTANTS                                   */
 /******************************************************************************/
@@ -47,8 +50,21 @@
 /*                                STRUCTURES                                  */
 /******************************************************************************/
 
-/* Add your structures here */
+typedef struct s_minishell
+{
+	char	*filename;
+	int		fd_infile;
+	int		fd_outfile;
+	char	*path_name;
+}	t_minishell;
 
+typedef struct s_command
+{
+	char	*command;
+	char	*flags;
+	t_list	*arguments;
+	bool	quotes;  // quotes == 1 (true) for "" or blank and quotes == 0 (false) for ''
+}	t_command;
 /******************************************************************************/
 /*                                PROTOTYPES                                  */
 /******************************************************************************/

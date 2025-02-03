@@ -6,7 +6,7 @@
 #    By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/08 14:19:08 by ebonutto          #+#    #+#              #
-#    Updated: 2025/02/03 10:07:10 by ebonutto         ###   ########.fr        #
+#    Updated: 2025/02/03 16:58:39 by ebonutto         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,7 +39,8 @@ LIBFT_PATH = $(LIBS_PATH)/libft
 ################################################################################
 
 # Liste des fichiers sources
-SRC = main.c \
+SRC = echo.c \
+		main.c
 
 # Conversion des .c en .o dans le dossier obj
 OBJ = $(addprefix $(OBJ_PATH), $(SRC:.c=.o))
