@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 14:41:06 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/03 14:39:57 by maecarva         ###   ########.fr       */
+/*   Updated: 2025/02/03 17:17:18 by maecarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,5 +100,8 @@ void		clear_minishell(t_minishell *minishell);
 t_list		*init_environnement(char **env);
 t_envvar	*ptr_to_envvar(void	*content);
 char		*get_value_by_name(t_list *env, char *name);
+
+// signals
+void	init_signals(void);
 
 #endif /* MINISHELL_H */

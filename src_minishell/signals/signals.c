@@ -1,40 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   clear.c                                            :+:      :+:    :+:   */
+/*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: maecarva <maecarva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/03 14:11:09 by maecarva          #+#    #+#             */
-/*   Updated: 2025/02/03 14:12:15 by maecarva         ###   ########.fr       */
+/*   Created: 2025/02/03 17:02:25 by maecarva          #+#    #+#             */
+/*   Updated: 2025/02/03 17:56:51 by maecarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include_minishell/minishell.h"
+#include <readline/readline.h>
 
-void	clear_env(t_list	**env)
+
+void	signals_handler(int	signal)
 {
-	t_list	*tmp;
-
-	if (!env)
-		return ;
-	while (*env)
+	if (signal == SIGINT)
 	{
-		tmp = (*env)->next;
-		free(ptr_to_envvar((*env)->content)->name);
-		free(ptr_to_envvar((*env)->content)->value);
-		free((*env)->content);
-		free(*env);
-		*env = tmp;
+		printf("\n");
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
 	}
 }
 
-void	clear_minishell(t_minishell *minishell)
+void	init_signals(void)
 {
-	if (!minishell)
-		return ;
-	if (minishell->prompt)
-		free(minishell->prompt);
-	clear_env(&minishell->environnement);
-	free(minishell);
+	struct sigaction        act;
+
+	ft_bzero(&act, sizeof(act));
+	act.sa_handler = &signals_handler;
+	sigaction(SIGINT, &act, NULL);
+	sigemptyset(&act.sa_mask);
+	signal(SIGQUIT, SIG_IGN);
 }
