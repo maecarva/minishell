@@ -12,7 +12,7 @@
 
 #include "../../include_minishell/minishell.h"
 
-int	init_minishell(int ac, char **av, t_minishell *minishell)
+int	init_config(int ac, char **av, t_config *minishell)
 {
 	minishell->ac = ac;
 	minishell->av = av;
@@ -25,17 +25,17 @@ int	init_minishell(int ac, char **av, t_minishell *minishell)
 	return (INIT_OK);
 }
 
-t_minishell	*init(int ac, char **av, char **env)
+t_config	*init(int ac, char **av, char **env)
 {
-	t_minishell	*minishell;
+	t_config	*minishell;
 
-	minishell = ft_calloc(sizeof(t_minishell), 1);
+	minishell = ft_calloc(sizeof(t_config), 1);
 	if (!minishell)
 		return (NULL);
 	minishell->environnement = init_environnement(env);
 	if (!minishell->environnement)
 		return (clear_minishell(minishell), NULL);
-	if (init_minishell(ac, av,minishell) == INIT_ERROR)
+	if (init_config(ac, av,minishell) == INIT_ERROR)
 		return (clear_minishell(minishell), NULL);
 	return (minishell);
 }

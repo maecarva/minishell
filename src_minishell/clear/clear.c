@@ -29,7 +29,7 @@ void	clear_env(t_list	**env)
 	}
 }
 
-void	clear_minishell(t_minishell *minishell)
+void	clear_minishell(t_config *minishell)
 {
 	if (!minishell)
 		return ;

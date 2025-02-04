@@ -33,6 +33,7 @@
 /* Error Handling */
 # include <errno.h>        /* For errno variable */
 # include <stdio.h>        /* For printf(), perror() */
+# include <stdbool.h>
 
 /* File Operations */
 # include <fcntl.h>        /* For open(), O_RDONLY, O_WRONLY, etc. */
@@ -85,7 +86,30 @@ typedef	struct s_minishell {
 	char	*current_path;
 	char	*prompt;
 	int		last_error_code;
-}	t_minishell;
+}	t_config;
+
+// PARSING
+typedef enum e_token
+{
+	PIPE, //
+	R_LEFT, // <
+	R_RIGHT, // >
+	COMMAND,
+}	t_token;
+
+typedef	struct s_cmd
+{
+	char	*cmd;
+	t_list	*flags;
+	t_list	*arguments;
+	bool	quotes;
+}	t_cmd;
+
+typedef struct s_node
+{
+	t_token	type;
+	t_cmd	*cmd;
+}	t_node;
 
 /******************************************************************************/
 /*                                PROTOTYPES                                  */
@@ -94,8 +118,8 @@ typedef	struct s_minishell {
 /* Add your function prototypes here */
 
 // init
-t_minishell	*init(int ac, char **av, char **env);
-void		clear_minishell(t_minishell *minishell);
+t_config	*init(int ac, char **av, char **env);
+void		clear_minishell(t_config *minishell);
 // // env
 t_list		*init_environnement(char **env);
 t_envvar	*ptr_to_envvar(void	*content);
@@ -103,5 +127,6 @@ char		*get_value_by_name(t_list *env, char *name);
 
 // signals
 void	init_signals(void);
+t_btree	*arbre_bidon();
 
 #endif /* MINISHELL_H */
