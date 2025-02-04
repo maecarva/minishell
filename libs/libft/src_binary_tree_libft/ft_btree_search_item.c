@@ -20,11 +20,11 @@ void	*ft_btree_search_item(t_btree *root, void *data_ref,
 
 	if (root == NULL)
 		return (NULL);
-	found_left = btree_search_item(root->left, data_ref, cmpf);
+	found_left = ft_btree_search_item(root->left, data_ref, cmpf);
 	if (found_left != NULL)
 		return (found_left);
 	cmp = cmpf(root->item, data_ref);
 	if (cmp == 0)
 		return (root->item);
-	return (btree_search_item(root->right, data_ref, cmpf));
+	return (ft_btree_search_item(root->right, data_ref, cmpf));
 }

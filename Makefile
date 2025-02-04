@@ -6,7 +6,7 @@
 #    By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/08 14:19:08 by ebonutto          #+#    #+#              #
-#    Updated: 2025/02/03 10:07:10 by ebonutto         ###   ########.fr        #
+#    Updated: 2025/02/03 18:00:40 by maecarva         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ NAME = minishell
 
 # Compilateur et flags de compilation
 CC = cc
-CFLAGS = -Werror -Wextra -Wall
+CFLAGS = -Werror -Wextra -Wall -g
 
 ################################################################################
 #                              DIRECTORY PATHS                                 #
@@ -39,10 +39,16 @@ LIBFT_PATH = $(LIBS_PATH)/libft
 ################################################################################
 
 # Liste des fichiers sources
-SRC = main.c \
+SRC = src_minishell/main.c \
+	  src_minishell/init/init.c \
+	  src_minishell/init/env.c \
+	  src_minishell/init/env_utils.c \
+	  src_minishell/clear/clear.c \
+	  src_minishell/signals/signals.c \
+	  src_minishell/parsing/parsing.c
 
 # Conversion des .c en .o dans le dossier obj
-OBJ = $(addprefix $(OBJ_PATH), $(SRC:.c=.o))
+OBJ = $(SRC:.c=.o)
 
 ################################################################################
 #                              INCLUDES AND LIBRARIES                          #
@@ -66,8 +72,8 @@ all: $(NAME)
 bonus: all
 
 # Compilation des fichiers sources en objets
-$(OBJ_PATH)%.o: $(SRC_PATH)%.c
-	mkdir -p $(OBJ_PATH)
+%.o: %.c
+	# mkdir -p $(OBJ_PATH)
 	$(CC) $(CFLAGS) -o $@ -c $< $(INCLUDE)
 
 # Compilation des fichiers bonus en objets
@@ -93,7 +99,7 @@ $(GNL): $(LIBFT)
 
 # Création de l'exécutable final
 $(NAME): $(LIBFT) $(GNL) $(OBJ)
-	$(CC) $(CFLAGS) -o $@ $(OBJ) $(GNL) $(LIBFT) $(INCLUDE)
+	$(CC) $(CFLAGS) -o $@ $(OBJ) $(GNL) $(LIBFT) $(INCLUDE) -lreadline
 
 ################################################################################
 #                              	CLEANING RULES                                 #
@@ -103,7 +109,7 @@ $(NAME): $(LIBFT) $(GNL) $(OBJ)
 clean:
 	make -sC $(LIBFT_PATH) clean
 	make -sC $(GNL_PATH) clean
-	rm -rf $(OBJ_PATH)
+	rm -rf $(OBJ)
 
 # Suppression des fichiers objets et des exécutables
 fclean: clean

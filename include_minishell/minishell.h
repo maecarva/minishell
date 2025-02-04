@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 14:41:06 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/01/30 18:05:34 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/03 17:17:18 by maecarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,11 @@
 /******************************************************************************/
 /*                                LIBRARIES                                   */
 /******************************************************************************/
+
+/* Read Command */
+#include <stdio.h>
+#include <readline/readline.h>
+#include <readline/history.h>
 
 /* Process and System Calls */
 # include <sys/types.h>    /* For pid_t */
@@ -28,13 +33,14 @@
 /* Error Handling */
 # include <errno.h>        /* For errno variable */
 # include <stdio.h>        /* For printf(), perror() */
+# include <stdbool.h>
 
 /* File Operations */
 # include <fcntl.h>        /* For open(), O_RDONLY, O_WRONLY, etc. */
 
 /* Custom Libraries */
-# include "libft.h"        /* Custom library functions */
-# include "get_next_line.h" /* GNL for reading lines */
+# include "../libs/libft/include_libft/libft.h"
+// # include "../libs/gnl/include_gnl/get_next_line.h"
 
 /******************************************************************************/
 /*                                CONSTANTS                                   */
@@ -42,6 +48,23 @@
 
 # define ERROR_CODE 42      /* Generic error code */
 # define ERROR_COMMAND 127  /* Command not found error code */
+# define ENV_PARSING_ERROR 1
+# define ENV_PARSING_OK 0
+# define INIT_ERROR 1
+# define INIT_OK 0
+
+/******************************************************************************/
+/*                                COLORS                                      */
+/******************************************************************************/
+
+# define KNRM  "\x1B[0m"
+# define KRED  "\x1B[31m"
+# define KGRN  "\x1B[32m"
+# define KYEL  "\x1B[33m"
+# define KBLU  "\x1B[34m"
+# define KMAG  "\x1B[35m"
+# define KCYN  "\x1B[36m"
+# define KWHT  "\x1B[37m"
 
 /******************************************************************************/
 /*                                STRUCTURES                                  */
@@ -49,10 +72,61 @@
 
 /* Add your structures here */
 
+typedef struct s_envvar
+{
+	char	*name;
+	char	*value;
+}	t_envvar;
+
+typedef	struct s_minishell {
+	int		ac;
+	char	**av;
+	t_list	*environnement;
+	t_list	*env_commands;
+	char	*current_path;
+	char	*prompt;
+	int		last_error_code;
+}	t_config;
+
+// PARSING
+typedef enum e_token
+{
+	PIPE, //
+	R_LEFT, // <
+	R_RIGHT, // >
+	COMMAND,
+}	t_token;
+
+typedef	struct s_cmd
+{
+	char	*cmd;
+	t_list	*flags;
+	t_list	*arguments;
+	bool	quotes;
+}	t_cmd;
+
+typedef struct s_node
+{
+	t_token	type;
+	t_cmd	*cmd;
+}	t_node;
+
 /******************************************************************************/
 /*                                PROTOTYPES                                  */
 /******************************************************************************/
 
 /* Add your function prototypes here */
+
+// init
+t_config	*init(int ac, char **av, char **env);
+void		clear_minishell(t_config *minishell);
+// // env
+t_list		*init_environnement(char **env);
+t_envvar	*ptr_to_envvar(void	*content);
+char		*get_value_by_name(t_list *env, char *name);
+
+// signals
+void	init_signals(void);
+t_btree	*arbre_bidon();
 
 #endif /* MINISHELL_H */
