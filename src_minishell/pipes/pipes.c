@@ -85,7 +85,7 @@ void	init_p_data(t_pipes *p_data, t_btree *tree, char **envp)
 void	pipes(t_pipes *p_data)
 {
 	first_parent(p_data);
-	// infinite_parent(p_data);
+	infinite_parent(p_data);
 	last_parent(p_data);
 	check_children(p_data);
 }
