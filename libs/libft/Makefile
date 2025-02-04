@@ -6,7 +6,7 @@
 #    By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/08 14:24:44 by ebonutto          #+#    #+#              #
-#    Updated: 2025/02/03 10:07:22 by ebonutto         ###   ########.fr        #
+#    Updated: 2025/02/04 16:39:39 by ebonutto         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -86,6 +86,7 @@ SRC_EXTRA = ft_abs.c \
 			ft_only_space.c \
 			ft_perror.c \
 			ft_str_three_join.c \
+			ft_strcmp.c \
 			ft_swap.c
 
 OBJ = $(addprefix $(OBJ_PATH), $(SRC:.c=.o) $(SRC_LINKED_LIST:.c=.o) $(SRC_EXTRA:.c=.o) $(SRC_BINARY_TREE:.c=.o))

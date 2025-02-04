@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 14:41:06 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/04 10:44:13 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/04 16:30:43 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,9 @@
 /* Custom Libraries */
 # include "../libs/libft/include_libft/libft.h"
 // # include "../libs/gnl/include_gnl/get_next_line.h"
+
+// include pipes lib
+# include "pipes.h"
 
 /* Bool */
 # include <stdbool.h>
@@ -79,8 +82,9 @@ typedef struct s_minishell
 	int		fd_infile;
 	int		fd_outfile;
 	char	*path_name;
+	char	**environnement;
+	t_btree	*tree;
 }	t_minishell;
-
 
 typedef struct s_command
 {
