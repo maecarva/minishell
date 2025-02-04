@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:10:04 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/04 16:59:45 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/04 17:16:56 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ void	init_p_data(t_pipes *p_data, t_btree *tree, char **envp)
 void	pipes(t_pipes *p_data)
 {
 	first_parent(p_data);
+	infinite_parent(p_data);
 	last_parent(p_data);
 	check_children(p_data);
 }
