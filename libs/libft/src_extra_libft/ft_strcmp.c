@@ -1,29 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cd.c                                               :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/03 17:16:59 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/04 16:20:22 by ebonutto         ###   ########.fr       */
+/*   Created: 2025/02/04 16:37:25 by ebonutto          #+#    #+#             */
+/*   Updated: 2025/02/04 16:39:09 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-void	execute_cd(t_minishell *ms_data, t_command cmd_data)
+int	ft_strcmp(char *src1, char *src2)
 {
-	char	*new_path_cmd;
+	int	i;
 
-	if (cmd_data.flags != NULL)
-	{
-		ft_putstr("cd: -", 2);
-		ft_putstr(cmd_data.flags[0], 2);
-		ft_putendl(": invalid option", 2);
-		exit(2);
-	}
-	new_path_cmd = ft_strdup("");
-	if (new_path_cmd)
-	if (access(path_cmd, X_OK) == 0)
+	i = 0;
+	while (src1[i] && src1[i] == src2[i])
+		i++;
+	return (src1[i] - src2[i]);
 }

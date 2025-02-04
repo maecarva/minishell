@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 16:57:19 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/04 12:45:33 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/04 16:51:21 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,13 @@ int	main(int ac, char **av, char **env)
 	t_btree	*arbrebidon = arbre_bidon();
 	// printf("mid=%s\n", (char *)arbrebidon->item);
 	// printf("left=%s\n", (char *)arbrebidon->left->item);
-	// printf("right=%s\n", (char *)arbrebidon->right->item);
-	pipes(arbrebidon, env);
+
+	t_pipes	p_data;
+
+	init_p_data(&p_data, arbrebidon, env);
+	// printf("%s\n", p_data.environnement[30]);
+	printf("right=%s\n", (char *)arbrebidon->left->item);
+	pipes(&p_data);
 	
 	while (1)
 	{

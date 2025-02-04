@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipes.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/04 14:09:58 by ebonutto          #+#    #+#             */
+/*   Updated: 2025/02/04 16:56:00 by ebonutto         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PIPEX_H
 # define PIPEX_H
 
@@ -7,23 +19,27 @@
 
 typedef struct s_pipes
 {
-	int		ac;
-	char	**av;
-	char	**env;
+	char	**environnement;
+	t_btree	*tree;
+	int		**fd;
 	int		nb_pipes;
 	int		fd_infile;
 	int		fd_outfile;
-	int		pid_last_child;
+	int		pid_last_parent;
 }	t_pipes;
 
 /* prototypes */
 
 //pipes
-void	pipes(t_btree *arbrebidon, char **envp);
-void	first_parent(t_btree *arbrebidon, char **envp, int *fd);
-void	last_parent(t_btree *arbrebidon, char **envp, int *fd);
+void	pipes(t_pipes *p_data);
+void	first_parent(t_pipes *p_data);
+void	last_parent(t_pipes *p_data);
 
 //execute commands
 void	execute_command(char **envp, t_btree *arbrebidon);
+
+//pipes utilisation
+int		count_pipes(t_btree	*arbre);
+void	init_p_data(t_pipes *p_data, t_btree *tree, char **envp);
 
 #endif
