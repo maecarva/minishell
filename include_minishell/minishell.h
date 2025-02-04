@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 14:41:06 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/03 17:17:18 by maecarva         ###   ########.fr       */
+/*   Updated: 2025/02/04 10:44:13 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,9 @@
 # include "../libs/libft/include_libft/libft.h"
 // # include "../libs/gnl/include_gnl/get_next_line.h"
 
+/* Bool */
+# include <stdbool.h>
+
 /******************************************************************************/
 /*                                CONSTANTS                                   */
 /******************************************************************************/
@@ -70,7 +73,22 @@
 /*                                STRUCTURES                                  */
 /******************************************************************************/
 
-/* Add your structures here */
+typedef struct s_minishell
+{
+	char	*filename;
+	int		fd_infile;
+	int		fd_outfile;
+	char	*path_name;
+}	t_minishell;
+
+
+typedef struct s_command
+{
+	char	*command;
+	char	*flags; //lste de flags
+	t_list	*arguments;
+	bool	quotes;  // quotes == 1 (true) for "" or blank and quotes == 0 (false) for ''
+}	t_command;
 
 typedef struct s_envvar
 {
@@ -78,7 +96,7 @@ typedef struct s_envvar
 	char	*value;
 }	t_envvar;
 
-typedef	struct s_minishell {
+typedef	struct s_config {
 	int		ac;
 	char	**av;
 	t_list	*environnement;
@@ -110,6 +128,7 @@ typedef struct s_node
 	t_token	type;
 	t_cmd	*cmd;
 }	t_node;
+
 
 /******************************************************************************/
 /*                                PROTOTYPES                                  */

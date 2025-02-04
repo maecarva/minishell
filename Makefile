@@ -45,7 +45,8 @@ SRC = src_minishell/main.c \
 	  src_minishell/init/env_utils.c \
 	  src_minishell/clear/clear.c \
 	  src_minishell/signals/signals.c \
-	  src_minishell/parsing/parsing.c
+	  src_minishell/parsing/parsing.c \
+    src_minishell/echo.c
 
 # Conversion des .c en .o dans le dossier obj
 OBJ = $(SRC:.c=.o)

@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/03 10:05:52 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/03 17:55:38 by maecarva         ###   ########.fr       */
+/*   Created: 2025/02/03 16:57:19 by ebonutto          #+#    #+#             */
+/*   Updated: 2025/02/04 10:38:24 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	print_env(t_config *minishell)
 {
+
 	t_list		*tmp;
 
 	tmp = minishell->environnement;

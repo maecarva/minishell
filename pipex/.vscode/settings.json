@@ -1,0 +1,11 @@
+{
+	"files.associations": {
+		"get_next_line.h": "c",
+		"pipex.h": "c",
+		"libft.h": "c",
+		"stdlib.h": "c",
+		"pipex_bonus.h": "c",
+		"system_error": "c",
+		"stdio.h": "c"
+	}
+}
