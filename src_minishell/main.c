@@ -14,6 +14,7 @@
 
 void	print_env(t_config *minishell)
 {
+
 	t_list		*tmp;
 
 	tmp = minishell->environnement;
@@ -34,6 +35,15 @@ int	main(int ac, char **av, char **env)
 	minishell = init(ac, av, env);
 	if (!minishell)
 		return (1);
+	t_btree	*arbrebidon = arbre_bidon();
+	// printf("mid=%s\n", (char *)arbrebidon->item);
+	// printf("left=%s\n", (char *)arbrebidon->left->item);
+
+	t_pipes	p_data;
+
+	init_p_data(&p_data, arbrebidon, env);
+	// printf("%s\n", p_data.environnement[30]);
+	pipes(&p_data);
 	
 	while (1)
 	{

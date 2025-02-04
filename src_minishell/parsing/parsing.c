@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maecarva <maecarva@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 17:59:56 by maecarva          #+#    #+#             */
-/*   Updated: 2025/02/04 16:34:26 by maecarva         ###   ########.fr       */
+/*   Updated: 2025/02/04 16:41:42 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,11 +78,11 @@ void	print_arbre(t_btree *root, int level)
 t_btree	*arbre_bidon()
 {
 	t_btree	*arbre;
-	t_node	*tmpnode;
+	// t_node	*tmpnode;
 
-	tmpnode = ft_calloc(sizeof(t_node), 1);
-	tmpnode->type = PIPE;
-	tmpnode->cmd = NULL;
+	// tmpnode = ft_calloc(sizeof(t_node), 1);
+	// tmpnode->type = PIPE;
+	// tmpnode->cmd = NULL;
 
 	arbre = ft_btree_create_node(tmpnode);
 	arbre->left = ft_btree_create_node(left());

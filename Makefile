@@ -6,7 +6,7 @@
 #    By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/08 14:19:08 by ebonutto          #+#    #+#              #
-#    Updated: 2025/02/04 16:27:19 by maecarva         ###   ########.fr        #
+#    Updated: 2025/02/04 17:16:02 by ebonutto         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,6 +49,13 @@ SRC = src_minishell/main.c \
 	  src_minishell/parsing/ast_constructor.c \
 	  src_minishell/parsing/create_node.c \
 	  src_minishell/parsing/ast_clear.c
+    src_minishell/echo.c \
+	  src_minishell/pipes/pipes.c \
+	  src_minishell/pipes/first_parent.c \
+	  src_minishell/pipes/last_parent.c \
+	  src_minishell/pipes/execute_command.c \
+	  src_minishell/pipes/count_pipes.c \
+	  src_minishell/pipes/infinite_parent.c
 
 # Conversion des .c en .o dans le dossier obj
 OBJ = $(SRC:.c=.o)
