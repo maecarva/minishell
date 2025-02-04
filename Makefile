@@ -48,8 +48,8 @@ SRC = src_minishell/main.c \
 	  src_minishell/parsing/parsing.c \
 	  src_minishell/parsing/ast_constructor.c \
 	  src_minishell/parsing/create_node.c \
-	  src_minishell/parsing/ast_clear.c
-    src_minishell/echo.c \
+	  src_minishell/parsing/ast_clear.c \
+	  src_minishell/echo.c \
 	  src_minishell/pipes/pipes.c \
 	  src_minishell/pipes/first_parent.c \
 	  src_minishell/pipes/last_parent.c \

@@ -35,15 +35,14 @@ int	main(int ac, char **av, char **env)
 	minishell = init(ac, av, env);
 	if (!minishell)
 		return (1);
-	t_btree	*arbrebidon = arbre_bidon();
+	// t_btree	*arbrebidon = arbre_bidon();
 	// printf("mid=%s\n", (char *)arbrebidon->item);
 	// printf("left=%s\n", (char *)arbrebidon->left->item);
 
 	t_pipes	p_data;
 
-	init_p_data(&p_data, arbrebidon, env);
-	// printf("%s\n", p_data.environnement[30]);
-	pipes(&p_data);
+	// init_p_data(&p_data, arbrebidon, env);
+	// pipes(&p_data);
 	
 	while (1)
 	{
@@ -51,6 +50,8 @@ int	main(int ac, char **av, char **env)
 		if (!cmd)
 			return (printf("exit\n"), clear_minishell(minishell), 1);
 		ast = parse_cmd(cmd);
+		init_p_data(&p_data, ast, env);
+		pipes(&p_data);
 		clear_ast(ast);
 		free(cmd);
 	}

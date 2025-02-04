@@ -45,7 +45,6 @@ void	check_children(t_pipes *data)
 			if (exit_code == ERROR_COMMAND || exit_code == ERROR_CODE
 				|| exit_code == EXIT_FAILURE)
 				exit(exit_code);
-		fprintf(stderr, "hello");
 		}
 	}
 }
@@ -76,7 +75,7 @@ void	init_p_data(t_pipes *p_data, t_btree *tree, char **envp)
 {
 	p_data->environnement = envp;
 	p_data->tree = tree;
-	p_data->nb_pipes = count_pipes(tree);
+	p_data->nb_pipes = 1;
 	p_data->fd = create_fds(p_data->nb_pipes);
 	p_data->fd_infile = 0;
 	p_data->fd_outfile = 1;

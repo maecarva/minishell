@@ -67,7 +67,7 @@ void	execute_command(char **envp, t_btree *arbrebidon)
 	paths = ft_split(envp[i] + 5, ':');
 	if (!paths)
 		ft_perror("malloc", ERROR_CODE);
-	no_path(&cmds, &path_cmd, &paths, (char *)arbrebidon->item);
+	no_path(&cmds, &path_cmd, &paths, ((t_node *)(arbrebidon->item))->cmd->cmd);
 	if (execve(path_cmd, cmds, envp) == -1)
 	{
 		ft_free_double_ptr(&cmds);
