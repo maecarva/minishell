@@ -21,3 +21,14 @@ Plan: (idee de plan)
   2-Exec:
   
     1-Recuperer les commandes via des listes chainees et les executer.
+
+
+Idee d arbre :
+typedef struct s_btree
+{
+	struct s_btree	*left;
+	struct s_btree	*right;
+	void			*item;
+  type d item (cmd, pipe, ...)
+  
+}	t_btree;
