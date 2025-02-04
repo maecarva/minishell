@@ -1,0 +1,20 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "defines": [],
+            "compilerPath": "/usr/bin/clang",
+            "cStandard": "c17",
+            "cppStandard": "c++14",
+            "intelliSenseMode": "linux-clang-x64",
+            "includePath": [
+                "${default}",
+                "${workspaceFolder}/include_pipex",
+                "${workspaceFolder}/libs/libft/include_libft",
+                "${workspaceFolder}/libs/ft_printf/include_ft_printf",
+                "${workspaceFolder}/libs/gnl/include_gnl"
+            ]
+        }
+    ],
+    "version": 4
+}

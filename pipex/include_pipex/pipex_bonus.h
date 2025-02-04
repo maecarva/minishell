@@ -1,20 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   pipex_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/03 16:57:19 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/04 10:38:24 by ebonutto         ###   ########.fr       */
+/*   Created: 2025/01/21 13:27:55 by ebonutto          #+#    #+#             */
+/*   Updated: 2025/01/28 13:11:19 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#ifndef PIPEX_BONUS_H
+# define PIPEX_BONUS_H
 
-int	main(void)
-{
-	int	fd[2][2];
+# include "pipex.h"
 
-	return (0);
-}
+//pipex_bonus
+void	pipex_bonus(t_pipex data);
+
+//init
+t_pipex	init_pipex_bonus(int argc, char **argv, char **envp);
+
+//mid_parent
+void	mid_parent(t_pipex d);
+
+#endif

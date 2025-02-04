@@ -1,20 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_lstsize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/03 16:57:19 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/04 10:38:24 by ebonutto         ###   ########.fr       */
+/*   Created: 2024/11/06 11:14:42 by ebonutto          #+#    #+#             */
+/*   Updated: 2024/11/12 10:16:51 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	main(void)
+/*
+Prototype
+	int ft_lstsize(t_list *lst);
+
+Description
+	Counts the number of elements in a list.
+
+Parameters
+	#1. The beginning of the list.
+
+Return value
+	Length of the list.
+*/
+
+int	ft_lstsize(t_list *lst)
 {
-	int	fd[2][2];
+	int	count;
 
-	return (0);
+	count = 0;
+	while (lst)
+	{
+		lst = lst->next;
+		count++;
+	}
+	return (count);
 }

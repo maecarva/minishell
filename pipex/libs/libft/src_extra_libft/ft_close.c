@@ -1,20 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_close.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/03 16:57:19 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/04 10:38:24 by ebonutto         ###   ########.fr       */
+/*   Created: 2025/01/20 11:24:17 by ebonutto          #+#    #+#             */
+/*   Updated: 2025/01/20 11:31:59 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	main(void)
+void	ft_close(int fd1, int fd2)
 {
-	int	fd[2][2];
-
-	return (0);
+	if (fd1 != -1)
+		close(fd1);
+	if (fd2 != -1)
+		close(fd2);
 }

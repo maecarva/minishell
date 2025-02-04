@@ -1,20 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/03 16:57:19 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/04 10:38:24 by ebonutto         ###   ########.fr       */
+/*   Created: 2024/11/06 11:15:07 by ebonutto          #+#    #+#             */
+/*   Updated: 2024/11/12 11:31:24 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	main(void)
+/*
+Prototype
+	void ft_putstr_fd(char *s, int fd);
+
+Description
+	Outputs the string ’s’ to the given file
+	descriptor.
+
+Parameters
+	#1. The string to output.
+	#2. The file descriptor on which to write.
+
+Return value
+	None
+*/
+
+void	ft_putstr_fd(char *s, int fd)
 {
-	int	fd[2][2];
+	size_t	count;
 
-	return (0);
+	if (!s)
+		return ;
+	count = 0;
+	while (s[count])
+	{
+		ft_putchar_fd(s[count], fd);
+		count++;
+	}
 }

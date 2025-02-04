@@ -1,20 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/03 16:57:19 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/04 10:38:24 by ebonutto         ###   ########.fr       */
+/*   Created: 2024/11/18 08:56:23 by ebonutto          #+#    #+#             */
+/*   Updated: 2025/01/14 19:28:53 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
 
-int	main(void)
-{
-	int	fd[2][2];
+# include <stdlib.h>
+# include <stdio.h>
+# include <unistd.h>
+# include "libft.h"
 
-	return (0);
-}
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE BUFSIZ
+# endif
+
+int		get_next_line(int fd, char **line);
+
+int		ft_isline(char *str);
+
+#endif

@@ -1,20 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/03 16:57:19 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/04 10:38:24 by ebonutto         ###   ########.fr       */
+/*   Created: 2025/01/17 13:17:15 by ebonutto          #+#    #+#             */
+/*   Updated: 2025/01/29 15:39:14 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "pipex.h"
 
-int	main(void)
+void	pipex(t_pipex data)
 {
-	int	fd[2][2];
+	first_parent(data);
+	close((data.fd)[0][1]);
+	last_parent(&data);
+	check_children(data);
+}
 
+int	main(int argc, char **argv, char **envp)
+{
+	t_pipex	data;
+
+	if (argc != 5)
+		ft_error("Invalid Number Of Arguments", EXIT_FAILURE);
+	data = init_pipex(argc, argv, envp);
+	pipex(data);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 14:41:06 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/03 17:30:03 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/04 10:44:13 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ typedef struct s_minishell
 typedef struct s_command
 {
 	char	*command;
-	char	*flags;
+	char	*flags; //lste de flags
 	t_list	*arguments;
 	bool	quotes;  // quotes == 1 (true) for "" or blank and quotes == 0 (false) for ''
 }	t_command;

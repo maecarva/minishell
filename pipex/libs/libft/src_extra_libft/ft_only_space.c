@@ -1,20 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_only_space.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/03 16:57:19 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/04 10:38:24 by ebonutto         ###   ########.fr       */
+/*   Created: 2025/01/29 16:10:26 by ebonutto          #+#    #+#             */
+/*   Updated: 2025/01/29 16:15:23 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	main(void)
+int	ft_only_space(char *str)
 {
-	int	fd[2][2];
+	int	i;
 
-	return (0);
+	i = 0;
+	while (str[i])
+	{
+		if (ft_isspace(str[i]) == 0)
+			return (0);
+		i++;
+	}
+	return (1);
 }

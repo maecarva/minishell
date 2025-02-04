@@ -1,20 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_isdigit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/03 16:57:19 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/04 10:38:24 by ebonutto         ###   ########.fr       */
+/*   Created: 2024/11/06 11:14:08 by ebonutto          #+#    #+#             */
+/*   Updated: 2024/11/12 09:30:38 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	main(void)
+/*
+Prototype
+   int ft_isdigit(int c);
+
+Description
+   Checks whether the given character is a decimal digit (0 through 9).
+
+Parameters
+   #1. c : The character to check, passed as an `int` (typically a `char`).
+
+Return value
+   The function returns a non-zero value if the character is a digit (0-9),
+	and 0 if it is not.
+*/
+
+int	ft_isdigit(int c)
 {
-	int	fd[2][2];
-
+	if ((c >= '0' && c <= '9'))
+		return (1);
 	return (0);
 }
