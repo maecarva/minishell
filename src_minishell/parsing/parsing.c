@@ -78,11 +78,11 @@ void	print_arbre(t_btree *root, int level)
 t_btree	*arbre_bidon()
 {
 	t_btree	*arbre;
-	// t_node	*tmpnode;
+	t_node	*tmpnode;
 
-	// tmpnode = ft_calloc(sizeof(t_node), 1);
-	// tmpnode->type = PIPE;
-	// tmpnode->cmd = NULL;
+	tmpnode = ft_calloc(sizeof(t_node), 1);
+	tmpnode->type = PIPE;
+	tmpnode->cmd = NULL;
 
 	arbre = ft_btree_create_node(tmpnode);
 	arbre->left = ft_btree_create_node(left());
