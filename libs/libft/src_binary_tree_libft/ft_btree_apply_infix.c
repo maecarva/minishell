@@ -17,8 +17,8 @@ void	ft_btree_apply_infix(t_btree *root, void (*applyf)(void *))
 	if (root == NULL)
 		return ;
 	if (root->left)
-		btree_apply_prefix(root->left, applyf);
+		ft_btree_apply_prefix(root->left, applyf);
 	applyf(root->item);
 	if (root->right)
-		btree_apply_prefix(root->right, applyf);
+		ft_btree_apply_prefix(root->right, applyf);
 }

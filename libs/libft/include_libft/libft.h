@@ -19,6 +19,7 @@
 # include <stdio.h>
 # include <stdint.h>
 #include "ft_btree.h"
+# include "../src_binary_tree_libft/ft_btree.h"
 
 // lists
 typedef struct s_list

@@ -19,12 +19,12 @@ void	ft_btree_insert_data(t_btree **root, void *item,
 
 	if ((*root) == NULL)
 	{
-		(*root) = btree_create_node(item);
+		(*root) = ft_btree_create_node(item);
 		return ;
 	}
 	comp = cmpf(item, (*root)->item);
 	if (comp < 0)
-		btree_insert_data(&((*root)->left), item, cmpf);
+		ft_btree_insert_data(&((*root)->left), item, cmpf);
 	else
-		btree_insert_data(&((*root)->right), item, cmpf);
+		ft_btree_insert_data(&((*root)->right), item, cmpf);
 }
