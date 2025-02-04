@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/03 16:57:19 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/04 17:16:34 by ebonutto         ###   ########.fr       */
+/*   Created: 2025/02/03 10:05:52 by ebonutto          #+#    #+#             */
+/*   Updated: 2025/02/04 16:22:01 by maecarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ void	print_env(t_config *minishell)
 int	main(int ac, char **av, char **env)
 {
 	t_config	*minishell;
-	char	*cmd;
+	char		*cmd;
+	t_btree		*ast;
 
 	init_signals();
 	minishell = init(ac, av, env);
@@ -49,17 +50,10 @@ int	main(int ac, char **av, char **env)
 		cmd = readline(minishell->prompt);
 		if (!cmd)
 			return (printf("exit\n"), clear_minishell(minishell), 1);
-		if (ft_strncmp("env", cmd, ft_strlen("env")) == 0)
-			print_env(minishell);
-		else if (ft_strncmp("exit", cmd, ft_strlen("exit")) == 0)
-		{
-			free(cmd);
-			clear_minishell(minishell);
-			exit(EXIT_SUCCESS);
-		}
+		ast = parse_cmd(cmd);
+		clear_ast(ast);
 		free(cmd);
 	}
 	clear_minishell(minishell);
-	(void)arbrebidon;
 	return (0);
 }
