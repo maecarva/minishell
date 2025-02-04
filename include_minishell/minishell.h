@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 14:41:06 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/04 16:30:43 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/04 18:36:22 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,5 +165,8 @@ void	construct_ast(t_btree **ast, char **cmd_split, int cmd_len);
 t_btree	*create_special_node(t_token nodetype);
 t_btree	*create_command_node(char **cmd_split);
 void	clear_ast(t_btree *ast);
+
+// debug
+void	print_arbre(t_btree *root, int level);
 
 #endif /* MINISHELL_H */
