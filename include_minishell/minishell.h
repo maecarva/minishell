@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 14:41:06 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/03 17:17:18 by maecarva         ###   ########.fr       */
+/*   Updated: 2025/02/04 12:51:02 by maecarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,13 @@ typedef enum e_token
 	COMMAND,
 }	t_token;
 
+# define PIPECHAR		'|'
+# define R_LEFTCHAR		'<'
+# define R_RIGHTCHAR	'>'
+
+# define SPECIALS_TOKEN	"|<>"
+# define WHITESPACES	" \t\n\v\f\r"
+
 typedef	struct s_cmd
 {
 	char	*cmd;
@@ -128,5 +135,11 @@ char		*get_value_by_name(t_list *env, char *name);
 // signals
 void	init_signals(void);
 t_btree	*arbre_bidon();
+
+// parsing
+t_btree	*parse_cmd(char *cmd);
+
+// ast
+void	construct_ast(t_btree **ast);
 
 #endif /* MINISHELL_H */
