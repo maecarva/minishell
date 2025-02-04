@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 14:41:06 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/04 12:51:02 by maecarva         ###   ########.fr       */
+/*   Updated: 2025/02/04 16:26:50 by maecarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ typedef	struct s_minishell {
 	int		ac;
 	char	**av;
 	t_list	*environnement;
-	t_list	*env_commands;
+	t_list	*env_commands; // inutile ?
 	char	*current_path;
 	char	*prompt;
 	int		last_error_code;
@@ -107,8 +107,6 @@ typedef enum e_token
 typedef	struct s_cmd
 {
 	char	*cmd;
-	t_list	*flags;
-	t_list	*arguments;
 	bool	quotes;
 }	t_cmd;
 
@@ -140,6 +138,9 @@ t_btree	*arbre_bidon();
 t_btree	*parse_cmd(char *cmd);
 
 // ast
-void	construct_ast(t_btree **ast);
+void	construct_ast(t_btree **ast, char **cmd_split, int cmd_len);
+t_btree	*create_special_node(t_token nodetype);
+t_btree	*create_command_node(char **cmd_split);
+void	clear_ast(t_btree *ast);
 
 #endif /* MINISHELL_H */
