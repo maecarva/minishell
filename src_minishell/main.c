@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 10:05:52 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/04 16:22:01 by maecarva         ###   ########.fr       */
+/*   Updated: 2025/02/05 11:26:30 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ int	main(int ac, char **av, char **env)
 	// printf("mid=%s\n", (char *)arbrebidon->item);
 	// printf("left=%s\n", (char *)arbrebidon->left->item);
 
-	t_pipes	p_data;
 
 	// init_p_data(&p_data, arbrebidon, env);
 	// pipes(&p_data);
@@ -49,9 +48,9 @@ int	main(int ac, char **av, char **env)
 		cmd = readline(minishell->prompt);
 		if (!cmd)
 			return (printf("exit\n"), clear_minishell(minishell), 1);
+		add_history(cmd);
 		ast = parse_cmd(cmd);
-		init_p_data(&p_data, ast, env);
-		pipes(&p_data);
+		check_type_execute(ast, env);
 		clear_ast(ast);
 		free(cmd);
 	}

@@ -1,27 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex_bonus.h                                      :+:      :+:    :+:   */
+/*   check_type_execute.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/21 13:27:55 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/01/28 13:11:19 by ebonutto         ###   ########.fr       */
+/*   Created: 2025/02/03 17:00:49 by ebonutto          #+#    #+#             */
+/*   Updated: 2025/02/05 11:36:46 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_BONUS_H
-# define PIPEX_BONUS_H
+#include "minishell.h"
 
-# include "pipex.h"
-
-//pipex_bonus
-void	pipex_bonus(t_pipex data);
-
-//init
-t_pipex	init_pipex_bonus(int argc, char **argv, char **envp);
-
-//mid_parent
-void	mid_parent(t_pipex d);
-
-#endif
+void	check_type_execute(t_btree *tree, char **envp)
+{
+	if (((t_node *)(tree->item))->type == COMMAND)
+		pipes(tree, envp);
+	else if (((t_node *)(tree->item))->type == PIPE)
+		pipes(tree, envp);
+	else if (((t_node *)(tree->item))->type == ECHO)
+		echo(tree, envp);
+}

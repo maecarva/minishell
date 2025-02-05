@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 14:41:06 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/04 18:36:22 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/05 11:43:17 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,16 @@ typedef enum e_token
 	PIPE, //
 	R_LEFT, // <
 	R_RIGHT, // >
+	RR_LEFT, // <<
+	RR_RIGHT, // >>
 	COMMAND,
+	ECHO,
+	CD,
+	PWD,
+	EXPORT,
+	UNSET,
+	ENV,
+	EXIT
 }	t_token;
 
 # define PIPECHAR		'|'
@@ -166,7 +175,12 @@ t_btree	*create_special_node(t_token nodetype);
 t_btree	*create_command_node(char **cmd_split);
 void	clear_ast(t_btree *ast);
 
+//builtin
+void	echo(t_btree *tree, char **envp);
+
 // debug
 void	print_arbre(t_btree *root, int level);
+
+void	check_type_execute(t_btree *tree, char **envp);
 
 #endif /* MINISHELL_H */

@@ -6,11 +6,11 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:16:59 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/04 18:17:10 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/05 09:59:49 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include_minishell/minishell.h"
+#include "pipes.h"
 
 static void	last_child(t_pipes *p_data)
 {
