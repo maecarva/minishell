@@ -33,5 +33,5 @@ void	init_signals(void)
 	act.sa_handler = &signals_handler;
 	sigaction(SIGINT, &act, NULL);
 	sigemptyset(&act.sa_mask);
-	signal(SIGQUIT, SIG_IGN);
+	// signal(SIGQUIT, SIG_IGN);
 }

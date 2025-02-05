@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "../../include_minishell/minishell.h"
-#include <stdio.h>
 
 t_node	*ptr_to_node(void *node)
 {
@@ -208,7 +207,6 @@ char	**split_tokens(char *cmd, int num_token)
 	while (i < num_token)
 	{
 		tokenstr_split[i] = extract_tokenstr(cmd, i);
-		// printf("tokenstr : '%s'\n", tokenstr_split[i]);
 		i++;
 	}
 	return (tokenstr_split);
@@ -242,7 +240,7 @@ t_btree	*parse_cmd(char *cmd)
 		return (NULL);
 	cmd_len = cmd_split_len(cmd_split);
 	construct_ast(&arbre, cmd_split, cmd_len);
-	// ft_free_double_ptr(&cmd_split);
 	// print_arbre(arbre, 0);
+	free(cmd_split);
 	return (arbre);
 }

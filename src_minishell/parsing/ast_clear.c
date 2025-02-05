@@ -34,6 +34,7 @@ void	clear_ast(t_btree *ast)
 	if (!ast)
 		return ;
 	clear_ast(ast->left);
-	free_node((t_node *)(ast->item));
 	clear_ast(ast->right);
+	free_node((t_node *)(ast->item));
+	free(ast);
 }
