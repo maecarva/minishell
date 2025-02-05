@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 09:42:12 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/05 10:34:59 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/05 14:13:16 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ void	init_p_data(t_pipes *p_data, t_btree *tree, char **envp)
 	p_data->environnement = envp;
 	p_data->tree = tree;
 	p_data->nb_pipes = count_pipes(tree);
-	
 	p_data->fd = create_fds(p_data->nb_pipes);
 	p_data->fd_infile = 0;
 	p_data->fd_outfile = 1;

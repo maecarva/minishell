@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 10:05:52 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/05 11:26:30 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/05 14:09:40 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,13 @@ int	main(int ac, char **av, char **env)
 		if (!cmd)
 			return (printf("exit\n"), clear_minishell(minishell), 1);
 		add_history(cmd);
-		ast = parse_cmd(cmd);
-		check_type_execute(ast, env);
-		clear_ast(ast);
+		if (cmd[0] != '\0')
+		{
+
+			ast = parse_cmd(cmd);
+			check_type_execute(ast, env);
+			clear_ast(ast);
+		}
 		free(cmd);
 	}
 	clear_minishell(minishell);
