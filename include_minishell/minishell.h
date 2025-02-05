@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 14:41:06 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/05 11:43:17 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/05 14:50:36 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,11 +78,12 @@
 
 typedef struct s_minishell
 {
-	char	*filename;
-	int		fd_infile;
-	int		fd_outfile;
-	char	*path_name;
+	int		argc;
+	char	**argv;
 	char	**environnement;
+	char	*name_infile;
+	char	*name_outfile;
+	char	*path_name;
 	t_btree	*tree;
 }	t_minishell;
 
@@ -105,6 +106,8 @@ typedef	struct s_config {
 	char	**av;
 	t_list	*environnement;
 	t_list	*env_commands; // inutile ?
+	char	*name_infile;
+	char	*name_outfile;
 	char	*current_path;
 	char	*prompt;
 	int		last_error_code;
@@ -125,7 +128,8 @@ typedef enum e_token
 	EXPORT,
 	UNSET,
 	ENV,
-	EXIT
+	EXIT,
+	STOP //;
 }	t_token;
 
 # define PIPECHAR		'|'

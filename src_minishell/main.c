@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 10:05:52 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/05 14:09:40 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/05 14:43:18 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,6 @@ int	main(int ac, char **av, char **env)
 	minishell = init(ac, av, env);
 	if (!minishell)
 		return (1);
-	// t_btree	*arbrebidon = arbre_bidon();
-	// printf("mid=%s\n", (char *)arbrebidon->item);
-	// printf("left=%s\n", (char *)arbrebidon->left->item);
-
-
-	// init_p_data(&p_data, arbrebidon, env);
-	// pipes(&p_data);
 	
 	while (1)
 	{
@@ -51,7 +44,6 @@ int	main(int ac, char **av, char **env)
 		add_history(cmd);
 		if (cmd[0] != '\0')
 		{
-
 			ast = parse_cmd(cmd);
 			check_type_execute(ast, env);
 			clear_ast(ast);
@@ -59,5 +51,5 @@ int	main(int ac, char **av, char **env)
 		free(cmd);
 	}
 	clear_minishell(minishell);
-	return (0);
+	return (EXIT_SUCCESS);
 }

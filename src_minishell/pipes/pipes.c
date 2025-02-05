@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:10:04 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/05 11:03:15 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/05 14:52:53 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	check_children(t_pipes *data)
 		{
 			if (exit_code == ERROR_COMMAND || exit_code == ERROR_CODE
 				|| exit_code == EXIT_FAILURE)
-				exit(exit_code);
+				fprintf(stderr, "should exit 127\n"); //exit(exit_code);
 		}
 	}
 }
@@ -51,4 +51,3 @@ void	pipes(t_btree *tree, char **envp)
 	}
 	check_children(&p_data);
 }
-
