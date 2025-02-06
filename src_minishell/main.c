@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 10:05:52 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/04 16:22:01 by maecarva         ###   ########.fr       */
+/*   Updated: 2025/02/05 14:43:18 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,22 +39,33 @@ int	main(int ac, char **av, char **env)
 	if (!minishell)
 		return (1);
 
+
 	// t_pipes	p_data;
 
 	// init_p_data(&p_data, arbrebidon, env);
 	// pipes(&p_data);
+
 	
 	while (1)
 	{
 		cmd = readline(minishell->prompt);
 		if (!cmd)
 			return (printf("exit\n"), clear_minishell(minishell), 1);
+
+		add_history(cmd);
+		if (cmd[0] != '\0')
+		{
+			ast = parse_cmd(cmd);
+			check_type_execute(ast, env);
+			clear_ast(ast);
+		}
+
 		ast = parse_cmd(cmd);
-		// init_p_data(&p_data, ast, env);
-		// pipes(&p_data);
+		init_p_data(&p_data, ast, env);
+		pipes(&p_data);
 		clear_ast(ast);
 		free(cmd);
 	}
 	clear_minishell(minishell);
-	return (0);
+	return (EXIT_SUCCESS);
 }

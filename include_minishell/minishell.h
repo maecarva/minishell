@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 14:41:06 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/04 18:36:22 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/05 14:50:36 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,11 +78,12 @@
 
 typedef struct s_minishell
 {
-	char	*filename;
-	int		fd_infile;
-	int		fd_outfile;
-	char	*path_name;
+	int		argc;
+	char	**argv;
 	char	**environnement;
+	char	*name_infile;
+	char	*name_outfile;
+	char	*path_name;
 	t_btree	*tree;
 }	t_minishell;
 
@@ -105,6 +106,8 @@ typedef	struct s_config {
 	char	**av;
 	t_list	*environnement;
 	t_list	*env_commands; // inutile ?
+	char	*name_infile;
+	char	*name_outfile;
 	char	*current_path;
 	char	*prompt;
 	int		last_error_code;
@@ -116,7 +119,17 @@ typedef enum e_token
 	PIPE, //
 	R_LEFT, // <
 	R_RIGHT, // >
+	RR_LEFT, // <<
+	RR_RIGHT, // >>
 	COMMAND,
+	ECHO,
+	CD,
+	PWD,
+	EXPORT,
+	UNSET,
+	ENV,
+	EXIT,
+	STOP //;
 }	t_token;
 
 # define PIPECHAR		'|'
@@ -172,7 +185,12 @@ t_btree	*create_special_node(t_token nodetype);
 t_btree	*create_command_node(char **cmd_split);
 void	clear_ast(t_btree *ast);
 
+//builtin
+void	echo(t_btree *tree, char **envp);
+
 // debug
 void	print_arbre(t_btree *root, int level);
+
+void	check_type_execute(t_btree *tree, char **envp);
 
 #endif /* MINISHELL_H */

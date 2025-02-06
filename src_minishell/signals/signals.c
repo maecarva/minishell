@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maecarva <maecarva@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 17:02:25 by maecarva          #+#    #+#             */
-/*   Updated: 2025/02/03 17:56:51 by maecarva         ###   ########.fr       */
+/*   Updated: 2025/02/05 13:39:37 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include_minishell/minishell.h"
 #include <readline/readline.h>
+#include <signal.h>
 
 
 void	signals_handler(int	signal)

@@ -6,24 +6,11 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:10:04 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/04 18:29:06 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/05 14:52:53 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include_minishell/minishell.h"
-
-void	free_fds(int **fd, int len)
-{
-	int	i;
-
-	i = 0;
-	while (i < len)
-	{
-		free(fd[i]);
-		i++;
-	}
-	free(fd);
-}
+#include "pipes.h"
 
 void	check_children(t_pipes *data)
 {
@@ -44,49 +31,23 @@ void	check_children(t_pipes *data)
 		{
 			if (exit_code == ERROR_COMMAND || exit_code == ERROR_CODE
 				|| exit_code == EXIT_FAILURE)
-				exit(exit_code);
+				fprintf(stderr, "should exit 127\n"); //exit(exit_code);
 		}
 	}
 }
 
-int	**create_fds(int len)
+void	pipes(t_btree *tree, char **envp)
 {
-	int	**fd;
-	int	i;
+	t_pipes	p_data;
 
-	fd = malloc(sizeof(int *) * (len));
-	if (!fd)
-		return (0);
-	i = 0;
-	while (i < len)
+	init_p_data(&p_data, tree, envp);
+	if (p_data.nb_pipes == 0)
+		simple_command(&p_data);
+	else
 	{
-		fd[i] = malloc(sizeof(int) * 2);
-		if (!fd[i])
-		{
-			free_fds(fd, i);
-			return (0);
-		}
-		i++;
+		first_parent(&p_data);
+		infinite_parent(&p_data);
+		last_parent(&p_data);
 	}
-	return (fd);
-}
-
-void	init_p_data(t_pipes *p_data, t_btree *tree, char **envp)
-{
-	p_data->environnement = envp;
-	p_data->tree = tree;
-	p_data->nb_pipes = count_pipes(tree);
-	fprintf(stderr, "%d\n", p_data->nb_pipes);
-	p_data->fd = create_fds(p_data->nb_pipes);
-	p_data->fd_infile = 0;
-	p_data->fd_outfile = 1;
-	p_data->pid_last_parent = -1;
-}
-
-void	pipes(t_pipes *p_data)
-{
-	first_parent(p_data);
-	infinite_parent(p_data);
-	last_parent(p_data);
-	check_children(p_data);
+	check_children(&p_data);
 }
