@@ -25,7 +25,12 @@ void	free_node(t_node *node)
 	if (!node)
 		return ;
 	if (node->type == COMMAND)
+	{
+		free(node->cmd->input_file);
+		free(node->cmd->output_file);
+		free(node->cmd->identifier);
 		free_cmd(node->cmd);
+	}
 	free(node);
 }
 
@@ -34,6 +39,7 @@ void	clear_ast(t_btree *ast)
 	if (!ast)
 		return ;
 	clear_ast(ast->left);
-	free_node((t_node *)(ast->item));
 	clear_ast(ast->right);
+	free_node((t_node *)(ast->item));
+	free(ast);
 }

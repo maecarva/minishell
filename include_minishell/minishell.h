@@ -135,14 +135,20 @@ typedef enum e_token
 # define PIPECHAR		'|'
 # define R_LEFTCHAR		'<'
 # define R_RIGHTCHAR	'>'
+# define HERE_DOC		"<<"
 
-# define SPECIALS_TOKEN	"|<>"
+# define SPECIALS_TOKEN	"|"
 # define WHITESPACES	" \t\n\v\f\r"
 
 typedef	struct s_cmd
 {
 	char	*cmd;
 	bool	quotes;
+	bool	redirection;
+	char	*input_file;
+	char	*output_file;
+	bool	here_doc;
+	char	*identifier;
 }	t_cmd;
 
 typedef struct s_node

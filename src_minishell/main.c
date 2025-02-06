@@ -28,19 +28,30 @@ void	print_env(t_config *minishell)
 int	main(int ac, char **av, char **env)
 {
 	t_config	*minishell;
-	char		*cmd;
+	// char		*cmd = "< infile.txt cat | grep README.md > outfile.txt";
+	// char		*cmd = "ls -la | wc -c | grep README.md > outfile.txt";
+	// char		*cmd = "< entree.txt cat | wc -c | cat << fin";
+	char	*cmd;
 	t_btree		*ast;
 
 	init_signals();
 	minishell = init(ac, av, env);
 	if (!minishell)
 		return (1);
+
+
+	// t_pipes	p_data;
+
+	// init_p_data(&p_data, arbrebidon, env);
+	// pipes(&p_data);
+
 	
 	while (1)
 	{
 		cmd = readline(minishell->prompt);
 		if (!cmd)
 			return (printf("exit\n"), clear_minishell(minishell), 1);
+
 		add_history(cmd);
 		if (cmd[0] != '\0')
 		{
@@ -48,6 +59,11 @@ int	main(int ac, char **av, char **env)
 			check_type_execute(ast, env);
 			clear_ast(ast);
 		}
+
+		ast = parse_cmd(cmd);
+		init_p_data(&p_data, ast, env);
+		pipes(&p_data);
+		clear_ast(ast);
 		free(cmd);
 	}
 	clear_minishell(minishell);
