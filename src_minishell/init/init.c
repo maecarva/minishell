@@ -14,12 +14,19 @@
 
 int	init_config(int ac, char **av, t_config *minishell)
 {
+	char	*tmp;
+
+	tmp = NULL;
 	minishell->ac = ac;
 	minishell->av = av;
 	minishell->current_path = get_value_by_name(minishell->environnement, "PWD");
 	if (minishell->current_path == NULL)
 		return (INIT_ERROR);
-	minishell->prompt = ft_strjoin(get_value_by_name(minishell->environnement, "LOGNAME"), " ~> \x1B[32mminishell #\x1B[37m ");
+	tmp = get_value_by_name(minishell->environnement, "LOGNAME");
+	if (!tmp)
+		return (INIT_ERROR);
+	minishell->prompt = ft_strjoin(tmp, " ~> \x1B[32mminishell #\x1B[37m ");
+	free(tmp);
 	if (minishell->prompt == NULL)
 		return (INIT_ERROR);
 	return (INIT_OK);

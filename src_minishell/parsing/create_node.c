@@ -11,62 +11,133 @@
 /* ************************************************************************** */
 
 #include "../../include_minishell/minishell.h"
-#include <stddef.h>
-#include <stdio.h>
 
-t_btree	*create_special_node(t_token nodetype)
+int	count_char_in_str(char *str, int c)
 {
-	t_btree	*new_node;
-	t_node	*node_content;
+	int	count;
 
-	node_content = ft_calloc(sizeof(t_node), 1);
-	if (!node_content)
-		return NULL;
-	node_content->type = nodetype;
-	node_content->cmd = NULL;
-	new_node = ft_btree_create_node(node_content);
-	if (!new_node)
-		return (free(node_content), NULL);
-	return (new_node);
+	count = 0;
+	if (!str)
+		return (count);
+	while (*str)
+	{
+		if (*str == c)
+			count++;
+		str++;
+	}
+	return (count);
+}
+
+char	*extract_infile(char **cmd, int *start_index) // "< infile1 (cat) < infile2 < infile3"
+{
+	int		i;
+	char	*infile;
+	char	*tmp;
+
+	tmp = *cmd;
+	i = *start_index;
+	while (tmp[i] != '\0' && tmp[i] != '<')
+		i++;
+	if (tmp[i] == '\0')
+		return (NULL);
+	i++;
+	while (ft_isspace(tmp[i]))
+		i++;
+	tmp = &(tmp[i]); // *cmd = "infile1 (cat) < infile2 < infile3"
+	i = 0;
+	while (tmp[i] && !ft_isspace(tmp[i]))
+		i++;
+	infile = ft_calloc(sizeof(char), i + 1);
+	ft_strlcpy(infile, tmp, i + 1);
+	*start_index = ((&tmp[i]) - *cmd);
+	return (infile);
+}
+
+void	populate_infiles(char *cmd, char ***infile_list, int total_infile)
+{
+	int	i;
+	int	start_index;
+
+	start_index = 0;
+	i = 0;
+	while (i < total_infile)
+	{
+		(*infile_list)[i] = extract_infile(&cmd, &start_index);
+		if ((*infile_list)[i] == NULL)
+			return ((void)ft_free_double_ptr(infile_list));
+		i++;
+	}
+}
+
+char	*extract_command(char *cmd)
+{
+	int		i;
+	char	**splited;
+	int		cmdlen;
+	int		start;
+	char	*parsed_cmd;
+	int		total_len;
+
+	i = 0;
+	cmdlen = 0;
+	splited = ft_split(cmd, ' ');
+	start = -1;
+	total_len = 0;
+	if (!splited)
+		return (NULL);
+	while (splited[i])
+	{
+		if (!ft_strchr(splited[i], '<') && i == 0)
+		{
+			start = i;
+			total_len += ft_strlen(splited[i]);
+			cmdlen++;
+		}
+		else if (i > 0 && !ft_strchr(splited[i], '<') && !ft_strchr(splited[i - 1], '<'))
+		{
+			if (start == -1)
+				start = i;
+			total_len += ft_strlen(splited[i]);
+			cmdlen++;
+		}
+		i++;
+	}
+	
+	parsed_cmd = ft_calloc(sizeof(char), total_len + 1 + (cmdlen - 1));
+	if (!parsed_cmd)
+		return (ft_free_double_ptr(&splited), NULL);
+	while (!ft_strchr(splited[start], '<'))
+	{
+		ft_strlcat(parsed_cmd, splited[start], (total_len + 1 + cmdlen - 1));
+		ft_strlcat(parsed_cmd, " ", (total_len + 1 + cmdlen - 1));
+		start++;
+	}
+	return (ft_free_double_ptr(&splited), parsed_cmd);
 }
 
 void	redirection_left(t_cmd *cmd) // < entre.txt cat -e
 {
 	int		i;
 	char	*tmp;
+	int		total_infile;
+	char	**infile_list;
+	char	*extracted_cmd;
 
 	if (!cmd)
 		return ;
 	i = 0;
-	while (cmd->cmd[i] && cmd->cmd[i] == '<')
-		i++;
-	if (cmd->cmd[i] == '\0') // "<" no infile
-		return ;
-	while (cmd->cmd[i] != '\0' && ft_isspace(cmd->cmd[i]))
-		i++;
-	if (ft_strlen(&cmd->cmd[i]))
-	{
-		// extract file name
-		cmd->input_file = ft_strdup(&cmd->cmd[i]);
-		if (!cmd->input_file)
-			return ;
-		i = 0;
-		while (cmd->input_file[i] && !ft_isspace(cmd->input_file[i]))
-			i++;
-		ft_bzero(&cmd->input_file[i], ft_strlen(&cmd->input_file[i]));
-		// edit cmd to delete "< infile"
-		tmp = ft_strnstr(cmd->cmd, cmd->input_file, ft_strlen(cmd->cmd));
-		if (!tmp)
-			return ((void)printf("error while editing cmd.cmd in < redirection\n"));
-		while (ft_isprint(*tmp) && !ft_isspace(*tmp))
-			tmp++;
-		while (ft_isspace(*tmp))
-			tmp++;
-		ft_bzero(cmd->cmd, tmp - cmd->cmd);
-		ft_memmove(cmd->cmd, tmp, ft_strlen(tmp));
-		ft_bzero(tmp, ft_strlen(tmp));
-	}
+	tmp = NULL;
+	extracted_cmd = NULL;
+	total_infile = count_char_in_str(cmd->cmd, R_LEFTCHAR);
+	infile_list = ft_calloc(sizeof(char *), total_infile + 1);
+	if (!infile_list)
+		return ((void)printf("error malloc in redirection_left\n"));
+	populate_infiles(cmd->cmd, &infile_list, total_infile);
+	extracted_cmd = extract_command(cmd->cmd);
+	free(cmd->cmd);
+	cmd->cmd = extracted_cmd;
 	cmd->redirection = true;
+	cmd->input_file = infile_list;
 }
 
 void	redirection_right(t_cmd *cmd) // cat > outfile
@@ -164,5 +235,21 @@ t_btree	*create_command_node(char **cmd_split)
 	if (!new_node)
 		return (free(cmd->cmd), free(cmd), NULL);
 	new_node->item = node_content;
+	return (new_node);
+}
+
+t_btree	*create_special_node(t_token nodetype)
+{
+	t_btree	*new_node;
+	t_node	*node_content;
+
+	node_content = ft_calloc(sizeof(t_node), 1);
+	if (!node_content)
+		return NULL;
+	node_content->type = nodetype;
+	node_content->cmd = NULL;
+	new_node = ft_btree_create_node(node_content);
+	if (!new_node)
+		return (free(node_content), NULL);
 	return (new_node);
 }

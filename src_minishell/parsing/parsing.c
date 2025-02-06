@@ -56,14 +56,17 @@ void	print_node(t_btree *node)
 			if (n->cmd->redirection)
 			{
 				if (n->cmd->input_file != NULL)
-					printf("(infile : %s)\n", n->cmd->input_file);
+				{
+					printf("infiles : ");
+					for (int i = 0; n->cmd->input_file[i] != NULL; i++)
+						printf("%s ", n->cmd->input_file[i]);
+				}
 				else
-					printf("(outfile : %s)\n", n->cmd->output_file);
+					printf("(outfile : %s)", n->cmd->output_file);
 			}
 			else if (n->cmd->here_doc)
-				printf("(here_doc : %s)\n", n->cmd->identifier);
-			else
-				printf("\n");
+				printf("(here_doc : %s)", n->cmd->identifier);
+			printf("\n");
 		break ;
 		default:
 			printf("WRONG TYPE ");
@@ -250,7 +253,7 @@ t_btree	*parse_cmd(char *cmd)
 		return (NULL);
 	cmd_len = cmd_split_len(cmd_split);
 	construct_ast(&arbre, cmd_split, cmd_len);
-	print_arbre(arbre, 0);
+	// print_arbre(arbre, 0);
 	free(cmd_split);
 	return (arbre);
 }

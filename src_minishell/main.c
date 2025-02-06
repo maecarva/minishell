@@ -14,14 +14,13 @@
 
 void	print_env(t_config *minishell)
 {
+	int	i;
 
-	t_list		*tmp;
-
-	tmp = minishell->environnement;
-	while (tmp)
+	i = 0;
+	while (minishell->environnement[i])
 	{
-		printf("%s=%s\n", ((t_envvar *)tmp->content)->name, ((t_envvar *)tmp->content)->value);
-		tmp = tmp->next;
+		printf("%s\n", minishell->environnement[i]);
+		i++;
 	}
 }
 
@@ -30,7 +29,7 @@ int	main(int ac, char **av, char **env)
 	t_config	*minishell;
 	// char		*cmd = "< infile.txt cat | grep README.md > outfile.txt";
 	// char		*cmd = "ls -la | wc -c | grep README.md > outfile.txt";
-	// char		*cmd = "< entree.txt cat | wc -c | cat << fin";
+	// char		*cmd = "< infile1 cat     < infile2 < infile3";
 	char	*cmd;
 	t_btree		*ast;
 
@@ -53,19 +52,21 @@ int	main(int ac, char **av, char **env)
 			return (printf("exit\n"), clear_minishell(minishell), 1);
 
 		add_history(cmd);
-		if (cmd[0] != '\0')
-		{
-			ast = parse_cmd(cmd);
-			check_type_execute(ast, env);
-			clear_ast(ast);
-		}
+		// if (cmd[0] != '\0')
+		// {
+		// 	ast = parse_cmd(cmd);
+		// 	check_type_execute(ast, env);
+		// 	clear_ast(ast);
+		// }
 
-		ast = parse_cmd(cmd);
+	ast = parse_cmd(cmd);
 		// init_p_data(&p_data, ast, env);
-		pipes(ast, env);
-		clear_ast(ast);
-		free(cmd);
+	print_arbre(ast, 0);
+		// pipes(ast, env);
+	clear_ast(ast);
+	free(cmd);
 	}
 	clear_minishell(minishell);
 	return (EXIT_SUCCESS);
 }
+

@@ -12,25 +12,29 @@
 
 #include "../../include_minishell/minishell.h"
 
-t_envvar	*ptr_to_envvar(void	*content)
+char	*get_value_by_name(char **envp, char *name)
 {
-	if (!content)
+	int		i;
+	char	*value;
+	char	*tmp;
+
+	i = 0;
+	value = NULL;
+	if (!envp)
 		return (NULL);
-	return ((t_envvar *)content);
-}
-
-char	*get_value_by_name(t_list *env, char *name)
-{
-	t_list		*tmp;
-	t_envvar	*tmpvar;
-
-	tmp = env;
-	while (tmp)
+	while (envp[i])
 	{
-		tmpvar = ptr_to_envvar(tmp->content);
-		if (ft_strncmp(name, tmpvar->name, ft_strlen(name)) == 0)
-			return (tmpvar->value);
-		tmp = tmp->next;
+		if (ft_strncmp(name, envp[i], ft_strlen(name)) == 0)
+		{
+			tmp = ft_strchr(envp[i], '=') + 1;
+			if (!tmp)
+				return (NULL);
+			value = ft_strdup(tmp);
+			if (!value)
+				return (NULL);
+			return (value);
+		}
+		i++;
 	}
 	return (NULL);
 }

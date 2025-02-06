@@ -104,8 +104,7 @@ typedef struct s_envvar
 typedef	struct s_config {
 	int		ac;
 	char	**av;
-	t_list	*environnement;
-	t_list	*env_commands; // inutile ?
+	char	**environnement;
 	char	*name_infile;
 	char	*name_outfile;
 	char	*current_path;
@@ -145,7 +144,7 @@ typedef	struct s_cmd
 	char	*cmd;
 	bool	quotes;
 	bool	redirection;
-	char	*input_file;
+	char	**input_file;
 	char	*output_file;
 	bool	here_doc;
 	char	*identifier;
@@ -168,9 +167,8 @@ typedef struct s_node
 t_config	*init(int ac, char **av, char **env);
 void		clear_minishell(t_config *minishell);
 // // env
-t_list		*init_environnement(char **env);
-t_envvar	*ptr_to_envvar(void	*content);
-char		*get_value_by_name(t_list *env, char *name);
+char		**init_environnement(char **env);
+char	*get_value_by_name(char **envp, char *name);
 
 // signals
 void	init_signals(void);

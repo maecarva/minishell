@@ -26,7 +26,7 @@ void	free_node(t_node *node)
 		return ;
 	if (node->type == COMMAND)
 	{
-		free(node->cmd->input_file);
+		ft_free_double_ptr(&node->cmd->input_file);
 		free(node->cmd->output_file);
 		free(node->cmd->identifier);
 		free_cmd(node->cmd);
