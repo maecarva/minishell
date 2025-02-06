@@ -61,8 +61,8 @@ int	main(int ac, char **av, char **env)
 		}
 
 		ast = parse_cmd(cmd);
-		init_p_data(&p_data, ast, env);
-		pipes(&p_data);
+		// init_p_data(&p_data, ast, env);
+		pipes(ast, env);
 		clear_ast(ast);
 		free(cmd);
 	}
