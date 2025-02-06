@@ -1,0 +1,5 @@
+total 12
+drwxr-xr-x 2 mael mael 4096 Feb  5 12:54 .
+drwxr-xr-x 9 mael mael 4096 Feb  5 12:52 ..
+-rw-r--r-- 1 mael mael   35 Feb  5 12:53 input.txt
+-rw-r--r-- 1 mael mael    0 Feb  5 12:54 output.txt

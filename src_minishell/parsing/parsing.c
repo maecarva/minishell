@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "../../include_minishell/minishell.h"
-#include <stdio.h>
 
 t_node	*ptr_to_node(void *node)
 {
@@ -39,8 +38,8 @@ t_node	*right(void)
 }
 
 void padding ( char ch, int n ){
-  
-	for (int i = 0; i < n; i++ )
+ 
+	for (int i = 0; i <= n; i++ )
 		putchar ( ch );
 }
 
@@ -52,8 +51,19 @@ void	print_node(t_btree *node)
 			printf("PIPE ");
 		break ;
 		case COMMAND:
-			printf("COMMAND ");
-			printf("%s\n", n->cmd->cmd);
+			printf("COMMAND= ");
+			printf("%s ", n->cmd->cmd);
+			if (n->cmd->redirection)
+			{
+				if (n->cmd->input_file != NULL)
+					printf("(infile : %s)\n", n->cmd->input_file);
+				else
+					printf("(outfile : %s)\n", n->cmd->output_file);
+			}
+			else if (n->cmd->here_doc)
+				printf("(here_doc : %s)\n", n->cmd->identifier);
+			else
+				printf("\n");
 		break ;
 		default:
 			printf("WRONG TYPE ");
@@ -64,11 +74,10 @@ void	print_arbre(t_btree *root, int level)
 {
 	if ( root == NULL ) {
 		padding ( '\t', level );
-		puts ( "~" );
+		printf("\n");
 	} else {
 		print_arbre( root->right, level + 1 );
 		padding ( '\t', level );
-		// printf ( "%d\n", root.item);
 		print_node(root);
 		print_arbre( root->left, level + 1 );
 	}
@@ -208,7 +217,6 @@ char	**split_tokens(char *cmd, int num_token)
 	while (i < num_token)
 	{
 		tokenstr_split[i] = extract_tokenstr(cmd, i);
-		// printf("tokenstr : '%s'\n", tokenstr_split[i]);
 		i++;
 	}
 	return (tokenstr_split);
@@ -242,7 +250,7 @@ t_btree	*parse_cmd(char *cmd)
 		return (NULL);
 	cmd_len = cmd_split_len(cmd_split);
 	construct_ast(&arbre, cmd_split, cmd_len);
-	// ft_free_double_ptr(&cmd_split);
-	// print_arbre(arbre, 0);
+	print_arbre(arbre, 0);
+	free(cmd_split);
 	return (arbre);
 }

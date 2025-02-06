@@ -60,5 +60,7 @@ void	construct_ast(t_btree **ast, char **cmd_split, int cmd_len)
 	}
 	else {
 		*ast = create_command_node(cmd_split);
+		free(cmd_split[i]);
+		cmd_split[i] = NULL;
 	}
 }
