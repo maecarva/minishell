@@ -6,7 +6,7 @@
 #    By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/08 14:19:08 by ebonutto          #+#    #+#              #
-#    Updated: 2025/02/05 13:59:34 by ebonutto         ###   ########.fr        #
+#    Updated: 2025/02/06 13:53:59 by ebonutto         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -57,7 +57,14 @@ SRC = src_minishell/main.c \
 	  src_minishell/pipes/pipes_utils.c \
 	  src_minishell/pipes/pipes.c \
 	  src_minishell/pipes/simple_command.c \
-	  src_minishell/check_type_execute.c
+	  src_minishell/check_type_execute.c \
+	  src_minishell/parsing/src_binary_tree_libft/ft_btree_create_node.c \
+	  src_minishell/parsing/src_binary_tree_libft/ft_btree_apply_prefix.c \
+	  src_minishell/parsing/src_binary_tree_libft/ft_btree_apply_infix.c \
+	  src_minishell/parsing/src_binary_tree_libft/ft_btree_apply_suffix.c \
+	  src_minishell/parsing/src_binary_tree_libft/ft_btree_insert_data.c \
+	  src_minishell/parsing/src_binary_tree_libft/ft_btree_search_item.c \
+	  src_minishell/parsing/src_binary_tree_libft/ft_btree_level_count.c
 
 
 SRC += $(SRC_PIPES)

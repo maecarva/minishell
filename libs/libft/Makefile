@@ -6,7 +6,7 @@
 #    By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/08 14:24:44 by ebonutto          #+#    #+#              #
-#    Updated: 2025/02/04 16:39:39 by ebonutto         ###   ########.fr        #
+#    Updated: 2025/02/06 13:54:59 by ebonutto         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,6 @@ CFLAGS = -Werror -Wall -Wextra -g
 AR = ar rcs
 SRC_PATH = src_libft/
 SRC_LINKED_LIST_PATH = src_linked_list_libft/
-SRC_BINARY_TREE_PATH= src_binary_tree_libft/
 SRC_EXTRA_PATH = src_extra_libft/
 OBJ_PATH = obj_libft/
 INCLUDE = -I include_libft
@@ -66,14 +65,6 @@ SRC_LINKED_LIST = ft_lstnew.c \
 					ft_lstiter.c \
 					ft_lstmap.c
 
-SRC_BINARY_TREE = ft_btree_create_node.c \
-					ft_btree_apply_prefix.c \
-					ft_btree_apply_infix.c \
-					ft_btree_apply_suffix.c \
-					ft_btree_insert_data.c \
-					ft_btree_search_item.c \
-					ft_btree_level_count.c
-
 SRC_EXTRA = ft_abs.c \
 			ft_close.c \
 			ft_error.c \
@@ -89,7 +80,7 @@ SRC_EXTRA = ft_abs.c \
 			ft_strcmp.c \
 			ft_swap.c
 
-OBJ = $(addprefix $(OBJ_PATH), $(SRC:.c=.o) $(SRC_LINKED_LIST:.c=.o) $(SRC_EXTRA:.c=.o) $(SRC_BINARY_TREE:.c=.o))
+OBJ = $(addprefix $(OBJ_PATH), $(SRC:.c=.o) $(SRC_LINKED_LIST:.c=.o) $(SRC_EXTRA:.c=.o))
 
 all: $(NAME)
 
@@ -98,10 +89,6 @@ $(OBJ_PATH)%.o: $(SRC_PATH)%.c
 	$(CC) $(CFLAGS) -o $@ -c $< $(INCLUDE)
 
 $(OBJ_PATH)%.o: $(SRC_LINKED_LIST_PATH)%.c
-	mkdir -p $(OBJ_PATH)
-	$(CC) $(CFLAGS) -o $@ -c $< $(INCLUDE)
-
-$(OBJ_PATH)%.o: $(SRC_BINARY_TREE_PATH)%.c
 	mkdir -p $(OBJ_PATH)
 	$(CC) $(CFLAGS) -o $@ -c $< $(INCLUDE)
 

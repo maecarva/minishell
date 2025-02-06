@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 14:09:58 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/06 13:23:38 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/06 14:03:44 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,6 @@
 #include "minishell.h"
 
 /* structure */
-
-typedef struct s_pipes
-{
-	char	**environnement; //malloced
-	t_btree	*tree;  //malloced
-	int		**fd;  //malloced
-	int		nb_pipes;
-	int		fd_infile;
-	int		fd_outfile;
-	int		pid_last_parent;
-}	t_pipes;
 
 /* prototypes */
 
@@ -46,3 +35,4 @@ void	init_p_data(t_pipes *p_data, t_btree *tree, char **envp);
 void	free_fds(int **fd, int len);
 
 #endif
+

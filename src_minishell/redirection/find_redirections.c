@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 14:00:24 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/06 13:26:45 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/06 13:40:02 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,7 @@
 
 void	get_input(t_minishell *ms_data)
 {
-	int	fd;
-
-	fd = open(((t_node *)ms_data->tree->item)->cmd->cmd, O_RDONLY, 0644);
-	if (fd == -1)
-		ft_perror("open", ERROR_CODE);
 	ms_data->name_infile = ((t_node *)ms_data->tree->item)->cmd->cmd;
-	close(fd);
 }
 
 void	get_output(t_minishell *ms_data)

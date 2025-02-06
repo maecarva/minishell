@@ -6,13 +6,26 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 14:20:55 by maecarva          #+#    #+#             */
-/*   Updated: 2025/02/04 18:23:08 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/06 13:55:56 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include_minishell/minishell.h"
 #include <stddef.h>
 #include <stdio.h>
+
+t_btree	*ft_btree_create_node(void *item)
+{
+	t_btree	*new_elem;
+
+	new_elem = malloc(sizeof(t_btree));
+	if (!new_elem)
+		return (NULL);
+	new_elem->item = item;
+	new_elem->left = NULL;
+	new_elem->right = NULL;
+	return (new_elem);
+}
 
 t_btree	*create_special_node(t_token nodetype)
 {
