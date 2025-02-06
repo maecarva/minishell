@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 14:41:06 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/06 14:03:02 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/06 14:12:09 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@
 // # include "../libs/gnl/include_gnl/get_next_line.h"
 
 // include pipes lib
-# include "pipes.h"
 
 /* Bool */
 # include <stdbool.h>
@@ -77,18 +76,16 @@
 /******************************************************************************/
 
 
-typedef struct s_node
+typedef	struct s_cmd
 {
-	t_token	type;
-	t_cmd	*cmd;
-}	t_node;
-
-typedef struct s_btree
-{
-	struct s_btree	*left;
-	struct s_btree	*right;
-	t_node			*item;
-}	t_btree;
+	char	*cmd;
+	bool	quotes;
+	bool	redirection;
+	char	*input_file;
+	char	*output_file;
+	bool	here_doc;
+	char	*identifier;
+}	t_cmd;
 
 
 typedef struct s_minishell
@@ -100,16 +97,6 @@ typedef struct s_minishell
 	//char	*path_name;
 }	t_minishell;
 
-typedef	struct s_config {
-	int		argc;
-	char	**argv;
-	char	**envp;
-	t_list	*environnement;
-	t_btree	*tree;
-	char	*current_path;
-	char	*prompt;
-	int		last_error_code;
-}	t_config;
 
 typedef struct s_envvar
 {
@@ -137,16 +124,29 @@ typedef enum e_token
 	STOP //;
 }	t_token;
 
-typedef struct s_pipes
+typedef struct s_node
 {
-	char	**environnement; //malloced
-	t_btree	*tree;  //malloced
-	int		**fd;  //malloced
-	int		nb_pipes;
-	int		fd_infile;
-	int		fd_outfile;
-	int		pid_last_parent;
-}	t_pipes;
+	t_token	type;
+	t_cmd	*cmd;
+}	t_node;
+
+typedef struct s_btree
+{
+	struct s_btree	*left;
+	struct s_btree	*right;
+	t_node			*item;
+}	t_btree;
+
+typedef	struct s_config {
+	int		argc;
+	char	**argv;
+	char	**envp;
+	t_list	*environnement;
+	t_btree	*tree;
+	char	*current_path;
+	char	*prompt;
+	int		last_error_code;
+}	t_config;
 
 # define PIPECHAR		'|'
 # define R_LEFTCHAR		'<'
@@ -156,18 +156,9 @@ typedef struct s_pipes
 # define SPECIALS_TOKEN	"|"
 # define WHITESPACES	" \t\n\v\f\r"
 
-typedef	struct s_cmd
-{
-	char	*cmd;
-	bool	quotes;
-	bool	redirection;
-	char	*input_file;
-	char	*output_file;
-	bool	here_doc;
-	char	*identifier;
-}	t_cmd;
 
 
+# include "pipes.h"
 
 /******************************************************************************/
 /*                                PROTOTYPES                                  */

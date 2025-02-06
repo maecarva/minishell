@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maecarva <maecarva@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 11:38:51 by maecarva          #+#    #+#             */
-/*   Updated: 2025/02/03 14:40:53 by maecarva         ###   ########.fr       */
+/*   Updated: 2025/02/06 14:12:25 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int	init_config(int ac, char **av, t_config *minishell)
 {
-	minishell->ac = ac;
-	minishell->av = av;
+	minishell->argc = ac;
+	minishell->argv = av;
 	minishell->current_path = get_value_by_name(minishell->environnement, "PWD");
 	if (minishell->current_path == NULL)
 		return (INIT_ERROR);
