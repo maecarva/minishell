@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 10:05:52 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/06 14:32:08 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/06 19:05:30 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,28 +32,28 @@ int	main(int ac, char **av, char **env)
 	// char		*cmd = "ls -la | wc -c | grep README.md > outfile.txt";
 	// char		*cmd = "< entree.txt cat | wc -c | cat << fin";
 	char	*cmd;
-	t_btree		*ast;
+	// t_btree		*ast;
 
 	init_signals();
 	minishell = init(ac, av, env);
 	if (!minishell)
 		return (1);
-	
+	minishell->envp = env;
 	while (1)
 	{
 		cmd = readline(minishell->prompt);
 		if (!cmd)
 			return (printf("exit\n"), clear_minishell(minishell), 1);
-
 		add_history(cmd);
 		if (cmd[0] != '\0')
 		{
-			ast = parse_cmd(cmd);
-			check_type_execute(ast, env);
-			pipes(ast, env);
-			clear_ast(ast);
+			minishell->tree = parse_cmd(cmd);
+			//print_arbre(minishell->tree, 0);
+			check_type_execute(minishell);
+			clear_ast(minishell->tree);
 		}
-
+		else
+			break;
 		//ast = parse_cmd(cmd);
 		//init_p_data(&p_data, ast, env);
 		free(cmd);

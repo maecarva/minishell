@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:10:04 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/05 14:52:53 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/06 19:06:14 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,11 @@ void	check_children(t_pipes *data)
 	}
 }
 
-void	pipes(t_btree *tree, char **envp)
+void	pipes(t_config *ms_data)
 {
 	t_pipes	p_data;
 
-	init_p_data(&p_data, tree, envp);
+	init_p_data(&p_data, ms_data);
 	if (p_data.nb_pipes == 0)
 		simple_command(&p_data);
 	else

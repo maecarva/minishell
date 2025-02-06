@@ -6,7 +6,7 @@
 #    By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/08 14:19:08 by ebonutto          #+#    #+#              #
-#    Updated: 2025/02/06 14:13:34 by ebonutto         ###   ########.fr        #
+#    Updated: 2025/02/06 18:10:08 by ebonutto         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,7 +58,7 @@ SRC = src_minishell/main.c \
 	  src_minishell/pipes/pipes.c \
 	  src_minishell/pipes/simple_command.c \
 	  src_minishell/check_type_execute.c \
-
+	  src_minishell/free/free_minishell.c
 
 SRC += $(SRC_PIPES)
 # Conversion des .c en .o dans le dossier obj

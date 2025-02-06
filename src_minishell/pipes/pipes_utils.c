@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 09:42:12 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/05 14:13:16 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/06 18:17:37 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static int	count_pipes(t_btree	*arbre)
 	return (count);
 }
 
-static int	**create_fds(int len)
+static int	**create_fd(int len)
 {
 	int	**fd;
 	int	i;
@@ -43,7 +43,7 @@ static int	**create_fds(int len)
 		fd[i] = malloc(sizeof(int) * 2);
 		if (!fd[i])
 		{
-			free_fds(fd, i);
+			free_fd(&fd, i);
 			return (0);
 		}
 		i++;
@@ -51,26 +51,28 @@ static int	**create_fds(int len)
 	return (fd);
 }
 
-void	init_p_data(t_pipes *p_data, t_btree *tree, char **envp)
+void	init_p_data(t_pipes *p_data, t_config *ms_data)
 {
-	p_data->environnement = envp;
-	p_data->tree = tree;
-	p_data->nb_pipes = count_pipes(tree);
-	p_data->fd = create_fds(p_data->nb_pipes);
+	p_data->nb_pipes = count_pipes(ms_data->tree);
+	p_data->fd = create_fd(p_data->nb_pipes);
+	if (!p_data->fd)
+		free_minishell(&ms_data);
 	p_data->fd_infile = 0;
 	p_data->fd_outfile = 1;
 	p_data->pid_last_parent = -1;
+	p_data->ms_data = ms_data;
 }
 
-void	free_fds(int **fd, int len)
+void	free_fd(int ***fd, int len)
 {
 	int	i;
 
 	i = 0;
 	while (i < len)
 	{
-		free(fd[i]);
+		free((*fd)[i]);
 		i++;
 	}
-	free(fd);
+	free(*fd);
+	*fd = 0;
 }
