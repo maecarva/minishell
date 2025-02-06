@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 10:05:52 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/05 14:43:18 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/06 13:24:12 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,6 @@ int	main(int ac, char **av, char **env)
 	minishell = init(ac, av, env);
 	if (!minishell)
 		return (1);
-
-
-	// t_pipes	p_data;
-
-	// init_p_data(&p_data, arbrebidon, env);
-	// pipes(&p_data);
-
 	
 	while (1)
 	{
@@ -61,8 +54,8 @@ int	main(int ac, char **av, char **env)
 		}
 
 		ast = parse_cmd(cmd);
-		init_p_data(&p_data, ast, env);
-		pipes(&p_data);
+		//init_p_data(&p_data, ast, env);
+		pipes(ast, env);
 		clear_ast(ast);
 		free(cmd);
 	}
