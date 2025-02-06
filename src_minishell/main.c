@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 10:05:52 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/06 13:24:12 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/06 14:32:08 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,12 @@ int	main(int ac, char **av, char **env)
 		{
 			ast = parse_cmd(cmd);
 			check_type_execute(ast, env);
+			pipes(ast, env);
 			clear_ast(ast);
 		}
 
-		ast = parse_cmd(cmd);
+		//ast = parse_cmd(cmd);
 		//init_p_data(&p_data, ast, env);
-		pipes(ast, env);
-		clear_ast(ast);
 		free(cmd);
 	}
 	clear_minishell(minishell);

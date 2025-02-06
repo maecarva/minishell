@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 14:41:06 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/06 14:12:09 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/06 14:35:35 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,7 @@ typedef	struct s_config {
 	int		argc;
 	char	**argv;
 	char	**envp;
-	t_list	*environnement;
+	t_list	*environnement; //////////////////////////////////////a changer en char **
 	t_btree	*tree;
 	char	*current_path;
 	char	*prompt;
