@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 14:41:06 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/05 14:50:36 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/06 14:12:09 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@
 // # include "../libs/gnl/include_gnl/get_next_line.h"
 
 // include pipes lib
-# include "pipes.h"
 
 /* Bool */
 # include <stdbool.h>
@@ -76,24 +75,28 @@
 /*                                STRUCTURES                                  */
 /******************************************************************************/
 
+
+typedef	struct s_cmd
+{
+	char	*cmd;
+	bool	quotes;
+	bool	redirection;
+	char	*input_file;
+	char	*output_file;
+	bool	here_doc;
+	char	*identifier;
+}	t_cmd;
+
+
 typedef struct s_minishell
 {
 	int		argc;
 	char	**argv;
-	char	**environnement;
 	char	*name_infile;
 	char	*name_outfile;
-	char	*path_name;
-	t_btree	*tree;
+	//char	*path_name;
 }	t_minishell;
 
-typedef struct s_command
-{
-	char	*command;
-	char	*flags; //lste de flags
-	t_list	*arguments;
-	bool	quotes;  // quotes == 1 (true) for "" or blank and quotes == 0 (false) for ''
-}	t_command;
 
 typedef struct s_envvar
 {
@@ -101,17 +104,6 @@ typedef struct s_envvar
 	char	*value;
 }	t_envvar;
 
-typedef	struct s_config {
-	int		ac;
-	char	**av;
-	t_list	*environnement;
-	t_list	*env_commands; // inutile ?
-	char	*name_infile;
-	char	*name_outfile;
-	char	*current_path;
-	char	*prompt;
-	int		last_error_code;
-}	t_config;
 
 // PARSING
 typedef enum e_token
@@ -132,6 +124,30 @@ typedef enum e_token
 	STOP //;
 }	t_token;
 
+typedef struct s_node
+{
+	t_token	type;
+	t_cmd	*cmd;
+}	t_node;
+
+typedef struct s_btree
+{
+	struct s_btree	*left;
+	struct s_btree	*right;
+	t_node			*item;
+}	t_btree;
+
+typedef	struct s_config {
+	int		argc;
+	char	**argv;
+	char	**envp;
+	t_list	*environnement;
+	t_btree	*tree;
+	char	*current_path;
+	char	*prompt;
+	int		last_error_code;
+}	t_config;
+
 # define PIPECHAR		'|'
 # define R_LEFTCHAR		'<'
 # define R_RIGHTCHAR	'>'
@@ -140,23 +156,9 @@ typedef enum e_token
 # define SPECIALS_TOKEN	"|"
 # define WHITESPACES	" \t\n\v\f\r"
 
-typedef	struct s_cmd
-{
-	char	*cmd;
-	bool	quotes;
-	bool	redirection;
-	char	*input_file;
-	char	*output_file;
-	bool	here_doc;
-	char	*identifier;
-}	t_cmd;
 
-typedef struct s_node
-{
-	t_token	type;
-	t_cmd	*cmd;
-}	t_node;
 
+# include "pipes.h"
 
 /******************************************************************************/
 /*                                PROTOTYPES                                  */
@@ -178,6 +180,7 @@ t_btree	*arbre_bidon();
 
 // parsing
 t_btree	*parse_cmd(char *cmd);
+t_btree	*ft_btree_create_node(void *item);
 
 // ast
 void	construct_ast(t_btree **ast, char **cmd_split, int cmd_len);

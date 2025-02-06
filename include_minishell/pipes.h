@@ -6,16 +6,17 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 14:09:58 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/06 13:23:38 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/06 14:10:28 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PIPES_H
 # define PIPES_H
 
-#include "minishell.h"
 
 /* structure */
+
+#include "minishell.h"
 
 typedef struct s_pipes
 {
