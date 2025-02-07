@@ -6,13 +6,13 @@
 /*   By: maecarva <maecarva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 11:25:54 by maecarva          #+#    #+#             */
-/*   Updated: 2025/02/07 12:03:15 by maecarva         ###   ########.fr       */
+/*   Updated: 2025/02/07 12:25:57 by maecarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../include_minishell/minishell.h"
 
-// <Makefile cat | echo "$PWD 'hola'" ~/src | 'tr' -d / >outfile
+// <Makefile cat| echo "$PWD 'hola'" ~/src | 'tr' -d / >outfile
 
 t_btree	*parse_cmd2(char *cmd)
 {
@@ -35,6 +35,8 @@ t_btree	*parse_cmd2(char *cmd)
 	if (check_invalid_input(trimmed))
 		return (free(trimmed), NULL);
 	// 3 : lexer
+	if (!lexer(trimmed))
+		return (free(trimmed), NULL);
 	//	a : trim cmd by spaces and quotes
 
 

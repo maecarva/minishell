@@ -6,7 +6,7 @@
 /*   By: maecarva <maecarva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 09:31:40 by maecarva          #+#    #+#             */
-/*   Updated: 2025/02/07 12:17:35 by maecarva         ###   ########.fr       */
+/*   Updated: 2025/02/07 17:14:58 by maecarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,14 +75,16 @@ bool	check_pipes(char *cmd) // peut etre pas 100%bon
 	i = -1;
 	pipe = false;
 	cmdlen = ft_strlen(cmd) - 1;
-	if (cmd[cmdlen] == '|')
+	if (cmd[cmdlen] == '|' || *cmd == '|')
 		return (true);
 	while (++i < cmdlen)
 	{
 		if (cmd[i] == '|')
-			pipe = !pipe;
-		while (i < cmdlen && ft_isspace(cmd[++i]))
-			;
+		{
+				pipe = !pipe;
+			while (i < cmdlen && ft_isspace(cmd[++i]))
+				;
+		}
 		if (cmd[i] == '|' && pipe)
 			return (true);
 	}

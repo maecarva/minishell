@@ -6,7 +6,7 @@
 #    By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/08 14:19:08 by ebonutto          #+#    #+#              #
-#    Updated: 2025/02/07 11:28:09 by maecarva         ###   ########.fr        #
+#    Updated: 2025/02/07 16:00:51 by maecarva         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,6 +51,9 @@ SRC = src_minishell/main.c \
 	  src_minishell/parsing/ast_clear.c \
 	  src_minishell/parsing/rules.c \
 	  src_minishell/parsing/parser/parser.c \
+	  src_minishell/parsing/lexer/lexer.c \
+	  src_minishell/parsing/lexer/spliter.c \
+	  src_minishell/parsing/lexer/lexer_utils.c \
 	  src_minishell/builtin/echo.c \
 	  src_minishell/pipes/execute_command.c \
 	  src_minishell/pipes/first_parent.c \

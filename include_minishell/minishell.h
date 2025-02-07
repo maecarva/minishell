@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 14:41:06 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/07 12:02:19 by maecarva         ###   ########.fr       */
+/*   Updated: 2025/02/07 17:18:06 by maecarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,12 +131,31 @@ typedef enum e_token
 	STOP //;
 }	t_token;
 
+typedef enum e_lexertok
+{
+	PIPE_TOKEN = 0,
+	TRUNCATE = 1, // >
+    APPEND = 2, // >>
+    REDIRECT_INPUT = 3, // <
+    HEREDOC = 4, // <<
+	CMD = 5,
+	ARGS = 6,
+	FILE_ARG = 7,
+	ERROR = 8
+}	t_lexertok;
+
+typedef struct s_lexertoklist
+{
+	char		*token;
+	t_lexertok	type;
+}	t_lexertoklist;
+
 # define PIPECHAR		'|'
 # define R_LEFTCHAR		'<'
 # define R_RIGHTCHAR	'>'
 # define HERE_DOC		"<<"
 
-# define SPECIALS_TOKEN	"|"
+# define SPECIALS_TOKEN	"|<>"
 # define WHITESPACES	" \t\n\v\f\r"
 
 typedef	struct s_cmd
@@ -159,9 +178,9 @@ typedef struct s_node
 /******************************************************************************/
 /*                                DEBUG_ONLY                                  */
 /******************************************************************************/
-#include <stdarg.h>
+# include <stdarg.h>
 
-#define p(__VA_ARGS__) printf(__VA_ARGS__)
+# define p(...) printf(__VA_ARGS__)
 
 /******************************************************************************/
 /*                                PROTOTYPES                                  */
@@ -184,6 +203,10 @@ t_btree	*arbre_bidon();
 bool	check_invalid_input(char *cmd);
 t_btree	*parse_cmd(char *cmd);
 t_btree	*parse_cmd2(char *cmd);
+// lexer
+bool	lexer(char *cmd);
+t_dlist	*spliter(char *cmd);
+t_lexertoklist	*ptr_to_lexertoklist(void *token);
 
 // ast
 void	construct_ast(t_btree **ast, char **cmd_split, int cmd_len);
