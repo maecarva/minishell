@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   simple_command.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
+/*   By: x03phy <x03phy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 10:28:34 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/06 18:49:01 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/07 14:13:33 by x03phy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ static void	simple_child(t_pipes *p_data)
 		free_minishell(&(p_data->ms_data));
 		ft_perror("dup2", ERROR_CODE);
 	}
+	p_data->cmd = p_data->ms_data->tree->item->cmd->cmd;
 	execute_command(p_data);
 }
 

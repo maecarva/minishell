@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   infinite_parent.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
+/*   By: x03phy <x03phy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 17:05:52 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/06 18:47:52 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/07 14:12:30 by x03phy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ static void	mid_child(t_pipes *p_data, int i)
 	}
 	close(p_data->fd[i][1]);
 	free_fd(&(p_data->fd), p_data->nb_pipes);
+	p_data->cmd = p_data->ms_data->tree->left->item->cmd->cmd;
 	execute_command(p_data);
 }
 

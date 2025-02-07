@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   last_parent.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
+/*   By: x03phy <x03phy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:16:59 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/06 19:17:58 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/07 14:13:00 by x03phy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ static void	last_child(t_pipes *p_data)
 		ft_perror("dup2", ERROR_CODE);
 	}
 	free_fd(&(p_data->fd), p_data->nb_pipes);
-	execute_command(p_data, p_data->ms_data->tree->left->item->cmd->cmd);
+	p_data->cmd = p_data->ms_data->tree->right->item->cmd->cmd;
+	execute_command(p_data);
 }
 
 void	last_parent(t_pipes *p_data)
