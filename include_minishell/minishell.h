@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 14:41:06 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/05 14:50:36 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/07 12:02:19 by maecarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,6 +156,12 @@ typedef struct s_node
 	t_cmd	*cmd;
 }	t_node;
 
+/******************************************************************************/
+/*                                DEBUG_ONLY                                  */
+/******************************************************************************/
+#include <stdarg.h>
+
+#define p(__VA_ARGS__) printf(__VA_ARGS__)
 
 /******************************************************************************/
 /*                                PROTOTYPES                                  */
@@ -175,7 +181,9 @@ void	init_signals(void);
 t_btree	*arbre_bidon();
 
 // parsing
+bool	check_invalid_input(char *cmd);
 t_btree	*parse_cmd(char *cmd);
+t_btree	*parse_cmd2(char *cmd);
 
 // ast
 void	construct_ast(t_btree **ast, char **cmd_split, int cmd_len);

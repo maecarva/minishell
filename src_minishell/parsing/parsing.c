@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 17:59:56 by maecarva          #+#    #+#             */
-/*   Updated: 2025/02/04 18:42:57 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/07 09:35:53 by maecarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -235,6 +235,13 @@ int	cmd_split_len(char **cmd_split)
 	return (i);
 }
 
+/*
+ *	TODO
+ *	<infile<infile crash if no space between
+ *	check quotes & redirections
+ *
+ * */
+
 t_btree	*parse_cmd(char *cmd)
 {
 	int		num_token;
@@ -244,6 +251,8 @@ t_btree	*parse_cmd(char *cmd)
 
 	arbre = NULL;
 	if (!cmd)
+		return (NULL);
+	if (check_invalid_input(cmd))
 		return (NULL);
 	num_token = count_tokens(cmd);
 	if (num_token == 0)

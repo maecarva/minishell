@@ -106,11 +106,12 @@ char	*extract_command(char *cmd)
 	parsed_cmd = ft_calloc(sizeof(char), total_len + 1 + (cmdlen - 1));
 	if (!parsed_cmd)
 		return (ft_free_double_ptr(&splited), NULL);
-	while (!ft_strchr(splited[start], '<'))
+	while (cmdlen >= 1 && !ft_strchr(splited[start], '<'))
 	{
 		ft_strlcat(parsed_cmd, splited[start], (total_len + 1 + cmdlen - 1));
 		ft_strlcat(parsed_cmd, " ", (total_len + 1 + cmdlen - 1));
 		start++;
+		cmdlen--;
 	}
 	return (ft_free_double_ptr(&splited), parsed_cmd);
 }

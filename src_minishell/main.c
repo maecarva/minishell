@@ -29,7 +29,7 @@ int	main(int ac, char **av, char **env)
 	t_config	*minishell;
 	// char		*cmd = "< infile.txt cat | grep README.md > outfile.txt";
 	// char		*cmd = "ls -la | wc -c | grep README.md > outfile.txt";
-	// char		*cmd = "< infile1 cat     < infile2 < infile3";
+	// char		*cmd = "< infile1 cat < infile2 < infile3";
 	char	*cmd;
 	t_btree		*ast;
 
@@ -59,9 +59,14 @@ int	main(int ac, char **av, char **env)
 		// 	clear_ast(ast);
 		// }
 
-	ast = parse_cmd(cmd);
+		ast = parse_cmd2(cmd);
+		if (!ast)
+		{
+			free(cmd);
+			continue ;
+		}
 		// init_p_data(&p_data, ast, env);
-	print_arbre(ast, 0);
+	// print_arbre(ast, 0);
 		// pipes(ast, env);
 	clear_ast(ast);
 	free(cmd);
