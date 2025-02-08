@@ -6,69 +6,47 @@
 /*   By: maecarva <maecarva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 12:18:01 by maecarva          #+#    #+#             */
-/*   Updated: 2025/02/07 16:21:38 by maecarva         ###   ########.fr       */
+/*   Updated: 2025/02/08 17:27:55 by maecarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../include_minishell/minishell.h"
 
-void	print_token_list(t_dlist **dlist)
+// false if invalid
+// check if > < >> << is followed by FILE_ARG
+bool	valid_token_list(t_dlist **splited)
 {
-	t_dlist	*list;
 	t_dlist	*tmp;
 
-	if (!(*dlist))
-		return ;
-	list = *dlist;
-	tmp = list;
+	if (!(*splited))
+		return (false);
+	tmp = *splited;
 	while (tmp)
 	{
-		printf("token: str = [%s] type = [", ptr_to_lexertoklist(tmp->content)->token);
-		switch (ptr_to_lexertoklist(tmp->content)->type) {
-			case PIPE_TOKEN:
-				p("%s]\n", "PIPE_TOKEN");
-				break ;
-			case TRUNCATE:
-				p("%s]\n", "TRUNCATE");
-				break ;
-			case APPEND:
-				p("%s]\n", "APPEND");
-				break ;
-			case REDIRECT_INPUT:
-				p("%s]\n", "REDIRECT_INPUT");
-				break ;
-			case HEREDOC:
-				p("%s]\n", "HERE_DOC");
-				break ;
-			case CMD:
-				p("%s]\n", "CMD");
-				break ;
-			case ARGS:
-				p("%s]\n", "ARGS");
-				break ;
-			case FILE_ARG:
-				p("%s]\n", "FILE_ARG");
-				break ;
-			default:
-				p("%s]\n", "ERROR");
-				break ;
+		if (ptr_to_lexertoklist(tmp->content)->type >= TRUNCATE && ptr_to_lexertoklist(tmp->content)->type <= HEREDOC)
+		{
+			if (ptr_to_lexertoklist(tmp->next->content)->type != FILE_ARG)
+			{
+				printf("Invalid token near : '%c'\n", ptr_to_lexertoklist(tmp->content)->token[0]);
+				return (false);
+			}
 		}
 		tmp = tmp->next;
-		if (tmp == list)
+		if (tmp == *splited)
 			break ;
 	}
+	return (true);
 }
 
-bool	lexer(char *cmd)
+bool	lexer(char *cmd, t_dlist **lexed_list)
 {
-	t_dlist	*splited;
-
-	splited = NULL;
 	if (!cmd)
 		return (true);
-	splited = spliter(cmd);
-	print_token_list(&splited);
-	if (!splited)
+	*lexed_list = spliter(cmd);
+	if (!(*lexed_list))
 		return (false);
+	print_token_list(lexed_list);
+	if (!valid_token_list(lexed_list))
+		return (free_token_list(lexed_list), false);
 	return (true);
 }

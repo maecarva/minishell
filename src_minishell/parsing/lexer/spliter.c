@@ -103,6 +103,36 @@ bool	add_to_token_list(t_dlist **dlist, char *cmd, int start, int end)
 // assign a token to each element
 // print list + token
 
+// specificite pour quotes
+void	extract_quoted(char *cmd, int *i, int *start, int *end)
+{
+	bool	squote;
+	bool	dquotes;
+	char	cquote;
+
+	cquote = cmd[*i];
+	squote = false;
+	dquotes = false;
+	if (cquote == '\"')
+		dquotes = true;
+	else if (cquote == '\'')
+		squote = true;
+	*start = *i;
+	*end = *start + 1;
+	while (cmd[*end])
+	{
+		if (cmd[*end] == '\'')
+			squote = !squote;
+		if (cmd[*end] == '\"')
+			dquotes = !dquotes;
+		if (cmd[*end] == cquote && squote == false && dquotes == false)
+			break ;
+		*end += 1;
+	}
+	*end += 1;
+	*i = *end;
+}
+
 t_dlist	*spliter(char *cmd)
 {
 	t_dlist	*splited;
@@ -124,28 +154,22 @@ t_dlist	*spliter(char *cmd)
 			if (cmd[i] == cmd[i + 1])
 			{
 				end = 2;
-				putstrn(cmd, start, end);
 				add_to_token_list(&splited, cmd, start, end);
 				i += 2;
 			}
 			else 
 			{
 				end = 1;
-				putstrn(cmd, start, end);
 				add_to_token_list(&splited, cmd, start, end);
 				i += 1;
 			}
 		}
-		else if (cmd[i] == '"')
+		else if (cmd[i] == '\"' || cmd[i] == '\'')
 		{
-			start = i;
-			end = start + 1;
-			while (cmd[end] != '"')
-				end++;
-			end ++;
-			putstrn(cmd, start, end - start);
-			add_to_token_list(&splited, cmd, start, end);
-			i += end - i;
+			start = 0;
+			end = 0;
+			extract_quoted(cmd, &i, &start, &end);
+			add_to_token_list(&splited, cmd, start, end - start);
 		}
 		else {
 			while (cmd[i] && ft_isspace(cmd[i]))
@@ -154,9 +178,10 @@ t_dlist	*spliter(char *cmd)
 			while (cmd[i] && !ft_isspace(cmd[i]) && !ft_strchr(SPECIALS_TOKEN, cmd[i]))
 				i++;
 			end = i - start;
-			putstrn(cmd, start, end);
+			// putstrn(cmd, start, end);
 			add_to_token_list(&splited, cmd, start, end);
 		}
+		// add_to_token_list(&splited, cmd, start, end);
 		while (cmd[i] && ft_isspace(cmd[i]))
 			i++;
 	}

@@ -118,16 +118,16 @@ char	*extract_command(char *cmd)
 
 void	redirection_left(t_cmd *cmd) // < entre.txt cat -e
 {
-	int		i;
-	char	*tmp;
+	// int		i;
+	// char	*tmp;
 	int		total_infile;
 	char	**infile_list;
 	char	*extracted_cmd;
 
 	if (!cmd)
 		return ;
-	i = 0;
-	tmp = NULL;
+	// i = 0;
+	// tmp = NULL;
 	extracted_cmd = NULL;
 	total_infile = count_char_in_str(cmd->cmd, R_LEFTCHAR);
 	infile_list = ft_calloc(sizeof(char *), total_infile + 1);

@@ -104,7 +104,7 @@ bool	check_invalid_input(char *cmd)
 		return (printf("Invalid quotes.\n"), true);
 	// check redir
 	if (check_redir(cmd))
-		return (printf("Invalid redirection.\n", true));
+		return (printf("Invalid redirection.\n"), true);
 	// check pipes
 	if (check_pipes(cmd))
 		return (printf("Invalid pipes\n"), true);

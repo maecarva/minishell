@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 10:05:52 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/07 17:15:27 by maecarva         ###   ########.fr       */
+/*   Updated: 2025/02/08 17:07:30 by maecarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,10 @@ void	print_env(t_config *minishell)
 int	main(int ac, char **av, char **env)
 {
 	t_config	*minishell;
-	// char		*cmd = "< infile.txt cat | grep README.md > outfile.txt";
+	// char		*cmd = "ls '-\"la\"'|echo\"hello\"";
 	// char		*cmd = "ls -la | wc -c | grep README.md > outfile.txt";
-	char		*cmd = "<Makefile cat| echo \"$PWD '\"hola\"'\" ~/src | 'tr' -d / >outfile";
-	// char	*cmd;
+	// char		*cmd = "<Makefile cat| echo \"$PWD '\"hola\"'\" ~/src | 'tr' -d / >outfile";
+	char	*cmd;
 	t_btree		*ast;
 
 	// init_signals();
@@ -45,13 +45,13 @@ int	main(int ac, char **av, char **env)
 	// pipes(&p_data);
 
 	
-	// while (1)
-	// {
-	// 	cmd = readline(minishell->prompt);
-	// 	if (!cmd)
-	// 		return (printf("exit\n"), clear_minishell(minishell), 1);
-	//
-	// 	add_history(cmd);
+	while (1)
+	{
+		cmd = readline(minishell->prompt);
+		if (!cmd)
+			return (printf("exit\n"), clear_minishell(minishell), 1);
+
+		add_history(cmd);
 		// if (cmd[0] != '\0')
 		// {
 		// 	ast = parse_cmd(cmd);
@@ -59,18 +59,18 @@ int	main(int ac, char **av, char **env)
 		// 	clear_ast(ast);
 		// }
 
-	ast = parse_cmd2(cmd);
-	// if (!ast)
-	// {
-	// 	free(cmd);
-	// 	/* continue */ ;
-	// }
+	ast = parse_cmd2(cmd, minishell);
+	if (!ast)
+	{
+		free(cmd);
+		continue ;
+	}
 		// init_p_data(&p_data, ast, env);
 	// print_arbre(ast, 0);
 		// pipes(ast, env);
-	// clear_ast(ast);
+	clear_ast(ast);
 	// free(cmd);
-	// }
+	}
 	clear_minishell(minishell);
 	return (EXIT_SUCCESS);
 }

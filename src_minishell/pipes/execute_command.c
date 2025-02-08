@@ -84,7 +84,7 @@ static void	handle_path(char ***cmds, char **path_cmd, char *cmd)
 		d = ft_strlen(cmd);
 	else
 		d = last - cmd;
-	*path_cmd = calloc(sizeof(char), (d + 1));
+	*path_cmd = ft_calloc(sizeof(char), (d + 1));
 	if (!*path_cmd)
 	{
 		ft_free_double_ptr(cmds);
