@@ -50,7 +50,7 @@ bool	list_contain_pipe(t_dlist *start, t_dlist *end, t_dlist **pipeelem)
 	return (false);
 }
 
-void	construct(t_btree **ast, t_dlist *start, t_dlist *end) // < infile1 cat -e << here_doc > outfile.txt >> appendfile.txt > outfile2 | echo
+void	construct(t_btree **ast, t_dlist *start, t_dlist *end)
 {
 	t_dlist	*tmp;
 
