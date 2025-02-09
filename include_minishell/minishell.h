@@ -40,7 +40,7 @@
 
 /* Custom Libraries */
 # include "../libs/libft/include_libft/libft.h"
-// # include "../libs/gnl/include_gnl/get_next_line.h"
+# include "../libs/gnl/include_gnl/get_next_line.h"
 
 // include pipes lib
 # include "pipes.h"
@@ -110,6 +110,7 @@ typedef	struct s_config {
 	char	*current_path;
 	char	*prompt;
 	int		last_error_code;
+	char	*pidstr;
 }	t_config;
 
 // PARSING

@@ -12,52 +12,133 @@
 
 #include "../../../include_minishell/minishell.h"
 
-bool	expand_token(char	**tokenstr, char **envp)
+// bool	expand_token(char	**tokenstr, char **envp)
+// {
+// 	char	*value;
+// 	int		i;
+// 	int		len;
+// 	char	*tmp;
+// 	char	*varname;
+// 	char	*expended;
+//
+// 	if (!(*tokenstr))
+// 		return (false);
+// 	value = NULL;
+// 	i = 0;
+// 	len = 0;
+// 	tmp = *tokenstr;
+// 	varname = NULL;
+// 	expended = NULL;
+// 	while (tmp[i] && tmp[i] != '$')
+// 		i++;
+// 	i++;
+// 	if (tmp[i] == '\0')
+// 		return (false);
+// 	len = 0;
+// 	while (tmp[i + len] && ft_isalnum(tmp[i + len]))
+// 		len++;
+// 	if (len == 0)
+// 		return (false);
+// 	varname = ft_calloc(sizeof(char), len + 1);
+// 	if (!varname)
+// 		return (false);
+// 	ft_strlcpy(varname, &tmp[i], len + 1);
+// 	value = get_value_by_name(envp, varname);
+// 	if (!value) // variable invalide
+// 		ft_strlcpy(&tmp[i - 1], &tmp[len], ft_strlen(&tmp[len]));
+// 	else {
+// 		expended = ft_calloc(sizeof(char), (ft_strlen(value) + (ft_strlen(tmp) - len)));
+// 		if (!expended)
+// 			return (free(varname), free(value), false);
+// 		ft_strlcat(expended, tmp, ft_strchr(tmp, '$') - tmp);
+// 		ft_strlcat(expended, value, (ft_strlen(value) + (ft_strlen(tmp))));
+// 		ft_strlcat(expended, &tmp[i + len], ft_strlen(value) + (ft_strlen(tmp) - len));
+// 		free(*tokenstr);
+// 		*tokenstr = expended;
+// 	}
+// 	free(value);
+// 	free(varname);
+// 	return (true);
+// }
+
+// test 2
+// todo :
+// handle invalid var in middle and end of string (end OK)
+// rest if ok ?
+// free all allocated memory and clean function
+bool	expand_token(char	**tokenstr, char **envp, char *pidstr)
 {
-	char	*value;
+	char	*ptrs[4]; // 0 = varname, 1 = var value, 2 = expanded, 3 = rest
 	int		i;
-	int		len;
-	char	*tmp;
-	char	*varname;
-	char	*expended;
+	char	*s;
+	int		sub[2]; // 0 = start, 1 = len
 
 	if (!(*tokenstr))
 		return (false);
-	value = NULL;
+	s = *tokenstr;
 	i = 0;
-	len = 0;
-	tmp = *tokenstr;
-	varname = NULL;
-	expended = NULL;
-	while (tmp[i] && tmp[i] != '$')
+	while (s[i])
+	{
+		ft_bzero(ptrs, sizeof(char *) * 4);
+		ft_bzero(sub, sizeof(int) * 2);
+		if (s[i] == '$' && s[i + 1] != '$')
+		{
+			i++;
+			if (s[i] == '\0')
+			{
+				s[i - 1] = '\0';
+				break ;
+			}
+			// classic var
+			sub[0] = i;
+			while (s[i + sub[1]] && ft_isalnum(s[i + sub[1]]))
+				sub[1] += 1;
+			ptrs[0] = ft_substr(s, sub[0], sub[1]);
+			ptrs[1] = get_value_by_name(envp, ptrs[0]);
+			if (ptrs[1] == NULL) // invalid varname
+			{
+				if (s[i + sub[1]] == '\0')
+				{
+					while (s[i + sub[1]] != '$')
+					{
+						s[i + sub[1]] = '\0';
+						sub[1] -= 1;
+					}
+					s[i + sub[1]] = '\0';
+				}
+				else
+					ft_memmove(&s[i], &s[i + sub[1]], ft_strlen(&s[i + sub[1]]));
+				continue ;
+			}
+			ft_free_simple_ptr(&ptrs[0]);
+			ptrs[0] = ft_substr(s, 0, i - 1);
+			ptrs[3] = ft_substr(s, sub[1] + i, ft_strlen(s) - sub[1]);
+			ptrs[2] = ft_str_three_join(ptrs[0], ptrs[1], ptrs[3]);
+			i += ft_strlen(ptrs[1]) - 1;
+			free(ptrs[0]);
+			free(ptrs[1]);
+			free(ptrs[3]);
+			s = ptrs[2];
+			continue ;
+			
+		}
+		if (ft_strnstr(&s[i], "$$", ft_strlen("$$")) == &s[i])
+		{
+			// expand pid
+			ptrs[0] = ft_substr(s, 0, i);
+			ptrs[3] = ft_substr(s, 2 + i, ft_strlen(s) - i + 2);
+			ptrs[2] = ft_str_three_join(ptrs[0], pidstr, ptrs[3]);
+			free(ptrs[0]);
+			free(ptrs[1]);
+			free(ptrs[3]);
+			s = ptrs[2];
+			i += ft_strlen(pidstr);
+			continue ;
+		}
 		i++;
-	i++;
-	if (tmp[i] == '\0')
-		return (false);
-	len = 0;
-	while (tmp[i + len] && ft_isalnum(tmp[i + len]))
-		len++;
-	if (len == 0)
-		return (false);
-	varname = ft_calloc(sizeof(char), len + 1);
-	if (!varname)
-		return (false);
-	ft_strlcpy(varname, &tmp[i], len + 1);
-	value = get_value_by_name(envp, varname);
-	if (!value) // variable invalide
-		ft_strlcpy(&tmp[i - 1], &tmp[len], ft_strlen(&tmp[len]));
-	else {
-		expended = ft_calloc(sizeof(char), (ft_strlen(value) + (ft_strlen(tmp) - len)));
-		if (!expended)
-			return (free(varname), free(value), false);
-		ft_strlcat(expended, tmp, ft_strchr(tmp, '$') - tmp);
-		ft_strlcat(expended, value, (ft_strlen(value) + (ft_strlen(tmp))));
-		ft_strlcat(expended, &tmp[i + len], ft_strlen(value) + (ft_strlen(tmp) - len));
-		free(*tokenstr);
-		*tokenstr = expended;
 	}
-	free(value);
-	free(varname);
+	// free(*tokenstr);
+	*tokenstr = s;
 	return (true);
 }
 
@@ -82,7 +163,7 @@ bool	check_expansion(char *token)
 			dquotes = !dquotes;
 		if (token[i] == '\'' && dquotes)
 			dquotes = !dquotes;
-		if (token[i] == '$' && dquotes == false && token[i + 1] != '$')
+		if (token[i] == '$' && squote == false && token[i + 1] != '$')
 			numexp++;
 		i++;
 	}
@@ -129,10 +210,7 @@ bool	expander(t_dlist *lexed_list, t_config *config)
 		if (ft_strchr(ptr_to_lexertoklist(tmp->content)->token, '$'))
 		{
 			if (check_expansion(ptr_to_lexertoklist(tmp->content)->token))
-			{
-				while (check_expansion(ptr_to_lexertoklist(tmp->content)->token) &&	expand_token(&ptr_to_lexertoklist(tmp->content)->token, config->environnement) )
-					;
-			}
+				expand_token(&ptr_to_lexertoklist(tmp->content)->token, config->environnement, config->pidstr);
 		}	
 		tmp = tmp->next;
 		if (tmp == lexed_list)

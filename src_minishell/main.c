@@ -27,7 +27,7 @@ void	print_env(t_config *minishell)
 int	main(int ac, char **av, char **env)
 {
 	t_config	*minishell;
-	// char		*cmd = "ls '-\"la\"'|echo\"hello\"";
+	// char		*cmd = "echo $PATH$$$$";
 	// char		*cmd = "ls -la | wc -c | grep README.md > outfile.txt";
 	// char		*cmd = "<Makefile cat| echo \"$PWD '\"hola\"'\" ~/src | 'tr' -d / >outfile";
 	char	*cmd;

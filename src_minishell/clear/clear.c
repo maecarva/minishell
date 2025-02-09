@@ -21,5 +21,6 @@ void	clear_minishell(t_config *minishell)
 	if (minishell->current_path)
 		free(minishell->current_path);
 	ft_free_double_ptr(&minishell->environnement);
+	free(minishell->pidstr);
 	free(minishell);
 }
