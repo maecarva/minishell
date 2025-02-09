@@ -6,7 +6,7 @@
 #    By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/08 14:24:44 by ebonutto          #+#    #+#              #
-#    Updated: 2025/02/07 12:46:35 by maecarva         ###   ########.fr        #
+#    Updated: 2025/02/09 15:12:12 by maecarva         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -95,7 +95,8 @@ SRC_EXTRA = ft_abs.c \
 SRC_DOUBLE_LINKED_LIST = dll_add_back.c \
 						 dll_new.c \
 						 dll_clear.c \
-						 dll_size.c
+						 dll_size.c \
+						 dll_size_between.c
 
 OBJ = $(addprefix $(OBJ_PATH), $(SRC:.c=.o) $(SRC_LINKED_LIST:.c=.o) $(SRC_EXTRA:.c=.o) $(SRC_BINARY_TREE:.c=.o) $(SRC_DOUBLE_LINKED_LIST:.c=.o))
 

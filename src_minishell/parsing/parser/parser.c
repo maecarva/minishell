@@ -6,7 +6,7 @@
 /*   By: maecarva <maecarva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 11:25:54 by maecarva          #+#    #+#             */
-/*   Updated: 2025/02/08 18:35:00 by maecarva         ###   ########.fr       */
+/*   Updated: 2025/02/09 15:41:12 by maecarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,10 @@ t_btree	*parse_cmd2(char *cmd, t_config *config)
 	if (!expander(lexed, config))
 		return (free_token_list(&lexed), NULL);
 
+	// create ast
+	if (!create_ast(&ast, lexed, config))
+		printf("failed to create ast\n");
+	print_arbre(ast, 0);
 	free_token_list(&lexed);
 	free(trimmed);
 	return (ast);

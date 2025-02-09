@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 11:16:18 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/07 12:45:53 by maecarva         ###   ########.fr       */
+/*   Updated: 2025/02/09 15:11:11 by maecarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,5 +111,6 @@ void	dll_clear(t_dlist **dlist);
 t_dlist	*dll_add_back(t_dlist **dlist, t_dlist *new_elem);
 t_dlist	*dll_new(void *content);
 int		dll_size(t_dlist **dlist);
+int		dll_size_between(t_dlist *start, t_dlist *end);
 
 #endif

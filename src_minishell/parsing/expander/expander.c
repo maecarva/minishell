@@ -6,7 +6,7 @@
 /*   By: maecarva <maecarva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:50:40 by maecarva          #+#    #+#             */
-/*   Updated: 2025/02/08 18:34:06 by maecarva         ###   ########.fr       */
+/*   Updated: 2025/02/09 14:59:03 by maecarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ bool	expand_token(char	**tokenstr, char **envp, char *pidstr)
 			ptrs[1] = get_value_by_name(envp, ptrs[0]);
 			if (ptrs[1] == NULL) // invalid varname
 			{
+				free(ptrs[0]);
 				if (s[i + sub[1]] == '\0')
 				{
 					while (s[i + sub[1]] != '$')
@@ -107,7 +108,12 @@ bool	expand_token(char	**tokenstr, char **envp, char *pidstr)
 					s[i + sub[1]] = '\0';
 				}
 				else
-					ft_memmove(&s[i], &s[i + sub[1]], ft_strlen(&s[i + sub[1]]));
+				{
+					char *start = &s[i - 1];
+					char *end = &s[i + sub[1]];
+					int	lentomove = ft_strlen(&s[i + sub[1]]) + 1;
+					ft_memmove(start, end, lentomove);
+				}
 				continue ;
 			}
 			ft_free_simple_ptr(&ptrs[0]);
@@ -137,7 +143,7 @@ bool	expand_token(char	**tokenstr, char **envp, char *pidstr)
 		}
 		i++;
 	}
-	// free(*tokenstr);
+	free(*tokenstr);
 	*tokenstr = s;
 	return (true);
 }
@@ -195,6 +201,30 @@ bool	double_quotes_eraser(t_dlist *lexed_list)
 	return (true);
 }
 
+bool	simple_quotes_eraser(t_dlist *lexed_list)
+{
+	t_dlist	*tmp;
+	char	*token;
+
+	if (!lexed_list)
+		return (false);
+	tmp = lexed_list;
+	while (tmp)
+	{
+		token = ptr_to_lexertoklist(tmp->content)->token;
+		while (token && *token == '\'' && token[ft_strlen(token) - 1] == '\'')
+		{
+			token[ft_strlen(token)] = '\0';
+			ft_strlcpy(token, &token[1], ft_strlen(&token[1]));
+		}
+		tmp = tmp->next;
+		if (tmp == lexed_list)
+			break ;
+	}
+	return (true);
+
+}
+
 // work for $PWD and for $PWD$$$$$$$ but not for multiple exp in same string
 bool	expander(t_dlist *lexed_list, t_config *config)
 {
@@ -203,6 +233,8 @@ bool	expander(t_dlist *lexed_list, t_config *config)
 	if (!lexed_list)
 		return (false);
 	if (!double_quotes_eraser(lexed_list))
+		return (false);
+	if (!simple_quotes_eraser(lexed_list))
 		return (false);
 	tmp = lexed_list;
 	while (tmp)
@@ -216,6 +248,6 @@ bool	expander(t_dlist *lexed_list, t_config *config)
 		if (tmp == lexed_list)
 			break ;
 	}
-	print_token_list(&lexed_list);
+	// print_token_list(&lexed_list);
 	return (true);
 }

@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 14:41:06 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/08 17:28:15 by maecarva         ###   ########.fr       */
+/*   Updated: 2025/02/09 15:57:49 by maecarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,6 +176,13 @@ typedef struct s_node
 	t_cmd	*cmd;
 }	t_node;
 
+typedef	struct	s_node2
+{
+	t_lexertok	type;
+	char		*command;
+	char		*file;
+}	t_node2;
+
 /******************************************************************************/
 /*                                DEBUG_ONLY                                  */
 /******************************************************************************/
@@ -212,7 +219,11 @@ t_lexertoklist	*ptr_to_lexertoklist(void *token);
 void	print_token_list(t_dlist **dlist);
 // expander
 bool	expander(t_dlist *lexed_list, t_config *config);
-
+// ast
+bool	create_ast(t_btree **ast, t_dlist *tokenlist, t_config *config);
+t_btree	*create_pipe_node();
+t_btree	*create_cmd_node(t_dlist *start, t_dlist *end);
+/*		END PARSING		*/
 // ast
 void	construct_ast(t_btree **ast, char **cmd_split, int cmd_len);
 t_btree	*create_special_node(t_token nodetype);

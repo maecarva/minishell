@@ -6,7 +6,7 @@
 /*   By: maecarva <maecarva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 12:18:01 by maecarva          #+#    #+#             */
-/*   Updated: 2025/02/08 17:27:55 by maecarva         ###   ########.fr       */
+/*   Updated: 2025/02/09 14:39:56 by maecarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ bool	lexer(char *cmd, t_dlist **lexed_list)
 	*lexed_list = spliter(cmd);
 	if (!(*lexed_list))
 		return (false);
-	print_token_list(lexed_list);
+	// print_token_list(lexed_list);
 	if (!valid_token_list(lexed_list))
 		return (free_token_list(lexed_list), false);
 	return (true);
