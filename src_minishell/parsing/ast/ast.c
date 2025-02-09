@@ -27,42 +27,44 @@ void	print_cmd_borned(t_dlist *start, t_dlist *end)
 	}
 }
 
-bool	list_contain_pipe(t_dlist *start, t_dlist *end)
+bool	list_contain_pipe(t_dlist *start, t_dlist *end, t_dlist **pipeelem)
 {
 	t_dlist	*tmp;
 
 	if (!start)
 		return (false);
 	tmp = start;
+	if (start == end)
+		return (ptr_to_lexertoklist(start->content)->type == PIPE_TOKEN);
 	while (tmp)
 	{
 		if (ptr_to_lexertoklist(tmp->content)->type == PIPE_TOKEN)
+		{
+			*pipeelem = tmp;
 			return (true);
-		if (tmp == start || tmp == end)
-			break ;
+		}
 		tmp = tmp->next;
+		if (tmp == end)
+			break ;
 	}
 	return (false);
 }
 
-void	construct(t_btree **ast, t_dlist *start, t_dlist *end)
+void	construct(t_btree **ast, t_dlist *start, t_dlist *end) // < infile1 cat -e << here_doc > outfile.txt >> appendfile.txt > outfile2 | echo
 {
 	t_dlist	*tmp;
 
 	if (start == NULL || end == NULL)
 		return ;
-	if (list_contain_pipe(start, end))
+	tmp = NULL;
+	if (list_contain_pipe(start, end, &tmp))
 	{
 		// create pipe node
-		tmp = start;
-		if (ptr_to_lexertoklist(tmp->content)->type != PIPE_TOKEN)
-			while (ptr_to_lexertoklist(tmp->content)->type != PIPE_TOKEN)
-				tmp = tmp->next;
 		*ast = create_pipe_node();
 		if (!ast)
 			return ;
-		construct(&(*ast)->left, start, tmp);
-		construct(&(*ast)->left, tmp->next, end);
+		construct(&(*ast)->left, start, tmp->prev);
+		construct(&(*ast)->right, tmp->next, end);
 	}
 	else
 	{
@@ -74,37 +76,9 @@ void	construct(t_btree **ast, t_dlist *start, t_dlist *end)
 // separate list to ditinguish cmd && pipes
 bool	create_ast(t_btree **ast, t_dlist *tokenlist, t_config *config)
 {
-	// t_dlist	*start;
-	// t_dlist	*end;
-	// int		total_token;
-	// int		token_treated;
-	// p("Init ast creation.\n");
 	construct(ast, tokenlist, tokenlist->prev);
-	if (!tokenlist)
+	print_arbre(*ast, 0);
+	if (!tokenlist || !config)
 		return (false);
-	// start = tokenlist;
-	// end = start;
-	// total_token = dll_size(&tokenlist);
-	// token_treated = 0;
-	// while (token_treated < total_token)
-	// {
-	// 	if (ptr_to_lexertoklist(end->content)->type == PIPE_TOKEN)
-	// 	{
-	// 		print_cmd_borned(end, end);
-	// 		token_treated += dll_size_between(end, end);
-	// 		start = end->next;
-	// 	}
-	// 	else 
-	// 	{
-	// 		start = end;
-	// 		while (ptr_to_lexertoklist(end->next->content)->type != PIPE_TOKEN && end->next != tokenlist)
-	// 			end = end->next;
-	// 		token_treated += dll_size_between(start, end);
-	// 		print_cmd_borned(start, end);
-	// 	}
-	// 	end = end->next;
-	// }
 	return (true);
-	(void)config;
-	(void)ast;
 }

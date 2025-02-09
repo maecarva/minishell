@@ -89,7 +89,7 @@ LIBFT = $(LIBFT_PATH)/libft.a
 ################################################################################
 
 # Règle par défaut
-all: $(NAME) clean
+all: $(NAME)
 
 # Alias pour la règle all
 bonus: all

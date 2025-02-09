@@ -12,9 +12,9 @@
 
 #include "../../include_minishell/minishell.h"
 
-t_node	*ptr_to_node(void *node)
+t_node2	*ptr_to_node(void *node)
 {
-	return ((t_node *)(node));
+	return ((t_node2 *)(node));
 }
 
 t_node	*left(void)
@@ -45,28 +45,31 @@ void padding ( char ch, int n ){
 
 void	print_node(t_btree *node)
 {
-	t_node *n = ptr_to_node(node->item);
+	t_node2 *n = ptr_to_node(node->item);
 	switch (n->type) {
 		case PIPE:
 			printf("PIPE ");
 		break ;
 		case COMMAND:
 			printf("COMMAND= ");
-			printf("%s ", n->cmd->cmd);
-			if (n->cmd->redirection)
-			{
-				if (n->cmd->input_file != NULL)
-				{
-					printf("infiles : ");
-					for (int i = 0; n->cmd->input_file[i] != NULL; i++)
-						printf("%s ", n->cmd->input_file[i]);
-				}
-				else
-					printf("(outfile : %s)", n->cmd->output_file);
-			}
-			else if (n->cmd->here_doc)
-				printf("(here_doc : %s)", n->cmd->identifier);
+			printf("%s ", n->command);
 			printf("\n");
+		break ;
+		case TRUNCATE:
+			printf("TRUNCATE > ");
+			printf("%s\n", n->file);
+		break ;
+		case REDIRECT_INPUT:
+			printf("REDIR < ");
+			printf("%s\n", n->file);
+		break ;
+		case APPEND:
+			printf("APPEND >> ");
+			printf("%s\n", n->file);
+		break ;
+		case HEREDOC:
+			printf("HERE_DOC << ");
+			printf("%s\n", n->file);
 		break ;
 		default:
 			printf("WRONG TYPE ");

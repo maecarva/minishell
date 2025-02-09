@@ -27,7 +27,7 @@ void	print_env(t_config *minishell)
 int	main(int ac, char **av, char **env)
 {
 	t_config	*minishell;
-	// char		*cmd = "echo $PATH$$$$";
+	// char		*cmd = "<infile << limiter wc -c > outfile >> appendfile";
 	// char		*cmd = "ls -la | wc -c | grep README.md > outfile.txt";
 	// char		*cmd = "<Makefile cat| echo \"$PWD '\"hola\"'\" ~/src | 'tr' -d / >outfile";
 	char	*cmd;
@@ -68,8 +68,8 @@ int	main(int ac, char **av, char **env)
 		// init_p_data(&p_data, ast, env);
 	// print_arbre(ast, 0);
 		// pipes(ast, env);
-	clear_ast(ast);
-	// free(cmd);
+	// clear_ast(ast);
+	free(cmd);
 	}
 	clear_minishell(minishell);
 	return (EXIT_SUCCESS);

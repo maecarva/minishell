@@ -15,7 +15,7 @@
 t_btree	*create_pipe_node()
 {
 	t_node2	*node;
-	t_btree	*n;
+	// t_btree	*n;
 
 	node = ft_calloc(sizeof(t_node2), 1);
 	if (!node)

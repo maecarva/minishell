@@ -24,7 +24,7 @@ t_btree	*parse_cmd2(char *cmd, t_config *config)
 		return (NULL);
 	ast = NULL;
 	trimmed = NULL;
-	printf("command to parse : {%s}\n", cmd);
+	// printf("command to parse : {%s}\n", cmd);
 	// 1 : trim cmd
 	trimmed = ft_strtrim(cmd, WHITESPACES);
 	if (!trimmed)
@@ -42,10 +42,11 @@ t_btree	*parse_cmd2(char *cmd, t_config *config)
 	if (!expander(lexed, config))
 		return (free_token_list(&lexed), NULL);
 
+	// print_token_list(&lexed);
 	// create ast
 	if (!create_ast(&ast, lexed, config))
 		printf("failed to create ast\n");
-	print_arbre(ast, 0);
+	// print_arbre(ast, 0);
 	free_token_list(&lexed);
 	free(trimmed);
 	return (ast);
