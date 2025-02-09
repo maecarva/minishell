@@ -6,7 +6,7 @@
 /*   By: maecarva <maecarva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/09 15:50:44 by maecarva          #+#    #+#             */
-/*   Updated: 2025/02/09 16:15:17 by maecarva         ###   ########.fr       */
+/*   Updated: 2025/02/09 19:37:57 by maecarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char	*extractcmd(t_dlist *start, t_dlist *end)
 	tmp = start;
 	while (tmp)
 	{
-		if (ptr_to_lexertoklist(tmp->content)->type == CMD || ptr_to_lexertoklist(tmp->content)->type == ARGS)
+		if ((ptr_to_lexertoklist(tmp->content)->type == CMD || ptr_to_lexertoklist(tmp->content)->type == ARGS))
 			totallen += ft_strlen(ptr_to_lexertoklist(tmp->content)->token) + 1;
 		if (tmp == end)
 			break ;
@@ -62,7 +62,8 @@ char	*extractcmd(t_dlist *start, t_dlist *end)
 		if (ptr_to_lexertoklist(tmp->content)->type == CMD || ptr_to_lexertoklist(tmp->content)->type == ARGS)
 		{
 			ft_strlcat(cmd, ptr_to_lexertoklist(tmp->content)->token, totallen);
-			ft_strlcat(cmd, " ", totallen);
+			if (ft_strlen(ptr_to_lexertoklist(tmp->content)->token) != 0)
+				ft_strlcat(cmd, " ", totallen);
 		}
 		if (tmp == end)
 			break ;
@@ -107,7 +108,7 @@ void	handle_redirections(t_btree **node, t_dlist *start, t_dlist *end)
 		{
 			nodec = ft_calloc(sizeof(t_node2), 1);
 			nodec->type = ptr_to_lexertoklist(tmp->content)->type;
-			nodec->file = ptr_to_lexertoklist(tmp->next->content)->token;
+			nodec->file = ft_strdup(ptr_to_lexertoklist(tmp->next->content)->token);
 			tmpleft = ft_btree_create_node(nodec);
 			add_left(*node, tmpleft);
 			tmpleft = NULL;
@@ -117,7 +118,7 @@ void	handle_redirections(t_btree **node, t_dlist *start, t_dlist *end)
 		{
 			nodec = ft_calloc(sizeof(t_node2), 1);
 			nodec->type = ptr_to_lexertoklist(tmp->content)->type;
-			nodec->file = ptr_to_lexertoklist(tmp->next->content)->token;
+			nodec->file = ft_strdup(ptr_to_lexertoklist(tmp->next->content)->token);
 			tmpright = ft_btree_create_node(nodec);
 			add_right(*node, tmpright);
 			tmpright = NULL;

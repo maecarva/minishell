@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 14:41:06 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/09 15:57:49 by maecarva         ###   ########.fr       */
+/*   Updated: 2025/02/09 19:34:34 by maecarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,7 +209,6 @@ t_btree	*arbre_bidon();
 
 /*		PARSING		*/
 bool	check_invalid_input(char *cmd);
-t_btree	*parse_cmd(char *cmd);
 t_btree	*parse_cmd2(char *cmd, t_config *config);
 // lexer
 bool	lexer(char *cmd, t_dlist **lexed_list);
@@ -223,12 +222,9 @@ bool	expander(t_dlist *lexed_list, t_config *config);
 bool	create_ast(t_btree **ast, t_dlist *tokenlist, t_config *config);
 t_btree	*create_pipe_node();
 t_btree	*create_cmd_node(t_dlist *start, t_dlist *end);
+void	free_ast(t_btree **ast);
 /*		END PARSING		*/
 // ast
-void	construct_ast(t_btree **ast, char **cmd_split, int cmd_len);
-t_btree	*create_special_node(t_token nodetype);
-t_btree	*create_command_node(char **cmd_split);
-void	clear_ast(t_btree *ast);
 
 //builtin
 void	echo(t_btree *tree, char **envp);

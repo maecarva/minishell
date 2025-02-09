@@ -12,59 +12,6 @@
 
 #include "../../../include_minishell/minishell.h"
 
-// bool	expand_token(char	**tokenstr, char **envp)
-// {
-// 	char	*value;
-// 	int		i;
-// 	int		len;
-// 	char	*tmp;
-// 	char	*varname;
-// 	char	*expended;
-//
-// 	if (!(*tokenstr))
-// 		return (false);
-// 	value = NULL;
-// 	i = 0;
-// 	len = 0;
-// 	tmp = *tokenstr;
-// 	varname = NULL;
-// 	expended = NULL;
-// 	while (tmp[i] && tmp[i] != '$')
-// 		i++;
-// 	i++;
-// 	if (tmp[i] == '\0')
-// 		return (false);
-// 	len = 0;
-// 	while (tmp[i + len] && ft_isalnum(tmp[i + len]))
-// 		len++;
-// 	if (len == 0)
-// 		return (false);
-// 	varname = ft_calloc(sizeof(char), len + 1);
-// 	if (!varname)
-// 		return (false);
-// 	ft_strlcpy(varname, &tmp[i], len + 1);
-// 	value = get_value_by_name(envp, varname);
-// 	if (!value) // variable invalide
-// 		ft_strlcpy(&tmp[i - 1], &tmp[len], ft_strlen(&tmp[len]));
-// 	else {
-// 		expended = ft_calloc(sizeof(char), (ft_strlen(value) + (ft_strlen(tmp) - len)));
-// 		if (!expended)
-// 			return (free(varname), free(value), false);
-// 		ft_strlcat(expended, tmp, ft_strchr(tmp, '$') - tmp);
-// 		ft_strlcat(expended, value, (ft_strlen(value) + (ft_strlen(tmp))));
-// 		ft_strlcat(expended, &tmp[i + len], ft_strlen(value) + (ft_strlen(tmp) - len));
-// 		free(*tokenstr);
-// 		*tokenstr = expended;
-// 	}
-// 	free(value);
-// 	free(varname);
-// 	return (true);
-// }
-
-// test 2
-// todo :
-// handle invalid var in middle and end of string (end OK)
-// rest if ok ?
 // free all allocated memory and clean function
 bool	expand_token(char	**tokenstr, char **envp, char *pidstr)
 {
@@ -193,6 +140,11 @@ bool	double_quotes_eraser(t_dlist *lexed_list)
 		{
 			token[ft_strlen(token)] = '\0';
 			ft_strlcpy(token, &token[1], ft_strlen(&token[1]));
+		}
+		if (token[ft_strlen(token) - 1] == '\"' && token[ft_strlen(token) - 2] == '\"')
+		{
+			token[ft_strlen(token) - 1] = '\0';
+			token[ft_strlen(token) - 1] = '\0';
 		}
 		tmp = tmp->next;
 		if (tmp == lexed_list)
