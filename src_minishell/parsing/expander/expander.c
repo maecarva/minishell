@@ -223,6 +223,6 @@ bool	expander(t_dlist *lexed_list, t_config *config)
 		if (tmp == lexed_list)
 			break ;
 	}
-	print_token_list(&lexed_list);
+	// print_token_list(&lexed_list);
 	return (true);
 }

@@ -216,6 +216,7 @@ void	free_token_list(t_dlist **dlist);
 t_dlist	*spliter(char *cmd);
 t_lexertoklist	*ptr_to_lexertoklist(void *token);
 void	print_token_list(t_dlist **dlist);
+void	handle_redirections(t_btree **node, t_dlist *start, t_dlist *end);
 // expander
 bool	expander(t_dlist *lexed_list, t_config *config);
 // ast
