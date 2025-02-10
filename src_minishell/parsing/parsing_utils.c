@@ -17,25 +17,25 @@ t_node2	*ptr_to_node(void *node)
 	return ((t_node2 *)(node));
 }
 
-t_node	*left(void)
-{
-	t_node	*n = ft_calloc(sizeof(t_node), 1);
-	n->type = COMMAND;
-	n->cmd = ft_calloc(sizeof(t_cmd), 1);
-	n->cmd->cmd = "ls";
-	n->cmd->quotes = false;
-	return (n);
-}
+// t_node	*left(void)
+// {
+// 	t_node	*n = ft_calloc(sizeof(t_node), 1);
+// 	n->type = COMMAND;
+// 	n->cmd = ft_calloc(sizeof(t_cmd), 1);
+// 	n->cmd->cmd = "ls";
+// 	n->cmd->quotes = false;
+// 	return (n);
+// }
 
-t_node	*right(void)
-{
-	t_node	*n = ft_calloc(sizeof(t_node), 1);
-	n->type = COMMAND;
-	n->cmd = ft_calloc(sizeof(t_cmd), 1);
-	n->cmd->cmd = "grep";
-	n->cmd->quotes = false;
-	return (n);
-}
+// t_node	*right(void)
+// {
+// 	t_node	*n = ft_calloc(sizeof(t_node), 1);
+// 	n->type = COMMAND;
+// 	n->cmd = ft_calloc(sizeof(t_cmd), 1);
+// 	n->cmd->cmd = "grep";
+// 	n->cmd->quotes = false;
+// 	return (n);
+// }
 
 void padding ( char ch, int n ){
  
@@ -47,10 +47,10 @@ void	print_node(t_btree *node)
 {
 	t_node2 *n = ptr_to_node(node->item);
 	switch (n->type) {
-		case PIPE:
+		case PIPE_TOKEN:
 			printf("PIPE ");
 		break ;
-		case COMMAND:
+		case CMD:
 			printf("COMMAND= ");
 			printf("%s ", n->command);
 			printf("\n");
@@ -90,19 +90,19 @@ void	print_arbre(t_btree *root, int level)
 }
 
 // command : ls -la | grep 'test'
-t_btree	*arbre_bidon()
-{
-	t_btree	*arbre;
-	t_node	*tmpnode;
+// t_btree	*arbre_bidon()
+// {
+// 	t_btree	*arbre;
+// 	t_node	*tmpnode;
 
-	tmpnode = ft_calloc(sizeof(t_node), 1);
-	tmpnode->type = PIPE;
-	tmpnode->cmd = NULL;
+// 	tmpnode = ft_calloc(sizeof(t_node), 1);
+// 	tmpnode->type = PIPE;
+// 	tmpnode->cmd = NULL;
 
-	arbre = ft_btree_create_node(tmpnode);
-	arbre->left = ft_btree_create_node(left());
-	arbre->right = ft_btree_create_node(right());
-	print_arbre(arbre, 0);
-	return (arbre);
-}
+// 	arbre = ft_btree_create_node(tmpnode);
+// 	arbre->left = ft_btree_create_node(left());
+// 	arbre->right = ft_btree_create_node(right());
+// 	print_arbre(arbre, 0);
+// 	return (arbre);
+// }
 

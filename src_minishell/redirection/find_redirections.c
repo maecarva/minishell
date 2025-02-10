@@ -18,7 +18,7 @@ void	get_infile(t_btree *cmd1, t_pipes *p_data)
 	while (cmd1->left != NULL)
 	{
 		cmd1 = cmd1->left;
-		p_data->fd_infile = open(cmd1->item->cmd->cmd, O_RDONLY, 0644);
+		p_data->fd_infile = open(((t_node2 *)(cmd1->item))->file, O_RDONLY, 0644);
 		if (p_data->fd_infile == -1)
 			perror("open");
 		if (cmd1->left != NULL)
@@ -31,14 +31,15 @@ void	get_outfile(t_btree *cmdn, t_pipes *p_data) // ne pas oublier de checker le
 	int	flags;
 
 	p_data->fd_outfile = 1;
+	print_arbre(cmdn, 0);
 	while (cmdn->left != NULL)
 	{
 		cmdn = cmdn->left;
-		if (cmdn->item->type == TRUNC)
+		if (((t_node2 *)(cmdn->item))->type == TRUNCATE)
 			flags = O_WRONLY | O_CREAT | O_TRUNC;
-		else if (cmdn->item->type == APPEND)
+		else if (((t_node2 *)(cmdn->item))->type == APPEND)
 			flags = O_WRONLY | O_CREAT | O_APPEND;
-		p_data->fd_outfile = open(cmdn->item->cmd->cmd, flags, 0644);
+		p_data->fd_outfile = open(((t_node2 *)(cmdn->item))->file, flags, 0644);
 		if (p_data->fd_infile == -1)
 			perror("open");
 		if (cmdn->left != NULL)

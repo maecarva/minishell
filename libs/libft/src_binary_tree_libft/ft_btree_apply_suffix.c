@@ -1,24 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_type_execute.c                               :+:      :+:    :+:   */
+/*   btree_apply_suffix.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/03 17:00:49 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/06 18:34:07 by ebonutto         ###   ########.fr       */
+/*   Created: 2025/01/30 09:43:50 by ebonutto          #+#    #+#             */
+/*   Updated: 2025/01/30 17:33:49 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "ft_btree.h"
 
-void	check_type_execute(t_config *ms_data)
+void	ft_btree_apply_suffix(t_btree *root, void (*applyf)(void *))
 {
-	if (((t_node2 *)(ms_data->ast->item))->type == CMD)
-		pipes(ms_data);
-	else if (((t_node2 *)(ms_data->ast->item))->type == PIPE_TOKEN)
-		pipes(ms_data);
-	// else if (((t_node *)(tree->item))->type == ECHO)
-	// 	echo(tree, envp);
-	//a completer avec tous les builtin
+	if (root == NULL)
+		return ;
+	if (root->left)
+		ft_btree_apply_prefix(root->left, applyf);
+	if (root->right)
+		ft_btree_apply_prefix(root->right, applyf);
+	applyf(root->item);
 }

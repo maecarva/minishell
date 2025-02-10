@@ -103,37 +103,9 @@ typedef struct s_envvar
 	char	*value;
 }	t_envvar;
 
-typedef	struct s_config {
-	int		ac;
-	char	**av;
-	char	**environnement;
-	char	*name_infile;
-	char	*name_outfile;
-	char	*current_path;
-	char	*prompt;
-	int		last_error_code;
-	char	*pidstr;
-}	t_config;
-
 // PARSING
 /* Enumerate tokens */
-typedef enum e_token
-{
-	PIPE, //
-	R_LEFT, // <
-	R_RIGHT, // >
-	RR_LEFT, // <<
-	RR_RIGHT, // >>
-	COMMAND,
-	ECHO,
-	CD,
-	PWD,
-	EXPORT,
-	UNSET,
-	ENV,
-	EXIT,
-	STOP //;
-}	t_token;
+
 
 typedef enum e_lexertok
 {
@@ -155,21 +127,6 @@ typedef struct s_lexertoklist
 }	t_lexertoklist;
 
 
-/* Node content */
-typedef struct s_node
-{
-	t_token	type;
-	t_cmd	*cmd;
-} t_node;
-
-/* Binary tree */
-typedef struct s_btree
-{
-	struct s_btree	*left;
-	struct s_btree	*right;
-	t_node			*item;
-}	t_btree;
-
 // /* Main structure */
 // typedef	struct s_config {
 // 	int		argc;
@@ -181,6 +138,18 @@ typedef struct s_btree
 // 	char	*prompt;
 // 	int		last_error_code;
 // }	t_config;
+typedef	struct s_config {
+	int		ac;
+	char	**av;
+	char	**environnement;
+	char	*name_infile;
+	char	*name_outfile;
+	char	*current_path;
+	char	*prompt;
+	t_btree	*ast;
+	int		last_error_code;
+	char	*pidstr;
+}	t_config;
 
 /* Char constants */
 # define PIPECHAR		'|'
@@ -208,6 +177,7 @@ typedef	struct	s_node2
 # include <stdarg.h>
 
 # define p(...) printf(__VA_ARGS__)
+# include "pipes.h"
 
 /******************************************************************************/
 /*                                PROTOTYPES                                  */

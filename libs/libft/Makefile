@@ -18,6 +18,7 @@ SRC_PATH = src_libft/
 SRC_LINKED_LIST_PATH = src_linked_list_libft/
 SRC_EXTRA_PATH = src_extra_libft/
 SRC_DOUBLE_LINKED_LIST_PATH = src_double_linked_list/
+SRC_BINARY_TREE_PATH= src_binary_tree_libft/
 OBJ_PATH = obj_libft/
 INCLUDE = -I include_libft
 
@@ -90,6 +91,14 @@ SRC_DOUBLE_LINKED_LIST = dll_add_back.c \
 						 dll_size.c \
 						 dll_size_between.c
 
+SRC_BINARY_TREE = ft_btree_create_node.c \
+					ft_btree_apply_prefix.c \
+					ft_btree_apply_infix.c \
+					ft_btree_apply_suffix.c \
+					ft_btree_insert_data.c \
+					ft_btree_search_item.c \
+					ft_btree_level_count.c
+
 OBJ = $(addprefix $(OBJ_PATH), $(SRC:.c=.o) $(SRC_LINKED_LIST:.c=.o) $(SRC_EXTRA:.c=.o) $(SRC_BINARY_TREE:.c=.o) $(SRC_DOUBLE_LINKED_LIST:.c=.o))
 
 
@@ -104,6 +113,10 @@ $(OBJ_PATH)%.o: $(SRC_LINKED_LIST_PATH)%.c
 	$(CC) $(CFLAGS) -o $@ -c $< $(INCLUDE)
 
 $(OBJ_PATH)%.o: $(SRC_EXTRA_PATH)%.c
+	mkdir -p $(OBJ_PATH)
+	$(CC) $(CFLAGS) -o $@ -c $< $(INCLUDE)
+
+$(OBJ_PATH)%.o: $(SRC_BINARY_TREE_PATH)%.c
 	mkdir -p $(OBJ_PATH)
 	$(CC) $(CFLAGS) -o $@ -c $< $(INCLUDE)
 

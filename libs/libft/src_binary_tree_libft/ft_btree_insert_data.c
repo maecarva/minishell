@@ -1,24 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_type_execute.c                               :+:      :+:    :+:   */
+/*   ft_btree_insert_data.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/03 17:00:49 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/06 18:34:07 by ebonutto         ###   ########.fr       */
+/*   Created: 2025/01/30 09:45:23 by ebonutto          #+#    #+#             */
+/*   Updated: 2025/02/03 10:02:03 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "ft_btree.h"
 
-void	check_type_execute(t_config *ms_data)
+void	ft_btree_insert_data(t_btree **root, void *item,
+		int (*cmpf)(void *, void *))
 {
-	if (((t_node2 *)(ms_data->ast->item))->type == CMD)
-		pipes(ms_data);
-	else if (((t_node2 *)(ms_data->ast->item))->type == PIPE_TOKEN)
-		pipes(ms_data);
-	// else if (((t_node *)(tree->item))->type == ECHO)
-	// 	echo(tree, envp);
-	//a completer avec tous les builtin
+	int		comp;
+
+	if ((*root) == NULL)
+	{
+		(*root) = ft_btree_create_node(item);
+		return ;
+	}
+	comp = cmpf(item, (*root)->item);
+	if (comp < 0)
+		ft_btree_insert_data(&((*root)->left), item, cmpf);
+	else
+		ft_btree_insert_data(&((*root)->right), item, cmpf);
 }

@@ -14,6 +14,7 @@
 
 static void	last_child(t_pipes *p_data)
 {
+	//get_outfile(p_data->ms_data->ast, p_data);
 	if (dup2(p_data->fd[p_data->nb_pipes - 1][0], STDIN_FILENO) == -1)
 	{
 		close(p_data->fd[p_data->nb_pipes - 1][0]);
@@ -29,7 +30,7 @@ static void	last_child(t_pipes *p_data)
 		ft_perror("dup2", ERROR_CODE);
 	}
 	free_fd(&(p_data->fd), p_data->nb_pipes);
-	p_data->cmd = p_data->ms_data->tree->right->item->cmd->cmd;
+	p_data->cmd = ((t_node2 *)(p_data->ms_data->ast->right->item))->command;
 	execute_command(p_data);
 }
 

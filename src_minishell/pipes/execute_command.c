@@ -40,7 +40,7 @@ static void	handle_no_path(char ***cmds, char **path_cmd, t_pipes *p_data, int i
 {
 	char **paths;
 
-	paths = ft_split(p_data->ms_data->envp[i] + 5, ':');
+	paths = ft_split(p_data->ms_data->environnement[i] + 5, ':');
 	if (!paths)
 	{
 		free_minishell(&(p_data->ms_data));
@@ -120,15 +120,15 @@ void	execute_command(t_pipes *p_data)
 	int		i;
 
 	i = 0;
-	while (p_data->ms_data->envp[i] != NULL
-		&& ft_strncmp(p_data->ms_data->envp[i], "PATH=", 5) != 0)
+	while (p_data->ms_data->environnement[i] != NULL
+		&& ft_strncmp(p_data->ms_data->environnement[i], "PATH=", 5) != 0)
 		i++;
-	if (p_data->ms_data->envp[i] == NULL
-		|| p_data->ms_data->envp[i][0] == '\0' || p_data->cmd[0] == '/' || p_data->cmd[0] == '.')
+	if (p_data->ms_data->environnement[i] == NULL
+		|| p_data->ms_data->environnement[i][0] == '\0' || p_data->cmd[0] == '/' || p_data->cmd[0] == '.')
 		handle_path(&cmds, &path_cmd, p_data);
 	else
 		handle_no_path(&cmds, &path_cmd, p_data, i);
-	if (execve(path_cmd, cmds, p_data->ms_data->envp) == -1)
+	if (execve(path_cmd, cmds, p_data->ms_data->environnement) == -1)
 	{
 		ft_free_double_ptr(&cmds);
 		ft_free_simple_ptr(&path_cmd);

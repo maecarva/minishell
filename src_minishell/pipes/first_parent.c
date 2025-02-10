@@ -14,7 +14,8 @@
 
 static void	first_child(t_pipes *p_data)
 {
-	close (p_data->fd[0][0]);
+	get_infile(p_data->ms_data->ast->left, p_data);
+	close(p_data->fd[0][0]);
 	if (dup2(p_data->fd_infile, STDIN_FILENO) == -1)
 	{
 		close(p_data->fd[0][1]);
@@ -31,7 +32,7 @@ static void	first_child(t_pipes *p_data)
 	}
 	close(p_data->fd[0][1]);
 	free_fd(&(p_data->fd), p_data->nb_pipes);
-	p_data->cmd = p_data->ms_data->tree->left->item->cmd->cmd;
+	p_data->cmd = ((t_node2 *)(p_data->ms_data->ast->left->item))->command;
 	execute_command(p_data);
 }
 

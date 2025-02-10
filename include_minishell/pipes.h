@@ -46,4 +46,8 @@ void	execute_command(t_pipes *p_data);
 void	init_p_data(t_pipes *p_data, t_config *ms_data);
 void	free_fd(int ***fd, int len);
 
+
+void	get_infile(t_btree *cmd1, t_pipes *p_data);
+void	get_outfile(t_btree *cmdn, t_pipes *p_data);
+
 #endif
