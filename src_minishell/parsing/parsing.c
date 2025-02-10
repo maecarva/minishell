@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 17:59:56 by maecarva          #+#    #+#             */
-/*   Updated: 2025/02/04 18:42:57 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/06 18:36:21 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -250,7 +250,7 @@ t_btree	*parse_cmd(char *cmd)
 		return (NULL);
 	cmd_len = cmd_split_len(cmd_split);
 	construct_ast(&arbre, cmd_split, cmd_len);
-	print_arbre(arbre, 0);
+	//print_arbre(arbre, 0);
 	free(cmd_split);
 	return (arbre);
 }
