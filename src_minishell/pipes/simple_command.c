@@ -24,7 +24,7 @@ static void	simple_child(t_pipes *p_data)
 		free_minishell(&(p_data->ms_data));
 		ft_perror("dup2", ERROR_CODE);
 	}
-	p_data->cmd = p_data->ms_data->tree->item->cmd->cmd;
+	p_data->cmd = ((t_node2 *)(p_data->ms_data->ast->item))->command;
 	execute_command(p_data);
 }
 

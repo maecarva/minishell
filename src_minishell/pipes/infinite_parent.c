@@ -33,7 +33,7 @@ static void	mid_child(t_pipes *p_data, int i)
 	}
 	close(p_data->fd[i][1]);
 	free_fd(&(p_data->fd), p_data->nb_pipes);
-	p_data->cmd = p_data->ms_data->tree->left->item->cmd->cmd;
+	p_data->cmd = ((t_node2 *)(p_data->ms_data->ast->left->item))->command;
 	execute_command(p_data);
 }
 
@@ -51,7 +51,7 @@ void	infinite_parent(t_pipes *p_data)
 	i = 1;
 	while (i < p_data->nb_pipes)
 	{
-		p_data->ms_data->tree = p_data->ms_data->tree->right;
+		p_data->ms_data->ast = p_data->ms_data->ast->right;
 		close((p_data->fd)[i - 1][1]);
 		if (pipe(p_data->fd[i]) == -1)
 		{

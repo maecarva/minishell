@@ -19,7 +19,7 @@ static int	count_pipes(t_btree	*arbre)
 	if (!arbre)
 		return (0);
 	count = 0;
-	while (arbre && ((t_node *)arbre->item)->type == PIPE)
+	while (arbre && ((t_node2 *)arbre->item)->type == PIPE_TOKEN)
 	{
 		count++;
 		arbre = arbre->right;
@@ -53,7 +53,7 @@ static int	**create_fd(int len)
 
 void	init_p_data(t_pipes *p_data, t_config *ms_data)
 {
-	p_data->nb_pipes = count_pipes(ms_data->tree);
+	p_data->nb_pipes = count_pipes(ms_data->ast);
 	p_data->fd = create_fd(p_data->nb_pipes);
 	if (!p_data->fd)
 		free_minishell(&ms_data);

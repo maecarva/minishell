@@ -1,24 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_type_execute.c                               :+:      :+:    :+:   */
+/*   ft_btree_level_count.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/03 17:00:49 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/06 18:34:07 by ebonutto         ###   ########.fr       */
+/*   Created: 2025/01/30 13:33:12 by ebonutto          #+#    #+#             */
+/*   Updated: 2025/02/03 10:02:58 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "ft_btree.h"
 
-void	check_type_execute(t_config *ms_data)
+int ft_btree_level_count(t_btree *root)
 {
-	if (((t_node2 *)(ms_data->ast->item))->type == CMD)
-		pipes(ms_data);
-	else if (((t_node2 *)(ms_data->ast->item))->type == PIPE_TOKEN)
-		pipes(ms_data);
-	// else if (((t_node *)(tree->item))->type == ECHO)
-	// 	echo(tree, envp);
-	//a completer avec tous les builtin
+	int	level_left;
+	int	level_right;
+	int	count;
+
+	if (root == NULL)
+		return (0);
+	level_left = ft_btree_level_count(root->left);
+	level_right = ft_btree_level_count(root->right);
+	if (level_left >= level_right)
+		count = level_left;
+	else
+		count = level_right;
+	return (1 + count);
 }

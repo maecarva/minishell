@@ -1,24 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_type_execute.c                               :+:      :+:    :+:   */
+/*   btree_create_node.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/03 17:00:49 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/06 18:34:07 by ebonutto         ###   ########.fr       */
+/*   Created: 2025/01/28 15:33:42 by ebonutto          #+#    #+#             */
+/*   Updated: 2025/01/30 17:33:53 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "ft_btree.h"
 
-void	check_type_execute(t_config *ms_data)
+t_btree	*ft_btree_create_node(void *item)
 {
-	if (((t_node2 *)(ms_data->ast->item))->type == CMD)
-		pipes(ms_data);
-	else if (((t_node2 *)(ms_data->ast->item))->type == PIPE_TOKEN)
-		pipes(ms_data);
-	// else if (((t_node *)(tree->item))->type == ECHO)
-	// 	echo(tree, envp);
-	//a completer avec tous les builtin
+	t_btree	*new_elem;
+
+	new_elem = malloc(sizeof(t_btree));
+	if (!new_elem)
+		return (NULL);
+	new_elem->item = item;
+	new_elem->left = NULL;
+	new_elem->right = NULL;
+	return (new_elem);
 }

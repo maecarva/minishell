@@ -58,6 +58,7 @@ SRC = src_minishell/main.c \
 	  src_minishell/parsing/ast/clear.c \
 	  src_minishell/builtin/echo.c \
 	  src_minishell/pipes/execute_command.c \
+	  src_minishell/redirection/find_redirections.c \
 	  src_minishell/pipes/first_parent.c \
 	  src_minishell/pipes/infinite_parent.c \
 	  src_minishell/pipes/last_parent.c \

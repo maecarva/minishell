@@ -31,13 +31,12 @@ int	main(int ac, char **av, char **env)
 	// char		*cmd = "ls -la | wc -c | grep README.md > outfile.txt";
 	// char		*cmd = "<Makefile cat| echo \"$PWD '\"hola\"'\" ~/src | 'tr' -d / >outfile";
 	char	*cmd;
-	// t_btree		*ast;
+	t_btree	*ast;
 
 	// init_signals();
 	minishell = init(ac, av, env);
 	if (!minishell)
 		return (1);
-	minishell->envp = env;
 	while (1)
 	{
 		cmd = readline(minishell->prompt);
@@ -45,37 +44,19 @@ int	main(int ac, char **av, char **env)
 			return (printf("exit\n"), clear_minishell(minishell), 1);
 		add_history(cmd);
 
-		// if (cmd[0] != '\0')
-		// {
-		// 	ast = parse_cmd(cmd);
-		// 	check_type_execute(ast, env);
-		// 	clear_ast(ast);
-		// }
-
-	ast = parse_cmd2(cmd, minishell);
-	if (!ast)
-	{
-
 		if (cmd[0] != '\0')
 		{
-			minishell->tree = parse_cmd(cmd);
-			//print_arbre(minishell->tree, 0);
+			ast = parse_cmd2(cmd, minishell);
+			minishell->ast = ast;
+			if (!minishell->ast)
+			{
+				free(cmd);
+				break;
+			}
 			check_type_execute(minishell);
-			clear_ast(minishell->tree);
+			free_ast(&ast);
+			free(cmd);
 		}
-		else
-			break;
-		//ast = parse_cmd(cmd);
-		//init_p_data(&p_data, ast, env);
-
-		free(cmd);
-		continue ;
-	}
-		// init_p_data(&p_data, ast, env);
-	// print_arbre(ast, 0);
-		// pipes(ast, env);
-	free_ast(&ast);
-	free(cmd);
 	}
 	clear_minishell(minishell);
 	return (EXIT_SUCCESS);

@@ -41,9 +41,9 @@ char	*get_minishell_pid()
 
 int	init_config(int ac, char **av, t_config *minishell)
 {
-
-	minishell->argc = ac;
-	minishell->argv = av;
+	char	*tmp;
+	minishell->ac = ac;
+	minishell->av = av;
 	minishell->current_path = get_value_by_name(minishell->environnement, "PWD");
 	if (minishell->current_path == NULL)
 		return (INIT_ERROR);
