@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: x03phy <x03phy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 14:09:58 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/07 14:15:13 by x03phy           ###   ########.fr       */
+/*   Updated: 2025/02/10 14:55:13 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ typedef struct s_pipes
 	int		nb_pipes;
 	int		fd_infile;
 	int		fd_outfile;
+	int		is_hd;
 	char	*cmd;
 	int		pid_last_parent;
 	t_config	*ms_data;
