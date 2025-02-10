@@ -4,7 +4,8 @@
             "name": "Linux",
             "includePath": [
                 "${workspaceFolder}/**",
-                "${workspaceFolder}/libs/libft/include_libft"
+                "${workspaceFolder}/libs/libft/include_libft",
+                "${workspaceFolder}/src_minishell/parsing/src_binary_tree_libft"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/clang",

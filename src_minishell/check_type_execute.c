@@ -6,19 +6,19 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 17:00:49 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/05 16:03:25 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/06 18:34:07 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	check_type_execute(t_btree *tree, char **envp)
+void	check_type_execute(t_config *ms_data)
 {
-	if (((t_node *)(tree->item))->type == COMMAND)
-		pipes(tree, envp);
-	else if (((t_node *)(tree->item))->type == PIPE)
-		pipes(tree, envp);
-	else if (((t_node *)(tree->item))->type == ECHO)
-		echo(tree, envp);
+	if (ms_data->tree->item->type == COMMAND)
+		pipes(ms_data);
+	else if (ms_data->tree->item->type == PIPE)
+		pipes(ms_data);
+	// else if (((t_node *)(tree->item))->type == ECHO)
+	// 	echo(tree, envp);
 	//a completer avec tous les builtin
 }

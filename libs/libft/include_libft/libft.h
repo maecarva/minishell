@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 11:16:18 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/09 15:11:11 by maecarva         ###   ########.fr       */
+/*   Updated: 2025/02/06 13:54:19 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 # include <stdlib.h>
 # include <stdio.h>
 # include <stdint.h>
-# include "../src_binary_tree_libft/ft_btree.h"
 
 // lists
 typedef struct s_list

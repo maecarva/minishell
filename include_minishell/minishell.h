@@ -7,61 +7,71 @@
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 14:41:06 by ebonutto          #+#    #+#             */
 /*   Updated: 2025/02/09 19:34:34 by maecarva         ###   ########.fr       */
+/*   Updated: 2025/02/06 18:20:26 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-/******************************************************************************/
-/*                                LIBRARIES                                   */
-/******************************************************************************/
+/* Libraries */
 
-/* Read Command */
-#include <stdio.h>
-#include <readline/readline.h>
-#include <readline/history.h>
+/* A definir */
+# include <readline/readline.h>
 
-/* Process and System Calls */
-# include <sys/types.h>    /* For pid_t */
-# include <sys/wait.h>     /* For wait() */
-# include <unistd.h>       /* For pipe(), read(), write(), close(), fork() */
+/* A definir */
+# include <readline/history.h>
 
-/* Memory Management */
-# include <stdlib.h>       /* For exit(), free(), malloc() */
+/* For pid_t */
+# include <sys/types.h>
 
-/* Error Handling */
-# include <errno.h>        /* For errno variable */
-# include <stdio.h>        /* For printf(), perror() */
+/* For wait(), waitpid() */
+# include <sys/wait.h>
+
+/* For pipe(), read(), write(), close(), fork() */
+# include <unistd.h>
+
+/* For exit(), free(), malloc() */
+# include <stdlib.h>
+
+/* For errno variable */
+# include <errno.h>
+
+/* For printf(), perror() */
+# include <stdio.h>
+
+/* For bool variables (true == 1 or false == 0)*/
 # include <stdbool.h>
 
-/* File Operations */
-# include <fcntl.h>        /* For open(), O_RDONLY, O_WRONLY, etc. */
+/* For open(), O_RDONLY, O_WRONLY, etc. */
+# include <fcntl.h>
 
-/* Custom Libraries */
+/* Our own libraries */
+
 # include "../libs/libft/include_libft/libft.h"
 # include "../libs/gnl/include_gnl/get_next_line.h"
 
-// include pipes lib
-# include "pipes.h"
+/* Number constants */
 
-/* Bool */
-# include <stdbool.h>
+/* For Errors that we cannot handle : malloc, open, ... */
+# define ERROR_CODE 42
 
-/******************************************************************************/
-/*                                CONSTANTS                                   */
-/******************************************************************************/
+/* Invalid Command */
+# define ERROR_COMMAND 127
 
-# define ERROR_CODE 42      /* Generic error code */
-# define ERROR_COMMAND 127  /* Command not found error code */
+/* ? */
 # define ENV_PARSING_ERROR 1
+
+/* ? */
 # define ENV_PARSING_OK 0
+
+/* ? */
 # define INIT_ERROR 1
+
+/* ? */
 # define INIT_OK 0
 
-/******************************************************************************/
-/*                                COLORS                                      */
-/******************************************************************************/
+/* Colors */
 
 # define KNRM  "\x1B[0m"
 # define KRED  "\x1B[31m"
@@ -72,29 +82,21 @@
 # define KCYN  "\x1B[36m"
 # define KWHT  "\x1B[37m"
 
-/******************************************************************************/
-/*                                STRUCTURES                                  */
-/******************************************************************************/
+/* Structures */
 
-typedef struct s_minishell
+/* ? */
+typedef struct s_cmd
 {
-	int		argc;
-	char	**argv;
-	char	**environnement;
-	char	*name_infile;
-	char	*name_outfile;
-	char	*path_name;
-	t_btree	*tree;
-}	t_minishell;
+	char	*cmd;
+	bool	quotes;
+	bool	redirection;
+	char	*input_file;
+	char	*output_file;
+	bool	here_doc;
+	char	*identifier;
+}	t_cmd;
 
-typedef struct s_command
-{
-	char	*command;
-	char	*flags; //lste de flags
-	t_list	*arguments;
-	bool	quotes;  // quotes == 1 (true) for "" or blank and quotes == 0 (false) for ''
-}	t_command;
-
+/* ? */
 typedef struct s_envvar
 {
 	char	*name;
@@ -114,6 +116,7 @@ typedef	struct s_config {
 }	t_config;
 
 // PARSING
+/* Enumerate tokens */
 typedef enum e_token
 {
 	PIPE, //
@@ -151,6 +154,35 @@ typedef struct s_lexertoklist
 	t_lexertok	type;
 }	t_lexertoklist;
 
+
+/* Node content */
+typedef struct s_node
+{
+	t_token	type;
+	t_cmd	*cmd;
+} t_node;
+
+/* Binary tree */
+typedef struct s_btree
+{
+	struct s_btree	*left;
+	struct s_btree	*right;
+	t_node			*item;
+}	t_btree;
+
+// /* Main structure */
+// typedef	struct s_config {
+// 	int		argc;
+// 	char	**argv;
+// 	char	**envp;
+// 	t_list	*environnement; //////////////////////////////////////a changer en char **
+// 	t_btree	*tree;
+// 	char	*current_path;
+// 	char	*prompt;
+// 	int		last_error_code;
+// }	t_config;
+
+/* Char constants */
 # define PIPECHAR		'|'
 # define R_LEFTCHAR		'<'
 # define R_RIGHTCHAR	'>'
@@ -159,22 +191,9 @@ typedef struct s_lexertoklist
 # define SPECIALS_TOKEN	"|<>"
 # define WHITESPACES	" \t\n\v\f\r"
 
-typedef	struct s_cmd
-{
-	char	*cmd;
-	bool	quotes;
-	bool	redirection;
-	char	**input_file;
-	char	*output_file;
-	bool	here_doc;
-	char	*identifier;
-}	t_cmd;
 
-typedef struct s_node
-{
-	t_token	type;
-	t_cmd	*cmd;
-}	t_node;
+/* Prototypes */
+
 
 typedef	struct	s_node2
 {
@@ -203,7 +222,8 @@ void		clear_minishell(t_config *minishell);
 char		**init_environnement(char **env);
 char	*get_value_by_name(char **envp, char *name);
 
-// signals
+
+/* Signals */
 void	init_signals(void);
 t_btree	*arbre_bidon();
 
@@ -227,12 +247,19 @@ void	free_ast(t_btree **ast);
 /*		END PARSING		*/
 // ast
 
-//builtin
+
+/* Builtin functions */
+
+/* echo */
 void	echo(t_btree *tree, char **envp);
 
-// debug
+/* Free */
+void	free_minishell(t_config **ms_data);
+
+/* Debuging */
 void	print_arbre(t_btree *root, int level);
 
-void	check_type_execute(t_btree *tree, char **envp);
+/* Others (en cours) */
+void	check_type_execute(t_config *ms_data);
 
 #endif /* MINISHELL_H */

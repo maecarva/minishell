@@ -3,58 +3,70 @@
 /*                                                        :::      ::::::::   */
 /*   execute_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
+/*   By: x03phy <x03phy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:29:18 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/05 11:09:48 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/07 14:16:35 by x03phy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipes.h"
 
-static char	*find_path_cmd(char **paths, char **cmds)
+static char	*find_path_cmd(char **paths, char **cmds, t_pipes *p_data)
 {
 	int		i;
 	char	*path_cmd;
 
-	i = -1;
-	while (paths[++i])
+	i = 0;
+	while (paths[i])
 	{
 		path_cmd = ft_str_three_join(paths[i], "/", cmds[0]);
 		if (!path_cmd)
 		{
 			ft_free_double_ptr(&paths);
 			ft_free_double_ptr(&cmds);
+			free_minishell(&(p_data->ms_data));
 			ft_perror("malloc", ERROR_CODE);
 		}
 		if (access(path_cmd, X_OK) == 0)
 			return (path_cmd);
 		free(path_cmd);
+		i++;
 	}
 	return (NULL);
 }
 
-static void	no_path(char ***cmds, char **path_cmd, char ***paths, char *cmd)
+static void	handle_no_path(char ***cmds, char **path_cmd, t_pipes *p_data, int i)
 {
-	*cmds = ft_split(cmd, ' ');
-	if (!*cmds)
+	char **paths;
+
+	paths = ft_split(p_data->ms_data->envp[i] + 5, ':');
+	if (!paths)
 	{
-		ft_free_double_ptr(paths);
+		free_minishell(&(p_data->ms_data));
 		ft_perror("malloc", ERROR_CODE);
 	}
-	*path_cmd = find_path_cmd(*paths, *cmds);
+	*cmds = ft_split(p_data->cmd, ' ');
+	if (!*cmds)
+	{
+		ft_free_double_ptr(&paths);
+		free_minishell(&(p_data->ms_data));
+		ft_perror("malloc", ERROR_CODE);
+	}
+	*path_cmd = find_path_cmd(paths, *cmds, p_data);
 	if (!*path_cmd)
 	{
 		ft_putstr_fd("command not found: ", 2);
 		ft_putendl_fd((*cmds)[0], 2);
-		ft_free_double_ptr(paths);
+		ft_free_double_ptr(&paths);
 		ft_free_double_ptr(cmds);
+		free_minishell(&(p_data->ms_data));
 		exit(ERROR_COMMAND);
 	}
-	ft_free_double_ptr(paths);
+	ft_free_double_ptr(&paths);
 }
 
-static void	check_access(char ***cmds, char **path_cmd)
+static void	check_access(char ***cmds, char **path_cmd, t_pipes *p_data)
 {
 	if (access(*path_cmd, F_OK | X_OK) != 0)
 	{
@@ -62,62 +74,65 @@ static void	check_access(char ***cmds, char **path_cmd)
 		ft_putendl_fd(*path_cmd, 2);
 		ft_free_double_ptr(cmds);
 		ft_free_simple_ptr(path_cmd);
+		free_minishell(&(p_data->ms_data));
 		exit(ERROR_COMMAND);
 	}
 }
 
-static void	handle_path(char ***cmds, char **path_cmd, char *cmd)
+static void	handle_path(char ***cmds, char **path_cmd, t_pipes *p_data)
 {
-	char	*last;
-	int		d;
+	int		size;
+	char	*target;
 
-	last = ft_strrchr(cmd, '/');
-	if (!last)
-		last = cmd;
+	target = ft_strrchr(p_data->cmd, '/');
+	if (!target)
+		target = p_data->cmd;
 	else
-		last++;
-	*cmds = ft_split(last, ' ');
+		target++;
+	*cmds = ft_split(target, ' ');
 	if (!*cmds)
+	{
+		free_minishell(&(p_data->ms_data));
 		ft_perror("malloc", ERROR_CODE);
-	last = ft_strrchr(cmd, ' ');
-	if (!last)
-		d = ft_strlen(cmd);
+	}
+	target = ft_strrchr(p_data->cmd, ' ');
+	if (!target)
+		size = ft_strlen(p_data->cmd);
 	else
-		d = last - cmd;
-	*path_cmd = ft_calloc(sizeof(char), (d + 1));
+
+		size = target - p_data->cmd;
+	*path_cmd = calloc(sizeof(char), (size + 1));
+
 	if (!*path_cmd)
 	{
 		ft_free_double_ptr(cmds);
+		free_minishell(&(p_data->ms_data));
 		ft_perror("malloc", ERROR_CODE);
 	}
-	ft_strlcpy(*path_cmd, cmd, d + 1);
-	check_access(cmds, path_cmd);
+	ft_strlcpy(*path_cmd, p_data->cmd, size + 1);
+	check_access(cmds, path_cmd, p_data);
 }
 
-void	execute_command(char **envp, t_btree *tree)
+void	execute_command(t_pipes *p_data)
 {
 	char	**cmds;
-	char	**paths;
 	char	*path_cmd;
 	int		i;
 
 	i = 0;
-	while (envp[i] != NULL && ft_strncmp(envp[i], "PATH=", 5) != 0)
+	while (p_data->ms_data->envp[i] != NULL
+		&& ft_strncmp(p_data->ms_data->envp[i], "PATH=", 5) != 0)
 		i++;
-	if (envp[i] == NULL || envp[i][0] == '\0' || ((t_node *)(tree->item))->cmd->cmd[0] == '/' || ((t_node *)(tree->item))->cmd->cmd[0] == '.')
-		handle_path(&cmds, &path_cmd, ((t_node *)(tree->item))->cmd->cmd);
+	if (p_data->ms_data->envp[i] == NULL
+		|| p_data->ms_data->envp[i][0] == '\0' || p_data->cmd[0] == '/' || p_data->cmd[0] == '.')
+		handle_path(&cmds, &path_cmd, p_data);
 	else
-	{
-		paths = ft_split(envp[i] + 5, ':');
-		if (!paths)
-			ft_perror("malloc", ERROR_CODE);
-		no_path(&cmds, &path_cmd, &paths, ((t_node *)(tree->item))->cmd->cmd);
-		ft_free_double_ptr(&paths);
-	}
-	if (execve(path_cmd, cmds, envp) == -1)
+		handle_no_path(&cmds, &path_cmd, p_data, i);
+	if (execve(path_cmd, cmds, p_data->ms_data->envp) == -1)
 	{
 		ft_free_double_ptr(&cmds);
 		ft_free_simple_ptr(&path_cmd);
+		free_minishell(&(p_data->ms_data));
 		ft_perror("execve", ERROR_CODE);
 	}
 }

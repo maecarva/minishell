@@ -6,79 +6,42 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 14:00:24 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/05 16:27:15 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/10 15:09:53 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	get_input(t_minishell *ms_data)
+void	get_infile(t_btree *cmd1, t_pipes *p_data)
 {
-	int	fd;
-
-	fd = open(((t_node *)ms_data->tree->item)->cmd->cmd, O_CREAT | O_TRUNC, 0644);
-	if (fd == -1)
-		ft_perror("open", ERROR_CODE);
-	ms_data->name_infile = ((t_node *)ms_data->tree->item)->cmd->cmd;
-	close(fd);
-}
-
-void	get_output(t_minishell *ms_data)
-{
-	int	fd;
-
-	fd = open(((t_node *)ms_data->tree->item)->cmd->cmd, O_CREAT | O_TRUNC, 0644);
-	if (fd == -1)
-		ft_perror("open", ERROR_CODE);
-	ms_data->name_outfile = ((t_node *)ms_data->tree->item)->cmd->cmd;
-	close(fd);
-}
-
-void	get_output_here_doc(t_minishell *ms_data)
-{
-	int	fd;
-
-	fd = open(((t_node *)ms_data->tree->item)->cmd->cmd, O_CREAT | O_APPEND, 0644);
-	if (fd == -1)
-		ft_perror("open", ERROR_CODE);
-	ms_data->name_outfile = ((t_node *)ms_data->tree->item)->cmd->cmd;
-	close(fd);
-}
-
-void	get_input_here_doc(t_minishell *ms_data)
-{
-	int		fd;
-	char	*line;
-
-	fd = open(((t_node *)ms_data->tree->item)->cmd->cmd, O_CREAT | O_APPEND, 0644);
-	if (fd == -1)
-		ft_perror("open", ERROR_CODE);
-	// while (1)
-	// {
-	// 	if (get_next_line(0, &line) == ERROR_CODE)
-	// 		ft_perror("malloc", ERROR_CODE);
-	// 	if (ft_strcmp(line, ((t_node *)ms_data->tree->item)->cmd->cmd) == '\n')
-	// 		break;
-	// 	ft_putstr_fd(line, ((t_node *)ms_data->tree->item)->cmd->cmd);       // faire gaffe, ptet que faut rajouter /n a la fin
-	// }
-	ms_data->name_outfile = ((t_node *)ms_data->tree->item)->cmd->cmd;
-	close(fd);
-}
-
-void	find_redirection(t_minishell *ms_data)
-{
-	if (!ms_data->tree)
-		return ;
-	while (ms_data->tree)
+	p_data->fd_infile = 0;
+	while (cmd1->left != NULL)
 	{
-		if (((t_node *)ms_data->tree->item)->type == R_LEFT)
-			get_input(ms_data);
-		else if (((t_node *)ms_data->tree->item)->type == R_RIGHT)
-			get_output(ms_data);
-		else if (((t_node *)ms_data->tree->item)->type == RR_LEFT)
-			get_input_here_doc(ms_data);
-		else if (((t_node *)ms_data->tree->item)->type == RR_RIGHT)
-			get_output_here_doc(ms_data);
-		ms_data->tree = ms_data->tree->right;
+		cmd1 = cmd1->left;
+		p_data->fd_infile = open(cmd1->item->cmd->cmd, O_RDONLY, 0644);
+		if (p_data->fd_infile == -1)
+			perror("open");
+		if (cmd1->left != NULL)
+			close(p_data->fd_infile);
+	}
+}
+
+void	get_outfile(t_btree *cmdn, t_pipes *p_data) // ne pas oublier de checker les acces pour les differents outfile, voir s'ils existent deja et s'ils sont ouvrables...
+{
+	int	flags;
+
+	p_data->fd_outfile = 1;
+	while (cmdn->left != NULL)
+	{
+		cmdn = cmdn->left;
+		if (cmdn->item->type == TRUNC)
+			flags = O_WRONLY | O_CREAT | O_TRUNC;
+		else if (cmdn->item->type == APPEND)
+			flags = O_WRONLY | O_CREAT | O_APPEND;
+		p_data->fd_outfile = open(cmdn->item->cmd->cmd, flags, 0644);
+		if (p_data->fd_infile == -1)
+			perror("open");
+		if (cmdn->left != NULL)
+			close(p_data->fd_outfile);
 	}
 }

@@ -64,8 +64,8 @@ SRC = src_minishell/main.c \
 	  src_minishell/pipes/pipes_utils.c \
 	  src_minishell/pipes/pipes.c \
 	  src_minishell/pipes/simple_command.c \
-	  src_minishell/check_type_execute.c
-
+	  src_minishell/check_type_execute.c \
+	  src_minishell/free/free_minishell.c
 
 SRC += $(SRC_PIPES)
 # Conversion des .c en .o dans le dossier obj
