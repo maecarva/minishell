@@ -6,7 +6,7 @@
 #    By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/08 14:19:08 by ebonutto          #+#    #+#              #
-#    Updated: 2025/02/06 18:10:08 by ebonutto         ###   ########.fr        #
+#    Updated: 2025/02/09 19:35:23 by maecarva         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,10 +45,17 @@ SRC = src_minishell/main.c \
 	  src_minishell/init/env_utils.c \
 	  src_minishell/clear/clear.c \
 	  src_minishell/signals/signals.c \
-	  src_minishell/parsing/parsing.c \
-	  src_minishell/parsing/ast_constructor.c \
-	  src_minishell/parsing/create_node.c \
-	  src_minishell/parsing/ast_clear.c \
+	  src_minishell/parsing/parsing_utils.c \
+	  src_minishell/parsing/rules.c \
+	  src_minishell/parsing/parser/parser.c \
+	  src_minishell/parsing/lexer/lexer.c \
+	  src_minishell/parsing/lexer/spliter.c \
+	  src_minishell/parsing/lexer/lexer_utils.c \
+	  src_minishell/parsing/expander/expander.c \
+	  src_minishell/parsing/ast/ast.c \
+	  src_minishell/parsing/ast/command_node.c \
+	  src_minishell/parsing/ast/pipe_node.c \
+	  src_minishell/parsing/ast/clear.c \
 	  src_minishell/builtin/echo.c \
 	  src_minishell/pipes/execute_command.c \
 	  src_minishell/pipes/first_parent.c \

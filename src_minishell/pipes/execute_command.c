@@ -99,8 +99,10 @@ static void	handle_path(char ***cmds, char **path_cmd, t_pipes *p_data)
 	if (!target)
 		size = ft_strlen(p_data->cmd);
 	else
+
 		size = target - p_data->cmd;
 	*path_cmd = calloc(sizeof(char), (size + 1));
+
 	if (!*path_cmd)
 	{
 		ft_free_double_ptr(cmds);

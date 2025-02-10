@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 10:05:52 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/06 19:05:30 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/09 19:34:55 by maecarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,26 @@
 
 void	print_env(t_config *minishell)
 {
+	int	i;
 
-	t_list		*tmp;
-
-	tmp = minishell->environnement;
-	while (tmp)
+	i = 0;
+	while (minishell->environnement[i])
 	{
-		printf("%s=%s\n", ((t_envvar *)tmp->content)->name, ((t_envvar *)tmp->content)->value);
-		tmp = tmp->next;
+		printf("%s\n", minishell->environnement[i]);
+		i++;
 	}
 }
 
 int	main(int ac, char **av, char **env)
 {
 	t_config	*minishell;
-	// char		*cmd = "< infile.txt cat | grep README.md > outfile.txt";
+	// char		*cmd = "<infile << limiter wc -c > outfile >> appendfile";
 	// char		*cmd = "ls -la | wc -c | grep README.md > outfile.txt";
-	// char		*cmd = "< entree.txt cat | wc -c | cat << fin";
+	// char		*cmd = "<Makefile cat| echo \"$PWD '\"hola\"'\" ~/src | 'tr' -d / >outfile";
 	char	*cmd;
 	// t_btree		*ast;
 
-	init_signals();
+	// init_signals();
 	minishell = init(ac, av, env);
 	if (!minishell)
 		return (1);
@@ -45,6 +44,18 @@ int	main(int ac, char **av, char **env)
 		if (!cmd)
 			return (printf("exit\n"), clear_minishell(minishell), 1);
 		add_history(cmd);
+
+		// if (cmd[0] != '\0')
+		// {
+		// 	ast = parse_cmd(cmd);
+		// 	check_type_execute(ast, env);
+		// 	clear_ast(ast);
+		// }
+
+	ast = parse_cmd2(cmd, minishell);
+	if (!ast)
+	{
+
 		if (cmd[0] != '\0')
 		{
 			minishell->tree = parse_cmd(cmd);
@@ -56,8 +67,17 @@ int	main(int ac, char **av, char **env)
 			break;
 		//ast = parse_cmd(cmd);
 		//init_p_data(&p_data, ast, env);
+
 		free(cmd);
+		continue ;
+	}
+		// init_p_data(&p_data, ast, env);
+	// print_arbre(ast, 0);
+		// pipes(ast, env);
+	free_ast(&ast);
+	free(cmd);
 	}
 	clear_minishell(minishell);
 	return (EXIT_SUCCESS);
 }
+

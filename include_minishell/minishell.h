@@ -6,6 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 14:41:06 by ebonutto          #+#    #+#             */
+/*   Updated: 2025/02/09 19:34:34 by maecarva         ###   ########.fr       */
 /*   Updated: 2025/02/06 18:20:26 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -102,6 +103,19 @@ typedef struct s_envvar
 	char	*value;
 }	t_envvar;
 
+typedef	struct s_config {
+	int		ac;
+	char	**av;
+	char	**environnement;
+	char	*name_infile;
+	char	*name_outfile;
+	char	*current_path;
+	char	*prompt;
+	int		last_error_code;
+	char	*pidstr;
+}	t_config;
+
+// PARSING
 /* Enumerate tokens */
 typedef enum e_token
 {
@@ -121,6 +135,26 @@ typedef enum e_token
 	STOP //;
 }	t_token;
 
+typedef enum e_lexertok
+{
+	PIPE_TOKEN = 0,
+	TRUNCATE = 1, // >
+    APPEND = 2, // >>
+    REDIRECT_INPUT = 3, // <
+    HEREDOC = 4, // <<
+	CMD = 5,
+	ARGS = 6,
+	FILE_ARG = 7,
+	ERROR = 8
+}	t_lexertok;
+
+typedef struct s_lexertoklist
+{
+	char		*token;
+	t_lexertok	type;
+}	t_lexertoklist;
+
+
 /* Node content */
 typedef struct s_node
 {
@@ -136,17 +170,17 @@ typedef struct s_btree
 	t_node			*item;
 }	t_btree;
 
-/* Main structure */
-typedef	struct s_config {
-	int		argc;
-	char	**argv;
-	char	**envp;
-	t_list	*environnement; //////////////////////////////////////a changer en char **
-	t_btree	*tree;
-	char	*current_path;
-	char	*prompt;
-	int		last_error_code;
-}	t_config;
+// /* Main structure */
+// typedef	struct s_config {
+// 	int		argc;
+// 	char	**argv;
+// 	char	**envp;
+// 	t_list	*environnement; //////////////////////////////////////a changer en char **
+// 	t_btree	*tree;
+// 	char	*current_path;
+// 	char	*prompt;
+// 	int		last_error_code;
+// }	t_config;
 
 /* Char constants */
 # define PIPECHAR		'|'
@@ -154,36 +188,65 @@ typedef	struct s_config {
 # define R_RIGHTCHAR	'>'
 # define HERE_DOC		"<<"
 
-# define SPECIALS_TOKEN	"|"
+# define SPECIALS_TOKEN	"|<>"
 # define WHITESPACES	" \t\n\v\f\r"
 
-/* Other headers */
-# include "pipes.h"
 
 /* Prototypes */
 
-/* Initalization */
+
+typedef	struct	s_node2
+{
+	t_lexertok	type;
+	char		*command;
+	char		*file;
+}	t_node2;
+
+/******************************************************************************/
+/*                                DEBUG_ONLY                                  */
+/******************************************************************************/
+# include <stdarg.h>
+
+# define p(...) printf(__VA_ARGS__)
+
+/******************************************************************************/
+/*                                PROTOTYPES                                  */
+/******************************************************************************/
+
+/* Add your function prototypes here */
+
+// init
 t_config	*init(int ac, char **av, char **env);
 void		clear_minishell(t_config *minishell);
+// // env
+char		**init_environnement(char **env);
+char	*get_value_by_name(char **envp, char *name);
 
-/* Environnement */
-t_list		*init_environnement(char **env);
-t_envvar	*ptr_to_envvar(void	*content);
-char		*get_value_by_name(t_list *env, char *name);
 
 /* Signals */
 void	init_signals(void);
 t_btree	*arbre_bidon();
 
-/* Parsing */
-t_btree	*parse_cmd(char *cmd);
-t_btree	*ft_btree_create_node(void *item);
+/*		PARSING		*/
+bool	check_invalid_input(char *cmd);
+t_btree	*parse_cmd2(char *cmd, t_config *config);
+// lexer
+bool	lexer(char *cmd, t_dlist **lexed_list);
+void	free_token_list(t_dlist **dlist);
+t_dlist	*spliter(char *cmd);
+t_lexertoklist	*ptr_to_lexertoklist(void *token);
+void	print_token_list(t_dlist **dlist);
+void	handle_redirections(t_btree **node, t_dlist *start, t_dlist *end);
+// expander
+bool	expander(t_dlist *lexed_list, t_config *config);
+// ast
+bool	create_ast(t_btree **ast, t_dlist *tokenlist, t_config *config);
+t_btree	*create_pipe_node();
+t_btree	*create_cmd_node(t_dlist *start, t_dlist *end);
+void	free_ast(t_btree **ast);
+/*		END PARSING		*/
+// ast
 
-/* AST */
-void	construct_ast(t_btree **ast, char **cmd_split, int cmd_len);
-t_btree	*create_special_node(t_token nodetype);
-t_btree	*create_command_node(char **cmd_split);
-void	clear_ast(t_btree *ast);
 
 /* Builtin functions */
 

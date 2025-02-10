@@ -26,6 +26,13 @@ typedef struct s_list
 	struct s_list	*next;
 }		t_list;
 
+typedef struct s_dlist
+{
+	void		*content;
+	struct s_dlist	*prev;
+	struct s_dlist	*next;
+}	t_dlist;
+
 void	ft_lstadd_back(t_list **lst, t_list *new);
 void	ft_lstadd_front(t_list **head, t_list *new);
 void	ft_lstclear(t_list **lst, void (*del)(void *));
@@ -53,6 +60,7 @@ int		ft_toupper(int c);
 
 // strings
 char	**ft_split(char const *s, char c);
+char	**ft_split_charset(char *str, char *charset);
 char	*ft_strchr(const char *s, int c);
 char	*ft_strdup(const char *src);
 void	ft_striteri(char *s, void (*f)(unsigned int, char*));
@@ -66,6 +74,7 @@ char	*ft_strnstr(const char *haystack, const char *needle, size_t size);
 char	*ft_strrchr(const char *s, int c);
 char	*ft_strtrim(char const *s1, char const *set);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
+int		ft_count_char_in_str(char *str, char c);
 
 // memory
 void	ft_bzero(void *s, size_t n);
@@ -95,5 +104,12 @@ void	ft_perror(char *str, int exit_status);
 char	*ft_str_three_join(char const *s1, char const *s2, char const *s3);
 int		ft_strcmp(char *src1, char *src2);
 void	ft_swap(int *a, int *b);
+
+// double linked list
+void	dll_clear(t_dlist **dlist);
+t_dlist	*dll_add_back(t_dlist **dlist, t_dlist *new_elem);
+t_dlist	*dll_new(void *content);
+int		dll_size(t_dlist **dlist);
+int		dll_size_between(t_dlist *start, t_dlist *end);
 
 #endif

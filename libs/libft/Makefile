@@ -17,6 +17,7 @@ AR = ar rcs
 SRC_PATH = src_libft/
 SRC_LINKED_LIST_PATH = src_linked_list_libft/
 SRC_EXTRA_PATH = src_extra_libft/
+SRC_DOUBLE_LINKED_LIST_PATH = src_double_linked_list/
 OBJ_PATH = obj_libft/
 INCLUDE = -I include_libft
 
@@ -78,9 +79,19 @@ SRC_EXTRA = ft_abs.c \
 			ft_perror.c \
 			ft_str_three_join.c \
 			ft_strcmp.c \
-			ft_swap.c
+			ft_swap.c \
+			ft_split_charset.c \
+			ft_count_char_in_str.c
 
-OBJ = $(addprefix $(OBJ_PATH), $(SRC:.c=.o) $(SRC_LINKED_LIST:.c=.o) $(SRC_EXTRA:.c=.o))
+
+SRC_DOUBLE_LINKED_LIST = dll_add_back.c \
+						 dll_new.c \
+						 dll_clear.c \
+						 dll_size.c \
+						 dll_size_between.c
+
+OBJ = $(addprefix $(OBJ_PATH), $(SRC:.c=.o) $(SRC_LINKED_LIST:.c=.o) $(SRC_EXTRA:.c=.o) $(SRC_BINARY_TREE:.c=.o) $(SRC_DOUBLE_LINKED_LIST:.c=.o))
+
 
 all: $(NAME)
 
@@ -93,6 +104,10 @@ $(OBJ_PATH)%.o: $(SRC_LINKED_LIST_PATH)%.c
 	$(CC) $(CFLAGS) -o $@ -c $< $(INCLUDE)
 
 $(OBJ_PATH)%.o: $(SRC_EXTRA_PATH)%.c
+	mkdir -p $(OBJ_PATH)
+	$(CC) $(CFLAGS) -o $@ -c $< $(INCLUDE)
+
+$(OBJ_PATH)%.o: $(SRC_DOUBLE_LINKED_LIST_PATH)%.c
 	mkdir -p $(OBJ_PATH)
 	$(CC) $(CFLAGS) -o $@ -c $< $(INCLUDE)
 

@@ -12,16 +12,49 @@
 
 #include "../../include_minishell/minishell.h"
 
+// NULL if failure
+char	*get_minishell_pid()
+{
+	int		fd;
+	char	*fline;
+	char	*pid;
+	int		i;
+
+	i = 0;
+	pid = NULL;
+	fline = NULL;
+	fd = open("/proc/self/stat", O_RDONLY);
+	if (fd == -1)
+		return (NULL);
+	if (get_next_line(fd, &fline) != 0)
+	{
+		if (fline != NULL)
+			free(fline);
+		return (NULL);
+	}
+	while (fline[i] && ft_isdigit(fline[i]))
+		i++;
+	pid = ft_substr(fline, 0, i);
+	free(fline);
+	return (pid);
+}
+
 int	init_config(int ac, char **av, t_config *minishell)
 {
+
 	minishell->argc = ac;
 	minishell->argv = av;
 	minishell->current_path = get_value_by_name(minishell->environnement, "PWD");
 	if (minishell->current_path == NULL)
 		return (INIT_ERROR);
-	minishell->prompt = ft_strjoin(get_value_by_name(minishell->environnement, "LOGNAME"), " ~> \x1B[32mminishell #\x1B[37m ");
+	tmp = get_value_by_name(minishell->environnement, "LOGNAME");
+	if (!tmp)
+		return (INIT_ERROR);
+	minishell->prompt = ft_strjoin(tmp, " ~> \x1B[32mminishell #\x1B[37m ");
+	free(tmp);
 	if (minishell->prompt == NULL)
 		return (INIT_ERROR);
+	minishell->pidstr = get_minishell_pid();
 	return (INIT_OK);
 }
 
