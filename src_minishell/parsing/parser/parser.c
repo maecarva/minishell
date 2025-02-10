@@ -34,18 +34,31 @@ t_btree	*parse_cmd2(char *cmd, t_config *config)
 
 	// 2 : check invalid quotes + redir/pipes at end of string
 	if (check_invalid_input(trimmed))
+	{
+		config->last_error_code = 2;
 		return (free(trimmed), NULL);
+	}
 	// 3 : lexer string and check invalid redirections
 	if (!lexer(trimmed, &lexed))
+	{
+		config->last_error_code = 2;
 		return (free(trimmed), NULL);
+	}
 	// 4 : expand $
 	if (!expander(lexed, config))
-		return (free_token_list(&lexed), NULL);
+	{
+		config->last_error_code = 2;
+		return (free(trimmed), free_token_list(&lexed), NULL);
+	}
 
 	// print_token_list(&lexed);
 	// create ast
 	if (!create_ast(&ast, lexed, config))
+	{
 		printf("failed to create ast\n");
+		config->last_error_code = 2;
+		return (free(trimmed), free_token_list(&lexed), NULL);
+	}
 	// print_arbre(ast, 0);
 	free_token_list(&lexed);
 	free(trimmed);

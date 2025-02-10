@@ -12,21 +12,6 @@
 
 #include "../../../include_minishell/minishell.h"
 
-void	print_cmd_borned(t_dlist *start, t_dlist *end)
-{
-	t_dlist	*tmp;
-	p("CMD part : -------------------------------\n");
-
-	tmp = start;
-	while (tmp)
-	{
-		printf("token : [%s]\n", ptr_to_lexertoklist(tmp->content)->token);
-		if (tmp == end)
-			break ;
-		tmp = tmp->next;
-	}
-}
-
 bool	list_contain_pipe(t_dlist *start, t_dlist *end, t_dlist **pipeelem)
 {
 	t_dlist	*tmp;

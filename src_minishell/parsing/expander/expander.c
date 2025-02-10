@@ -13,13 +13,15 @@
 #include "../../../include_minishell/minishell.h"
 
 // free all allocated memory and clean function
-bool	expand_token(char	**tokenstr, char **envp, char *pidstr)
+bool	expand_token(char	**tokenstr, char **envp, t_config *config)
 {
 	char	*ptrs[4]; // 0 = varname, 1 = var value, 2 = expanded, 3 = rest
 	int		i;
 	char	*s;
 	int		sub[2]; // 0 = start, 1 = len
+	char	*lasterrorcode;
 
+	lasterrorcode = ft_itoa(config->last_error_code);
 	if (!(*tokenstr))
 		return (false);
 	s = *tokenstr;
@@ -28,13 +30,13 @@ bool	expand_token(char	**tokenstr, char **envp, char *pidstr)
 	{
 		ft_bzero(ptrs, sizeof(char *) * 4);
 		ft_bzero(sub, sizeof(int) * 2);
-		if (s[i] == '$' && s[i + 1] != '$')
+		if (s[i] == '$' && s[i + 1] != '$' && s[i + 1] != '?')
 		{
 			i++;
 			if (s[i] == '\0')
 			{
 				s[i - 1] = '\0';
-				break ;
+				return (true);
 			}
 			// classic var
 			sub[0] = i;
@@ -80,17 +82,27 @@ bool	expand_token(char	**tokenstr, char **envp, char *pidstr)
 			// expand pid
 			ptrs[0] = ft_substr(s, 0, i);
 			ptrs[3] = ft_substr(s, 2 + i, ft_strlen(s) - i + 2);
-			ptrs[2] = ft_str_three_join(ptrs[0], pidstr, ptrs[3]);
+			ptrs[2] = ft_str_three_join(ptrs[0], config->pidstr, ptrs[3]);
 			free(ptrs[0]);
 			free(ptrs[1]);
 			free(ptrs[3]);
 			s = ptrs[2];
-			i += ft_strlen(pidstr);
+			i += ft_strlen(config->pidstr);
 			continue ;
+		}
+		if (ft_strnstr(&s[i], "$?", ft_strlen("$?")) == &s[i])
+		{
+			ptrs[0] = ft_substr(s, 0, i);
+			ptrs[3] = ft_substr(s, 2 + i, ft_strlen(s) - i + 2);
+			ptrs[2] = ft_str_three_join(ptrs[0], lasterrorcode, ptrs[3]);
+			free(ptrs[0]);
+			free(ptrs[1]);
+			free(ptrs[3]);
+			s = ptrs[2];
+			i += ft_strlen(lasterrorcode);
 		}
 		i++;
 	}
-	free(*tokenstr);
 	*tokenstr = s;
 	return (true);
 }
@@ -181,6 +193,7 @@ bool	simple_quotes_eraser(t_dlist *lexed_list)
 bool	expander(t_dlist *lexed_list, t_config *config)
 {
 	t_dlist	*tmp;
+	t_dlist	*tmp2;
 
 	if (!lexed_list)
 		return (false);
@@ -194,12 +207,22 @@ bool	expander(t_dlist *lexed_list, t_config *config)
 		if (ft_strchr(ptr_to_lexertoklist(tmp->content)->token, '$'))
 		{
 			if (check_expansion(ptr_to_lexertoklist(tmp->content)->token))
-				expand_token(&ptr_to_lexertoklist(tmp->content)->token, config->environnement, config->pidstr);
+			{
+				expand_token(&ptr_to_lexertoklist(tmp->content)->token, config->environnement, config);
+				if (ft_strlen(ptr_to_lexertoklist(tmp->content)->token) == 0 && dll_size(&lexed_list) > 1)
+				{
+					tmp2 = tmp;
+					tmp->prev->next = tmp->next;
+					tmp2->next->prev = tmp2->prev;
+				}
+				else if (dll_size(&lexed_list) == 1)
+					return (false);
+			}
 		}	
 		tmp = tmp->next;
 		if (tmp == lexed_list)
 			break ;
 	}
-	// print_token_list(&lexed_list);
+	print_token_list(&lexed_list);
 	return (true);
 }

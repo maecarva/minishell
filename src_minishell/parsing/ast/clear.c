@@ -18,10 +18,14 @@ void	free_ast(t_btree **ast)
 
 	if (!(*ast))
 		return ;
-	free_ast(&(*ast)->left);
-	free_ast(&(*ast)->right);
+	if ((*ast)->left)
+		free_ast(&(*ast)->left);
+	if ((*ast)->right)
+		free_ast(&(*ast)->right);
 
 	n = (t_node2 *)(*ast)->item;
+	if (n == NULL)
+		return ;
 	if (n->file)
 		free(n->file);
 	if (n->command)
