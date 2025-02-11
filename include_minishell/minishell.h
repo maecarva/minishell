@@ -6,10 +6,10 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 14:41:06 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/09 19:34:34 by maecarva         ###   ########.fr       */
-/*   Updated: 2025/02/06 18:20:26 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/11 18:21:55 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -221,7 +221,7 @@ void	free_ast(t_btree **ast);
 /* Builtin functions */
 
 /* echo */
-void	echo(t_btree *tree, char **envp);
+void	echo(t_config *ms_data);
 
 /* Free */
 void	free_minishell(t_config **ms_data);
