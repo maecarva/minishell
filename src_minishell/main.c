@@ -6,23 +6,11 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 10:05:52 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/09 19:34:55 by maecarva         ###   ########.fr       */
+/*   Updated: 2025/02/11 17:25:00 by maecarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include_minishell/minishell.h"
-
-void	print_env(t_config *minishell)
-{
-	int	i;
-
-	i = 0;
-	while (minishell->environnement[i])
-	{
-		printf("%s\n", minishell->environnement[i]);
-		i++;
-	}
-}
 
 int	main(int ac, char **av, char **env)
 {
@@ -41,9 +29,8 @@ int	main(int ac, char **av, char **env)
 	{
 		cmd = readline(minishell->prompt);
 		if (!cmd)
-			return (printf("exit\n"), clear_minishell(minishell), 1);
+			return (printf("exit\n"), clear_minishell(minishell));
 		add_history(cmd);
-
 		if (cmd[0] != '\0')
 		{
 			ast = parse_cmd2(cmd, minishell);
@@ -53,9 +40,9 @@ int	main(int ac, char **av, char **env)
 				free(cmd);
 				continue ;
 			}
+			free(cmd);
 			check_type_execute(minishell);
 			free_ast(&ast);
-			free(cmd);
 		}
 	}
 	return (clear_minishell(minishell));
