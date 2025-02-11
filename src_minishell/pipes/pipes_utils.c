@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 09:42:12 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/06 18:17:37 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/11 14:33:04 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,8 @@ void	init_p_data(t_pipes *p_data, t_config *ms_data)
 	p_data->fd = create_fd(p_data->nb_pipes);
 	if (!p_data->fd)
 		free_minishell(&ms_data);
-	p_data->fd_infile = 0;
-	p_data->fd_outfile = 1;
+	p_data->name_infile = NULL;
+	p_data->name_outfile = NULL;
 	p_data->pid_last_parent = -1;
 	p_data->ms_data = ms_data;
 }
