@@ -117,7 +117,15 @@ typedef enum e_lexertok
 	CMD = 5,
 	ARGS = 6,
 	FILE_ARG = 7,
-	ERROR = 8
+	// builtin
+	ECHO,
+	CD,
+	PWD,
+	EXPORT,
+	UNSET,
+	ENV,
+	EXIT,
+	ERROR
 }	t_lexertok;
 
 typedef struct s_lexertoklist
@@ -187,7 +195,7 @@ typedef	struct	s_node2
 
 // init
 t_config	*init(int ac, char **av, char **env);
-void		clear_minishell(t_config *minishell);
+int		clear_minishell(t_config *minishell);
 // // env
 char		**init_environnement(char **env);
 char	*get_value_by_name(char **envp, char *name);

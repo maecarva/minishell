@@ -51,14 +51,13 @@ int	main(int ac, char **av, char **env)
 			if (!minishell->ast)
 			{
 				free(cmd);
-				break;
+				continue ;
 			}
 			check_type_execute(minishell);
 			free_ast(&ast);
 			free(cmd);
 		}
 	}
-	clear_minishell(minishell);
-	return (EXIT_SUCCESS);
+	return (clear_minishell(minishell));
 }
 

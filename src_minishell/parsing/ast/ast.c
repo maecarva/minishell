@@ -63,7 +63,7 @@ bool	create_ast(t_btree **ast, t_dlist *tokenlist, t_config *config)
 {
 	construct(ast, tokenlist, tokenlist->prev);
 	handle_redirections(ast, tokenlist, tokenlist->prev);
-	print_arbre(*ast, 0);
+	// print_arbre(*ast, 0);
 	if (!tokenlist || !config)
 		return (false);
 	return (true);
