@@ -12,10 +12,13 @@
 
 #include "../../include_minishell/minishell.h"
 
-void	clear_minishell(t_config *minishell)
+int	clear_minishell(t_config *minishell)
 {
+	int	errorcode;
+
 	if (!minishell)
-		return ;
+		return (0);
+	errorcode = minishell->last_error_code;
 	if (minishell->prompt)
 		free(minishell->prompt);
 	if (minishell->current_path)
@@ -23,4 +26,5 @@ void	clear_minishell(t_config *minishell)
 	ft_free_double_ptr(&minishell->environnement);
 	free(minishell->pidstr);
 	free(minishell);
+	return (errorcode);
 }

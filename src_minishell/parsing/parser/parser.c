@@ -14,6 +14,29 @@
 
 // <Makefile cat| echo "$PWD 'hola'" ~/src | 'tr' -d / >outfile
 
+void	delete_doubles_quotes(char *cmd)
+{
+	int	i;
+
+	if (!cmd)
+		return ;
+	i = 0;
+	while (cmd[i])
+	{
+		if (ft_strnstr(&cmd[i], "\"\"", ft_strlen(&cmd[i])) == &cmd[i])
+		{
+			ft_strlcpy(&cmd[i], &cmd[i + 2], ft_strlen(&cmd[i]));
+			continue ;
+		}
+		if (ft_strnstr(&cmd[i], "\'\'", ft_strlen(&cmd[i])) == &cmd[i])
+		{
+			ft_strlcpy(&cmd[i], &cmd[i + 2], ft_strlen(&cmd[i]));
+			continue ;
+		}
+		i++;
+	}
+}
+
 t_btree	*parse_cmd2(char *cmd, t_config *config)
 {
 	t_btree	*ast;
@@ -24,7 +47,6 @@ t_btree	*parse_cmd2(char *cmd, t_config *config)
 		return (NULL);
 	ast = NULL;
 	trimmed = NULL;
-	// printf("command to parse : {%s}\n", cmd);
 	// 1 : trim cmd
 	trimmed = ft_strtrim(cmd, WHITESPACES);
 	if (!trimmed)
@@ -38,6 +60,9 @@ t_btree	*parse_cmd2(char *cmd, t_config *config)
 		config->last_error_code = 2;
 		return (free(trimmed), NULL);
 	}
+	// delete empty quotes
+	delete_doubles_quotes(trimmed);
+
 	// 3 : lexer string and check invalid redirections
 	if (!lexer(trimmed, &lexed))
 	{

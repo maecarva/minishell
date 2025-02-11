@@ -30,7 +30,7 @@ bool	expand_token(char	**tokenstr, char **envp, t_config *config)
 	{
 		ft_bzero(ptrs, sizeof(char *) * 4);
 		ft_bzero(sub, sizeof(int) * 2);
-		if (s[i] == '$' && s[i + 1] != '$' && s[i + 1] != '?')
+		if (s[i] == '$' && s[i + 1] != '$' && s[i + 1] != '?' && s[i + 1] != ' ')
 		{
 			i++;
 			if (s[i] == '\0')
@@ -180,6 +180,11 @@ bool	simple_quotes_eraser(t_dlist *lexed_list)
 		{
 			token[ft_strlen(token)] = '\0';
 			ft_strlcpy(token, &token[1], ft_strlen(&token[1]));
+		}	
+		if (token[ft_strlen(token) - 1] == '\'' && token[ft_strlen(token) - 2] == '\'')
+		{
+			token[ft_strlen(token) - 1] = '\0';
+			token[ft_strlen(token) - 1] = '\0';
 		}
 		tmp = tmp->next;
 		if (tmp == lexed_list)

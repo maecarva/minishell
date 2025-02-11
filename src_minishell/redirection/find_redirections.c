@@ -31,7 +31,7 @@ void	get_outfile(t_btree *cmdn, t_pipes *p_data) // ne pas oublier de checker le
 	int	flags;
 
 	p_data->fd_outfile = 1;
-	print_arbre(cmdn, 0);
+	// print_arbre(cmdn, 0);
 	while (cmdn->left != NULL)
 	{
 		cmdn = cmdn->left;

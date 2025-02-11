@@ -59,8 +59,15 @@ bool	check_redir(char *cmd)
 	if (!cmd)
 		return (false);
 	cmdlen = ft_strlen(cmd) - 1;
+	if (cmd[cmdlen] == '>' && cmd[cmdlen - 1] == '>')
+	{
+		if (cmdlen == 2)
+			return (ft_putstr_fd(" syntax error near unexpected token `>'\n", STDERR_FILENO), true);
+		else if (ft_count_char_in_str(cmd, '>') > 2)
+			return (ft_putstr_fd(" syntax error near unexpected token `>>'\n", STDERR_FILENO), true);
+	}
 	if (cmd[cmdlen] == '<' || cmd[cmdlen] == '>')
-		return (true);
+		return (ft_putstr_fd(" syntax error near unexpected token `newline'\n", STDERR_FILENO), true);
 	return (false);
 }
 
@@ -69,19 +76,25 @@ bool	check_pipes(char *cmd) // peut etre pas 100%bon
 	int	cmdlen;
 	int	i;
 	bool	pipe;
+	char	lastchar;
 
 	if (!cmd)
 		return (false);
 	i = -1;
 	pipe = false;
 	cmdlen = ft_strlen(cmd) - 1;
+	lastchar = cmd[0];
 	if (cmd[cmdlen] == '|' || *cmd == '|')
 		return (true);
 	while (++i < cmdlen)
 	{
+		if (!ft_isspace(cmd[i]) && cmd[i] != '|')
+			lastchar = cmd[i];
 		if (cmd[i] == '|')
 		{
-				pipe = !pipe;
+			if (lastchar == '>' || lastchar == '<')
+				return (true);
+			pipe = !pipe;
 			while (i < cmdlen && ft_isspace(cmd[++i]))
 				;
 		}
@@ -94,6 +107,7 @@ bool	check_pipes(char *cmd) // peut etre pas 100%bon
 // return true if invalid input
 bool	check_invalid_input(char *cmd)
 {
+	// bool	errors[3]; // quotes, redir, pipe
 	if (!cmd)
 		return (false);
 	// check whitespaces
@@ -102,11 +116,11 @@ bool	check_invalid_input(char *cmd)
 	// check quotes
 	if (check_quotes(cmd))
 		return (printf("Invalid quotes.\n"), true);
-	// check redir
-	if (check_redir(cmd))
-		return (printf("Invalid redirection.\n"), true);
 	// check pipes
 	if (check_pipes(cmd))
-		return (printf("Invalid pipes\n"), true);
+		return (ft_putstr_fd(" syntax error near unexpected token `|'\n", STDERR_FILENO), true);
+	// check redir
+	if (check_redir(cmd))
+		return (true);
 	return (false);
 }
