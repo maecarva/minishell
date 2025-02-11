@@ -71,8 +71,37 @@ void	print_node(t_btree *node)
 			printf("HERE_DOC << ");
 			printf("%s\n", n->file);
 		break ;
+		case ECHO:
+			printf("ECHO ");
+			printf("%s\n", n->command);
+		break ;
+		case CD:
+			printf("CD ");
+			printf("%s\n", n->command);
+		break ;
+		case PWD:
+			printf("PWD ");
+			printf("%s\n", n->command);
+		break ;
+		case EXPORT:
+			printf("EXPORT ");
+			printf("%s\n", n->command);
+		break ;
+		case UNSET:
+			printf("UNSET ");
+			printf("%s\n", n->command);
+		break ;
+		case ENV:
+			printf("ENV ");
+			printf("%s\n", n->command);
+		break ;
+		case EXIT:
+			printf("EXIT ");
+			printf("%s\n", n->command);
+		break ;
 		default:
 			printf("WRONG TYPE ");
+		break ;
 	}
 }
 

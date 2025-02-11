@@ -6,24 +6,33 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 17:16:59 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/05 13:51:12 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/11 18:28:13 by maecarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../include_minishell/minishell.h"
 
-void	execute_cd(t_minishell *ms_data, t_command cmd_data)
+void	execute_cd(char *cmd, t_config *minishell)
 {
-	char	*new_path_cmd;
+	int	i;
 
-	if (cmd_data.flags != NULL)
+	if (!cmd)
+		return ;
+	i = 0;
+	if (ft_count_char_in_str(cmd, ' ') >= 2)
 	{
-		ft_putstr("cd: -", 2);
-		ft_putstr(cmd_data.flags[0], 2);
-		ft_putendl(": invalid option", 2);
-		exit(2);
+		minishell->last_error_code = 1;
+		ft_putstr_fd(" too many arguments\n", 2);
+		return ;
 	}
-	new_path_cmd = ft_strdup("");
-	if (new_path_cmd)
-	if (access(path_cmd, X_OK) == 0)
+	while (cmd[i] && !ft_isspace(cmd[i]))
+		i++;
+	while (cmd[i] && ft_isspace(cmd[i]))
+		i++;
+	if (chdir(&cmd[i]) == -1)
+	{
+		ft_putstr_fd(" no such file or directory\n", 2);
+		minishell->last_error_code = 1;
+	}
+	minishell->last_error_code = 0;
 }

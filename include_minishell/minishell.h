@@ -71,6 +71,8 @@
 /* ? */
 # define INIT_OK 0
 
+# define MAX_PATH 2048
+
 /* Colors */
 
 # define KNRM  "\x1B[0m"
@@ -229,6 +231,10 @@ void	free_ast(t_btree **ast);
 /* Builtin functions */
 
 /* echo */
+void	execute_pwd(char *cmd, t_config *minishell);
+void	execute_env(char *cmd, t_config *minishell);
+void	execute_exit(char *cmd, t_config *minishell);
+void	execute_cd(char *cmd, t_config *minishell);
 void	echo(t_config *ms_data);
 
 /* Free */
