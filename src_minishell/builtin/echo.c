@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 11:16:52 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/11 18:34:15 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/13 13:23:33 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,26 @@
 
 static bool	get_echo_flag(char *cmd, int *i)
 {
-	int		k;
 	bool	flag;
+	int		k;
 
-	k = 0;
+	k = 5;
 	flag = false;
-	while (ft_isspace(cmd[k]) == 0 && cmd[k] != 'n' && cmd[k] != '-')
+	while (cmd[k])
 	{
-		ft_skip_spaces(cmd, &k);
-		if (cmd[k] == '-')
+		while (ft_isspace(cmd[k]) == 1)
 			k++;
-		while (cmd[*i] == 'n')
-			k++;
-		if (ft_isspace(cmd[*i]) == 0)
-			return (flag);
 		*i = k;
-		flag = true;
-
+		if (cmd[k] != '-')
+			break;
+		k++;
+		while (cmd[k] == 'n')
+			k++;
+		if (!((cmd[k] == '\0' || ft_isspace(cmd[k]) == 1) && cmd[k - 1] == 'n'))
+			break;
+		if (flag == false)
+			flag = true;
+		*i = k;
 	}
 	return (flag);
 }
@@ -40,10 +43,11 @@ void	echo(t_config *ms_data)
 	int		i;
 	bool	flag;
 
-	i = 0;
+	fprintf(stderr,"hello, je suis ici\n");
+	i = 5;
 	flag = get_echo_flag(((t_node2 *)(ms_data->ast->item))->command, &i);
 	if (flag == false)
-		printf("%s\n", ((t_node2 *)(ms_data->ast->item))->command);
+		printf("%s\n", ((t_node2 *)(ms_data->ast->item))->command + i);
 	else
-		printf("%s", ((t_node2 *)(ms_data->ast->item))->command);
+		printf("%s", ((t_node2 *)(ms_data->ast->item))->command + i);
 }

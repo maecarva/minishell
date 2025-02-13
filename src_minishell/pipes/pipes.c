@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: x03phy <x03phy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:10:04 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/07 13:51:59 by x03phy           ###   ########.fr       */
+/*   Updated: 2025/02/13 11:25:17 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipes.h"
 
-void	check_children(t_pipes *data)
+void	check_children(t_pipes *p_data)
 {
 	pid_t	pid;
 	int		status;
@@ -26,12 +26,16 @@ void	check_children(t_pipes *data)
 			ft_perror("waitpid", ERROR_CODE);
 		exit_code = WEXITSTATUS(status);
 		if (exit_code == ERROR_CODE)
-			exit(ERROR_CODE);
-		if (pid == data->pid_last_parent)
+			p_data->ms_data->last_error_code = ERROR_CODE;
+		if (pid == p_data->pid_last_parent)
 		{
 			if (exit_code == ERROR_COMMAND || exit_code == ERROR_CODE
 				|| exit_code == EXIT_FAILURE)
-				fprintf(stderr, "should exit 127\n"); //exit(exit_code);
+			{
+				if (p_data->ms_data->last_error_code != ERROR_CODE)	
+				p_data->ms_data->last_error_code = exit_code;
+			}
+
 		}
 	}
 }
@@ -42,7 +46,10 @@ void	pipes(t_config *ms_data)
 
 	init_p_data(&p_data, ms_data);
 	if (p_data.nb_pipes == 0)
-		simple_command(&p_data);
+	{
+		if (simple_command(&p_data) == 1)
+			ms_data->last_error_code = EXIT_FAILURE;
+	}
 	else
 	{
 		first_parent(&p_data);
