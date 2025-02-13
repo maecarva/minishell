@@ -101,7 +101,7 @@ static void	handle_path(char ***cmds, char **path_cmd, t_pipes *p_data)
 	else
 
 		size = target - p_data->cmd;
-	*path_cmd = calloc(sizeof(char), (size + 1));
+	*path_cmd = ft_calloc(sizeof(char), (size + 1));
 
 	if (!*path_cmd)
 	{

@@ -6,7 +6,7 @@
 #    By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/08 14:24:44 by ebonutto          #+#    #+#              #
-#    Updated: 2025/02/11 17:42:26 by ebonutto         ###   ########.fr        #
+#    Updated: 2025/02/12 17:27:31 by maecarva         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -83,7 +83,9 @@ SRC_EXTRA = ft_abs.c \
 			ft_strcmp.c \
 			ft_swap.c \
 			ft_split_charset.c \
-			ft_count_char_in_str.c
+			ft_count_char_in_str.c \
+			ft_only_whitespaces_after.c \
+			ft_is_in_charset.c
 
 SRC_DOUBLE_LINKED_LIST = dll_add_back.c \
 						 dll_new.c \

@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 11:16:18 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/11 17:38:34 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/12 17:27:11 by maecarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <stdlib.h>
 # include <stdio.h>
 # include <stdint.h>
+# include <stdbool.h>
 # include "../src_binary_tree_libft/ft_btree.h"
 
 
@@ -77,6 +78,7 @@ char	*ft_strrchr(const char *s, int c);
 char	*ft_strtrim(char const *s1, char const *set);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 int		ft_count_char_in_str(char *str, char c);
+bool	ft_is_in_charset(char c, char *charset);
 
 // memory
 void	ft_bzero(void *s, size_t n);
@@ -107,6 +109,7 @@ void	ft_skip_spaces(char *str, int *i);
 char	*ft_str_three_join(char const *s1, char const *s2, char const *s3);
 int		ft_strcmp(char *src1, char *src2);
 void	ft_swap(int *a, int *b);
+bool	ft_only_whitespaces_after(char *str);
 
 // double linked list
 void	dll_clear(t_dlist **dlist);

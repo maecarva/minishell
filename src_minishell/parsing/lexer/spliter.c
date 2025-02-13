@@ -6,7 +6,7 @@
 /*   By: maecarva <maecarva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 13:01:37 by maecarva          #+#    #+#             */
-/*   Updated: 2025/02/07 17:16:18 by maecarva         ###   ########.fr       */
+/*   Updated: 2025/02/13 21:20:15 by maecarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,11 @@
 
 void	putstrn(char *str, int start, int end)
 {
-		write(1, &str[start], end);
-		ft_putchar_fd('\n', 1);
-		start++;
+	int	i;
+	i = start - 1;
+	while (++i < end || str[i] == '\0')
+		write(1, &str[i], 1);
+	ft_putchar_fd('\n', 1);
 }
 
 bool	is_in_same_command(t_dlist **dlist)
@@ -47,8 +49,12 @@ t_lexertok	get_token_type(char *token, t_dlist **dlist)
 	type = ERROR;
 	tmp = NULL;
 
-	if (token[0] == '|')
+	if (token[0] == '|' && token[1] == '\0')
 		type = PIPE_TOKEN;
+	else if (token[0] == '|' && token[1] == '|')
+			type = OR;
+	else if (token[0] == '&' && token[1] == '&')
+			type = AND;
 	else if (token[0] == '<' && token[1] == '\0')
 		type = REDIRECT_INPUT;
 	else if (token[0] == '>' && token[1] == '\0')
@@ -98,11 +104,6 @@ bool	add_to_token_list(t_dlist **dlist, char *cmd, int start, int end)
 	return (true);
 }
 
-// todo
-// allocate list and put each element inside
-// assign a token to each element
-// print list + token
-
 // specificite pour quotes
 void	extract_quoted(char *cmd, int *i, int *start, int *end)
 {
@@ -125,7 +126,12 @@ void	extract_quoted(char *cmd, int *i, int *start, int *end)
 			squote = !squote;
 		if (cmd[*end] == '\"')
 			dquotes = !dquotes;
-		if (cmd[*end] == cquote && squote == false && dquotes == false)
+		if (squote == false && dquotes == false && ft_isspace(cmd[*end]))
+			break ;
+		if (cmd[*end] == cquote && squote == false && dquotes == false && !ft_isalnum(cmd[*end + 1])
+			&& !ft_is_in_charset(cmd[*end], "\'\""))
+			break ;
+		if (cmd[*end + 1] == '\0')
 			break ;
 		*end += 1;
 	}
@@ -178,10 +184,8 @@ t_dlist	*spliter(char *cmd)
 			while (cmd[i] && !ft_isspace(cmd[i]) && !ft_strchr(SPECIALS_TOKEN, cmd[i]))
 				i++;
 			end = i - start;
-			// putstrn(cmd, start, end);
 			add_to_token_list(&splited, cmd, start, end);
 		}
-		// add_to_token_list(&splited, cmd, start, end);
 		while (cmd[i] && ft_isspace(cmd[i]))
 			i++;
 	}

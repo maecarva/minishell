@@ -35,20 +35,22 @@ int	count_token_type(t_dlist *start, t_dlist *end, int	*redirtokcount)
 
 char	*extractcmd(t_dlist *start, t_dlist *end)
 {
-	int		i;
+	// int		i;
 	int		totallen;
 	t_dlist	*tmp;
 	char	*cmd;
+	char	*token;
 
 	if (!start || !end)
 		return (NULL);
-	i = 0;
+	// i = 0;
 	totallen = 0;
 	tmp = start;
 	while (tmp)
 	{
+		token = ptr_to_lexertoklist(tmp->content)->token;
 		if ((ptr_to_lexertoklist(tmp->content)->type == CMD || ptr_to_lexertoklist(tmp->content)->type == ARGS))
-			totallen += ft_strlen(ptr_to_lexertoklist(tmp->content)->token) + 1;
+			totallen += ft_strlen(token) + 1;
 		if (tmp == end)
 			break ;
 		tmp = tmp->next;
@@ -59,10 +61,11 @@ char	*extractcmd(t_dlist *start, t_dlist *end)
 	tmp = start;
 	while (tmp)
 	{
+		token = ptr_to_lexertoklist(tmp->content)->token;
 		if (ptr_to_lexertoklist(tmp->content)->type == CMD || ptr_to_lexertoklist(tmp->content)->type == ARGS)
 		{
-			ft_strlcat(cmd, ptr_to_lexertoklist(tmp->content)->token, totallen);
-			if (ft_strlen(ptr_to_lexertoklist(tmp->content)->token) != 0)
+			ft_strlcat(cmd, token, totallen);
+			if (ft_strlen(token) != 0 && !ft_isspace(token[ft_strlen(token) - 1]))
 				ft_strlcat(cmd, " ", totallen);
 		}
 		if (tmp == end)

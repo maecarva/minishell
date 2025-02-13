@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 14:41:06 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/11 18:21:55 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/13 21:19:10 by maecarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@
 /* Libraries */
 
 /* A definir */
-# include <readline/readline.h>
+// # include <readline/readline.h>
 
 /* A definir */
-# include <readline/history.h>
+// # include <readline/history.h>
 
 /* For pid_t */
 # include <sys/types.h>
@@ -50,6 +50,14 @@
 
 # include "../libs/libft/include_libft/libft.h"
 # include "../libs/gnl/include_gnl/get_next_line.h"
+/* A definir */
+# include <readline/readline.h>
+
+/* A definir */
+# include <readline/history.h>
+
+/* directory */
+# include <dirent.h>
 
 /* Number constants */
 
@@ -72,6 +80,11 @@
 # define INIT_OK 0
 
 # define MAX_PATH 2048
+
+# define GETALLFILES 1
+# define SEARCHFORFILES 2
+
+# define NO_ENV_DEFAULT_SIZE 6
 
 /* Colors */
 
@@ -127,6 +140,8 @@ typedef enum e_lexertok
 	UNSET,
 	ENV,
 	EXIT,
+	OR,
+	AND,
 	ERROR
 }	t_lexertok;
 
@@ -167,8 +182,10 @@ typedef	struct s_config {
 # define R_RIGHTCHAR	'>'
 # define HERE_DOC		"<<"
 
-# define SPECIALS_TOKEN	"|<>"
+# define SPECIALS_TOKEN	"|<>&"
 # define WHITESPACES	" \t\n\v\f\r"
+# define EXPAND_CHARSET "$?\'\""
+
 
 
 /* Prototypes */
@@ -204,7 +221,11 @@ char	*get_value_by_name(char **envp, char *name);
 
 
 /* Signals */
-void	init_signals(void);
+void	signals_interactive_mode(void);
+void	signals_non_interactive_mode(void);
+
+
+// temporary
 t_btree	*arbre_bidon();
 
 /*		PARSING		*/
@@ -219,9 +240,10 @@ void	print_token_list(t_dlist **dlist);
 void	handle_redirections(t_btree **node, t_dlist *start, t_dlist *end);
 // expander
 bool	expander(t_dlist *lexed_list, t_config *config);
+void	expand_wildcards(char **cmd);
 // ast
 bool	create_ast(t_btree **ast, t_dlist *tokenlist, t_config *config);
-t_btree	*create_pipe_node();
+t_btree	*create_operator_node(t_lexertok type);
 t_btree	*create_cmd_node(t_dlist *start, t_dlist *end);
 void	free_ast(t_btree **ast);
 /*		END PARSING		*/

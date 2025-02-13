@@ -6,7 +6,7 @@
 #    By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/08 14:19:08 by ebonutto          #+#    #+#              #
-#    Updated: 2025/02/11 18:03:07 by maecarva         ###   ########.fr        #
+#    Updated: 2025/02/12 17:50:24 by maecarva         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,6 +52,7 @@ SRC = src_minishell/main.c \
 	  src_minishell/parsing/lexer/spliter.c \
 	  src_minishell/parsing/lexer/lexer_utils.c \
 	  src_minishell/parsing/expander/expander.c \
+	  src_minishell/parsing/expander/wildcards.c \
 	  src_minishell/parsing/ast/ast.c \
 	  src_minishell/parsing/ast/command_node.c \
 	  src_minishell/parsing/ast/pipe_node.c \

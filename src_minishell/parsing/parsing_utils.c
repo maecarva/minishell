@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
+/*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 17:59:56 by maecarva          #+#    #+#             */
-/*   Updated: 2025/02/07 09:35:53 by maecarva         ###   ########.fr       */
+/*   Updated: 2025/02/13 21:28:50 by maecarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	print_node(t_btree *node)
 	t_node2 *n = ptr_to_node(node->item);
 	switch (n->type) {
 		case PIPE_TOKEN:
-			printf("PIPE ");
+			printf("PIPE \n");
 		break ;
 		case CMD:
 			printf("COMMAND= ");
@@ -99,6 +99,13 @@ void	print_node(t_btree *node)
 			printf("EXIT ");
 			printf("%s\n", n->command);
 		break ;
+		case OR:
+			printf("OR \n");
+		break ;
+		case AND:
+			printf("AND \n");
+		break ;
+
 		default:
 			printf("WRONG TYPE ");
 		break ;

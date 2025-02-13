@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 10:05:52 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/11 17:25:00 by maecarva         ###   ########.fr       */
+/*   Updated: 2025/02/13 21:31:14 by maecarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ int	main(int ac, char **av, char **env)
 	char	*cmd;
 	t_btree	*ast;
 
-	// init_signals();
 	minishell = init(ac, av, env);
 	if (!minishell)
 		return (1);
@@ -40,8 +39,9 @@ int	main(int ac, char **av, char **env)
 				free(cmd);
 				continue ;
 			}
+			print_arbre(minishell->ast, 0);
 			free(cmd);
-			check_type_execute(minishell);
+			// check_type_execute(minishell);
 			free_ast(&ast);
 		}
 	}

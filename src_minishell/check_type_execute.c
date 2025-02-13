@@ -15,7 +15,7 @@
 
 void	check_type_execute(t_config *ms_data)
 {
-	if (((t_node2 *)(ms_data->ast->item))->type == CMD && ft_strncmp("echo", ((t_node2 *)(ms_data->ast->item))->command, 4))
+	if (((t_node2 *)(ms_data->ast->item))->type == ECHO)
 		echo(ms_data);
 	else if (((t_node2 *)(ms_data->ast->item))->type == CMD)
 		pipes(ms_data);
