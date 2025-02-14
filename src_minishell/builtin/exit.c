@@ -57,6 +57,6 @@ void	execute_exit(char *cmd, t_config *minishell)
 		}
 		exit_code = ft_atoi(&cmd[i]);
 	}
+	minishell->last_error_code = exit_code;
 	clear_minishell(minishell);
-	exit(exit_code * sign);
 }

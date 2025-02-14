@@ -64,7 +64,7 @@ static void	simple_child(t_pipes *p_data)
 	}
 	ft_close(fd_outfile);
 	p_data->cmd = ((t_node2 *)(p_data->ms_data->ast->item))->command;
-	fprintf(stderr, "cmd_to_execute:%s\n", p_data->cmd);
+	// fprintf(stderr, "cmd_to_execute:%s\n", p_data->cmd);
 	execute_command(p_data);
 }
 
