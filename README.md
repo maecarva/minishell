@@ -50,3 +50,5 @@ A free:
   tree
   current_path
   prompt ??
+
+valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --suppressions=readline.supp ./minishell

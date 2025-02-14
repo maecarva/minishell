@@ -260,7 +260,7 @@ void	execute_cd(char *cmd, t_config *minishell);
 void	echo(t_config *ms_data);
 
 /* Free */
-void	free_minishell(t_config **ms_data);
+// void	free_minishell(t_config **ms_data);
 
 /* Debuging */
 void	print_arbre(t_btree *root, int level);

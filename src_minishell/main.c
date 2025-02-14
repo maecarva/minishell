@@ -12,12 +12,13 @@
 
 #include "../include_minishell/minishell.h"
 
-int	main(int ac, char **av, char **env)
-{
-	t_config	*minishell;
 	// char		*cmd = "<infile << limiter wc -c > outfile >> appendfile";
 	// char		*cmd = "ls -la | wc -c | grep README.md > outfile.txt";
 	// char		*cmd = "<Makefile cat| echo \"$PWD '\"hola\"'\" ~/src | 'tr' -d / >outfile";
+
+int	main(int ac, char **av, char **env)
+{
+	t_config	*minishell;
 	char	*cmd;
 	t_btree	*ast;
 
@@ -47,4 +48,3 @@ int	main(int ac, char **av, char **env)
 	}
 	return (clear_minishell(minishell));
 }
-

@@ -95,7 +95,7 @@ char	*ft_itoa(int n);
 
 //extra
 int		ft_abs(int nb);
-void	ft_close(int fd1, int fd2);
+void	ft_close(int fd);
 void	ft_error(char *str, int exit_status);
 void	ft_free_double_ptr(char ***split);
 void	ft_free_simple_ptr(char **ptr);
