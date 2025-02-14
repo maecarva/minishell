@@ -1,26 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipe_node.c                                        :+:      :+:    :+:   */
+/*   ft_is_in_charset.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: maecarva <maecarva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/09 15:43:54 by maecarva          #+#    #+#             */
-/*   Updated: 2025/02/13 21:12:16 by maecarva         ###   ########.fr       */
+/*   Created: 2025/02/12 17:25:40 by maecarva          #+#    #+#             */
+/*   Updated: 2025/02/12 17:27:02 by maecarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../include_minishell/minishell.h"
+#include "../include_libft/libft.h"
 
-t_btree	*create_operator_node(t_lexertok type)
+bool	ft_is_in_charset(char c, char *charset)
 {
-	t_node2	*node;
+	int	i;
 
-	node = ft_calloc(sizeof(t_node2), 1);
-	if (!node)
-		return (NULL);
-	node->type = type;
-	node->command = NULL;
-	node->file = NULL;
-	return (ft_btree_create_node(node));
+	if (!charset)
+		return (false);
+	i = 0;
+	while (charset[i])
+	{
+		if (charset[i] == c)
+			return (true);
+		i++;
+	}
+	return (false);
 }

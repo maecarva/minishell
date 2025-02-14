@@ -6,7 +6,7 @@
 /*   By: maecarva <maecarva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 09:31:40 by maecarva          #+#    #+#             */
-/*   Updated: 2025/02/07 17:14:58 by maecarva         ###   ########.fr       */
+/*   Updated: 2025/02/13 20:58:05 by maecarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@ bool	check_quotes(char *cmd)
 	i = 0;
 	while (cmd[i])
 	{
-		if (cmd[i] == '\'')
+		if (cmd[i] == '\'' && doubleq == false)
 			single = !single;
-		if (cmd[i] == '"')
+		if (cmd[i] == '\"' && single == false)
 			doubleq = !doubleq;
 		i++;
 	}
@@ -98,8 +98,8 @@ bool	check_pipes(char *cmd) // peut etre pas 100%bon
 			while (i < cmdlen && ft_isspace(cmd[++i]))
 				;
 		}
-		if (cmd[i] == '|' && pipe)
-			return (true);
+		// if (cmd[i] == '|' && pipe)
+		// 	return (true);
 	}
 	return (false);
 }

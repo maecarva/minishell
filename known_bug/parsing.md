@@ -1,10 +1,5 @@
-# lexer
-##  echo ''test'' OU echo ""test""
-- le lexer identifie le premier couple '' comme un token et le reste comme un second token
-- - Solution : retravailler le lexer ou gerer les quotes sans contenu dans l'expander.
+# rules
+## handle cmd like = echo test |  | grep test > output.txt
+create a function next_char to skip spaces and check what is the next character. If special char -> invalid 
 
-## echo hi |  "|"
-- remove "" or '' around |
-
-# todo
-## test syntax
+ echo "'$PWD'"

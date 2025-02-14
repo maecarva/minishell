@@ -35,7 +35,10 @@ char	**init_environnement(char **env)
 		return (NULL);
 	while (env[i])
 	{
-		envp[i] = ft_strdup(env[i]);
+		if (env[i][0] == '_')
+			envp[i] = ft_strdup("_=/usr/bin/env");
+		else
+			envp[i] = ft_strdup(env[i]);
 		if (!envp[i])
 			return (ft_free_double_ptr(&envp), NULL);
 		i++;

@@ -52,6 +52,7 @@ SRC = src_minishell/main.c \
 	  src_minishell/parsing/lexer/spliter.c \
 	  src_minishell/parsing/lexer/lexer_utils.c \
 	  src_minishell/parsing/expander/expander.c \
+	  src_minishell/parsing/expander/wildcards.c \
 	  src_minishell/parsing/ast/ast.c \
 	  src_minishell/parsing/ast/command_node.c \
 	  src_minishell/parsing/ast/pipe_node.c \

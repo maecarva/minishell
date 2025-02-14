@@ -6,7 +6,7 @@
 /*   By: maecarva <maecarva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/09 14:35:38 by maecarva          #+#    #+#             */
-/*   Updated: 2025/02/09 16:18:42 by maecarva         ###   ########.fr       */
+/*   Updated: 2025/02/13 21:21:18 by maecarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,33 @@ bool	list_contain_pipe(t_dlist *start, t_dlist *end, t_dlist **pipeelem)
 	return (false);
 }
 
+bool	list_contain_operator(t_dlist *start, t_dlist *end, t_dlist **operator)
+{
+	t_dlist		*tmp;
+	t_lexertok	type;
+
+	if (!start)
+		return (false);
+	tmp = start;
+	type = ptr_to_lexertoklist(start->content)->type;
+	if (start == end)
+		return (type == PIPE_TOKEN || type == OR || type == AND);
+	while (tmp)
+	{
+		type = ptr_to_lexertoklist(tmp->content)->type;
+		if (type == PIPE_TOKEN || type == OR || type == AND)
+		{
+			*operator = tmp;
+			return (true);
+		}
+		tmp = tmp->next;
+		if (tmp == end)
+			break ;
+	}
+	return (false);
+}
+
+
 void	construct(t_btree **ast, t_dlist *start, t_dlist *end)
 {
 	t_dlist	*tmp;
@@ -42,10 +69,11 @@ void	construct(t_btree **ast, t_dlist *start, t_dlist *end)
 	if (start == NULL || end == NULL)
 		return ;
 	tmp = NULL;
-	if (list_contain_pipe(start, end, &tmp))
+	// if (list_contain_pipe(start, end, &tmp))
+	if (list_contain_operator(start, end, &tmp))
 	{
 		// create pipe node
-		*ast = create_pipe_node();
+		*ast = create_operator_node(ptr_to_lexertoklist(tmp->content)->type);
 		if (!ast)
 			return ;
 		construct(&(*ast)->left, start, tmp->prev);

@@ -6,7 +6,7 @@
 /*   By: maecarva <maecarva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:50:40 by maecarva          #+#    #+#             */
-/*   Updated: 2025/02/09 14:59:03 by maecarva         ###   ########.fr       */
+/*   Updated: 2025/02/12 17:51:53 by maecarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ bool	expand_token(char	**tokenstr, char **envp, t_config *config)
 	{
 		ft_bzero(ptrs, sizeof(char *) * 4);
 		ft_bzero(sub, sizeof(int) * 2);
-		if (s[i] == '$' && s[i + 1] != '$' && s[i + 1] != '?' && s[i + 1] != ' ')
+		if (s[i] == '$' && s[i + 1] != '\0' && !ft_isspace(s[i + 1]) && !ft_is_in_charset(s[i + 1], EXPAND_CHARSET))
 		{
 			i++;
 			if (s[i] == '\0')
@@ -75,7 +75,6 @@ bool	expand_token(char	**tokenstr, char **envp, t_config *config)
 			free(ptrs[3]);
 			s = ptrs[2];
 			continue ;
-			
 		}
 		if (ft_strnstr(&s[i], "$$", ft_strlen("$$")) == &s[i])
 		{
@@ -128,7 +127,7 @@ bool	check_expansion(char *token)
 			dquotes = !dquotes;
 		if (token[i] == '\'' && dquotes)
 			dquotes = !dquotes;
-		if (token[i] == '$' && squote == false && token[i + 1] != '$')
+		if (token[i] == '$' && token[i + 1] != '$' && squote == false)
 			numexp++;
 		i++;
 	}
@@ -137,74 +136,51 @@ bool	check_expansion(char *token)
 	return (true);
 }
 
-bool	double_quotes_eraser(t_dlist *lexed_list)
+void	clean_quotes(char *s)
 {
-	t_dlist	*tmp;
-	char	*token;
+	int		i;
+	int		j;
+	bool	quoted;
 
-	if (!lexed_list)
-		return (false);
-	tmp = lexed_list;
-	while (tmp)
+	if (!s)
+		return ;
+	i = 0;
+	quoted = false;
+	while (s[i])
 	{
-		token = ptr_to_lexertoklist(tmp->content)->token;
-		while (token && *token == '\"' && token[ft_strlen(token) - 1] == '\"')
+		j = 0;
+		if (s[i] == '\'' && quoted == false)
 		{
-			token[ft_strlen(token)] = '\0';
-			ft_strlcpy(token, &token[1], ft_strlen(&token[1]));
+			j = i + 1;
+			while (s[j] && s[j] != '\'')
+				j++;
+			if (s[j] == '\0')
+				break ;
+			ft_strlcpy(&s[j], &s[j + 1], ft_strlen(&s[j]));
+			ft_strlcpy(&s[i], &s[i + 1], ft_strlen(&s[i]));
+			i = j - 2;
 		}
-		if (token[ft_strlen(token) - 1] == '\"' && token[ft_strlen(token) - 2] == '\"')
+		else if (s[i] == '\"' && quoted == false)
 		{
-			token[ft_strlen(token) - 1] = '\0';
-			token[ft_strlen(token) - 1] = '\0';
+			j = i + 1;
+			while (s[j] && s[j] != '\"')
+				j++;
+			if (s[j] == '\0')
+				break ;
+			ft_strlcpy(&s[j], &s[j + 1], ft_strlen(&s[j]));
+			ft_strlcpy(&s[i], &s[i + 1], ft_strlen(&s[i]));
+			i = j - 2;
 		}
-		tmp = tmp->next;
-		if (tmp == lexed_list)
-			break ;
+		i++;
 	}
-	return (true);
 }
 
-bool	simple_quotes_eraser(t_dlist *lexed_list)
-{
-	t_dlist	*tmp;
-	char	*token;
-
-	if (!lexed_list)
-		return (false);
-	tmp = lexed_list;
-	while (tmp)
-	{
-		token = ptr_to_lexertoklist(tmp->content)->token;
-		while (token && *token == '\'' && token[ft_strlen(token) - 1] == '\'')
-		{
-			token[ft_strlen(token)] = '\0';
-			ft_strlcpy(token, &token[1], ft_strlen(&token[1]));
-		}	
-		if (token[ft_strlen(token) - 1] == '\'' && token[ft_strlen(token) - 2] == '\'')
-		{
-			token[ft_strlen(token) - 1] = '\0';
-			token[ft_strlen(token) - 1] = '\0';
-		}
-		tmp = tmp->next;
-		if (tmp == lexed_list)
-			break ;
-	}
-	return (true);
-
-}
-
-// work for $PWD and for $PWD$$$$$$$ but not for multiple exp in same string
 bool	expander(t_dlist *lexed_list, t_config *config)
 {
 	t_dlist	*tmp;
 	t_dlist	*tmp2;
 
 	if (!lexed_list)
-		return (false);
-	if (!double_quotes_eraser(lexed_list))
-		return (false);
-	if (!simple_quotes_eraser(lexed_list))
 		return (false);
 	tmp = lexed_list;
 	while (tmp)
@@ -223,11 +199,12 @@ bool	expander(t_dlist *lexed_list, t_config *config)
 				else if (dll_size(&lexed_list) == 1)
 					return (false);
 			}
-		}	
+		}
+		expand_wildcards(&ptr_to_lexertoklist(tmp->content)->token);
+		clean_quotes(ptr_to_lexertoklist(tmp->content)->token);
 		tmp = tmp->next;
 		if (tmp == lexed_list)
 			break ;
 	}
-	// print_token_list(&lexed_list);
 	return (true);
 }

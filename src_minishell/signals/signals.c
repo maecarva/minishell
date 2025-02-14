@@ -6,16 +6,20 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 17:02:25 by maecarva          #+#    #+#             */
-/*   Updated: 2025/02/05 13:39:37 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/13 20:53:11 by maecarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include_minishell/minishell.h"
-#include <readline/readline.h>
-#include <signal.h>
 
 
-void	signals_handler(int	signal)
+/*
+*	init_minishell -> signals_interactive_mode
+*	when executing non_builtin command -> signals_non_interactive_mode
+*		-> call signals_interactive_mode after child_process finished
+*/
+
+void	interactive_handler(int	signal)
 {
 	if (signal == SIGINT)
 	{
@@ -26,13 +30,28 @@ void	signals_handler(int	signal)
 	}
 }
 
-void	init_signals(void)
+void	signals_interactive_mode(void)
 {
 	struct sigaction        act;
 
 	ft_bzero(&act, sizeof(act));
-	act.sa_handler = &signals_handler;
+	act.sa_handler = &interactive_handler;
 	sigaction(SIGINT, &act, NULL);
-	sigemptyset(&act.sa_mask);
-	// signal(SIGQUIT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
+}
+
+void	non_interactive_handler(int signal)
+{
+	if (signal == SIGINT || signal == SIGQUIT)
+		rl_on_new_line();
+}
+
+void	signals_non_interactive_mode(void)
+{
+	struct sigaction        act;
+
+	ft_bzero(&act, sizeof(act));
+	act.sa_handler = non_interactive_handler;
+	sigaction(SIGINT, &act, NULL);
+	sigaction(SIGQUIT, &act, NULL);
 }

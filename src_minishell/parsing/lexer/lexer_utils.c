@@ -6,7 +6,7 @@
 /*   By: maecarva <maecarva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 15:59:51 by maecarva          #+#    #+#             */
-/*   Updated: 2025/02/08 17:28:04 by maecarva         ###   ########.fr       */
+/*   Updated: 2025/02/13 20:59:49 by maecarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,12 @@ void	print_token_list(t_dlist **dlist)
 				break ;
 			case FILE_ARG:
 				p("%s]\n", "FILE_ARG");
+				break ;
+			case AND:
+				p("%s]\n", "AND");
+				break ;
+			case OR:
+				p("%s]\n", "OR");
 				break ;
 			default:
 				p("%s]\n", "ERROR");
