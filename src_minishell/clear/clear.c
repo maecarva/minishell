@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 14:11:09 by maecarva          #+#    #+#             */
-/*   Updated: 2025/02/04 11:09:20 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/12 12:01:40 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,5 @@ int	clear_minishell(t_config *minishell)
 	ft_free_double_ptr(&minishell->environnement);
 	free(minishell->pidstr);
 	free(minishell);
-	return (errorcode);
+	exit(errorcode);
 }

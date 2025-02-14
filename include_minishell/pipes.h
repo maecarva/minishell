@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 14:09:58 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/11 17:59:41 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/13 10:22:06 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ typedef struct s_pipes
 
 /* Pipes */
 void	pipes(t_config *ms_data);
-void	simple_command(t_pipes *p_data);
+int		simple_command(t_pipes *p_data);
 void	first_parent(t_pipes *p_data);
 void	infinite_parent(t_pipes *p_data);
 void	last_parent(t_pipes *p_data);
@@ -46,9 +46,10 @@ void	execute_command(t_pipes *p_data);
 /* Utilisation */
 void	init_p_data(t_pipes *p_data, t_config *ms_data);
 void	free_fd(int ***fd, int len);
+void	unlink_hd(t_pipes *p_data);
 
 /* Redirection */
-void	get_infile(t_btree *cmd1, t_pipes *p_data);
-void	get_outfile(t_btree *cmdn, t_pipes *p_data);
+int		get_infile(t_pipes *p_data);
+int		get_outfile(t_pipes *p_data);
 
 #endif

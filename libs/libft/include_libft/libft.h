@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 11:16:18 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/11 17:38:34 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/12 15:00:40 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ char	*ft_itoa(int n);
 
 //extra
 int		ft_abs(int nb);
-void	ft_close(int fd1, int fd2);
+void	ft_close(int fd);
 void	ft_error(char *str, int exit_status);
 void	ft_free_double_ptr(char ***split);
 void	ft_free_simple_ptr(char **ptr);

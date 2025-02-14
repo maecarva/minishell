@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 14:41:06 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/11 18:21:55 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/12 14:45:36 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -238,7 +238,7 @@ void	execute_cd(char *cmd, t_config *minishell);
 void	echo(t_config *ms_data);
 
 /* Free */
-void	free_minishell(t_config **ms_data);
+// void	free_minishell(t_config **ms_data);
 
 /* Debuging */
 void	print_arbre(t_btree *root, int level);

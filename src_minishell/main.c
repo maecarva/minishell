@@ -6,21 +6,21 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 10:05:52 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/11 17:25:00 by maecarva         ###   ########.fr       */
+/*   Updated: 2025/02/13 11:41:44 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include_minishell/minishell.h"
 
-int	main(int ac, char **av, char **env)
-{
-	t_config	*minishell;
 	// char		*cmd = "<infile << limiter wc -c > outfile >> appendfile";
 	// char		*cmd = "ls -la | wc -c | grep README.md > outfile.txt";
 	// char		*cmd = "<Makefile cat| echo \"$PWD '\"hola\"'\" ~/src | 'tr' -d / >outfile";
+
+int	main(int ac, char **av, char **env)
+{
+	t_config	*minishell;
 	char	*cmd;
 	t_btree	*ast;
-
 	// init_signals();
 	minishell = init(ac, av, env);
 	if (!minishell)
@@ -47,4 +47,3 @@ int	main(int ac, char **av, char **env)
 	}
 	return (clear_minishell(minishell));
 }
-
