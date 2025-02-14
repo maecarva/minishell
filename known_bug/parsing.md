@@ -4,3 +4,6 @@ create a function next_char to skip spaces and check what is the next character.
 
 echo "'$PWD'"
 maecarva ~> minishell # $?
+
+ls && ls | ls -la = fonctionne
+ls -la && ls && ls = fail

@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:17:02 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/13 10:27:38 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/14 15:08:13 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ static void	first_child(t_pipes *p_data)
 	close(p_data->fd[0][1]);
 	free_fd(&(p_data->fd), p_data->nb_pipes);
 	p_data->cmd = ((t_node2 *)(p_data->ms_data->ast->left->item))->command;
+	p_data->type = ((t_node2 *)(p_data->ms_data->ast->left->item))->type;
 	execute_command(p_data);
 }
 

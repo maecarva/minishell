@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 14:09:58 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/13 10:22:06 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/14 18:16:55 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ typedef struct s_pipes
 	char	*name_outfile;
 	bool	is_hd;
 	char	*cmd;
+	t_lexertok	type;
 	int		flags;
 	int		pid_last_parent;
 	t_config	*ms_data;

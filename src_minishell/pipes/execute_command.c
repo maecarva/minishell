@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:29:18 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/12 17:09:34 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/14 17:28:36 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ static void	handle_path(char ***cmds, char **path_cmd, t_pipes *p_data)
 		p_data->ms_data->last_error_code = ERROR_CODE;
 		clear_minishell(p_data->ms_data);
 	}
-	target = ft_strrchr(p_data->cmd, ' ');
+	target = ft_strchr(target, ' ');
 	if (!target)
 		size = ft_strlen(p_data->cmd);
 	else
@@ -117,6 +117,40 @@ static void	handle_path(char ***cmds, char **path_cmd, t_pipes *p_data)
 	check_access(cmds, path_cmd, p_data);
 }
 
+static void	check_builtin_execute(t_pipes *p_data)
+{
+	if (p_data->type == ECHO)
+	{
+		execute_echo(p_data->cmd, p_data->ms_data);
+		p_data->ms_data->last_error_code = 0;
+		clear_minishell(p_data->ms_data);
+	}
+	else if (p_data->type == PWD)
+	{
+		execute_pwd(p_data->cmd, p_data->ms_data);
+		p_data->ms_data->last_error_code = 0;
+		clear_minishell(p_data->ms_data);
+	}
+	else if (p_data->type == ENV)
+	{
+		execute_env(p_data->cmd, p_data->ms_data);
+		p_data->ms_data->last_error_code = 0;
+		clear_minishell(p_data->ms_data);
+	}
+	else if (p_data->type == EXIT)
+	{
+		execute_exit(p_data->cmd, p_data->ms_data);
+		p_data->ms_data->last_error_code = 0;
+		clear_minishell(p_data->ms_data);
+	}
+	else if (p_data->type == CD)
+	{
+		execute_cd(p_data->cmd, p_data->ms_data);
+		p_data->ms_data->last_error_code = 0;
+		clear_minishell(p_data->ms_data);
+	}
+}
+
 void	execute_command(t_pipes *p_data)
 {
 	char	**cmds;
@@ -124,6 +158,7 @@ void	execute_command(t_pipes *p_data)
 	int		i;
 
 	i = 0;
+	check_builtin_execute(p_data);
 	while (p_data->ms_data->environnement[i] != NULL
 		&& ft_strncmp(p_data->ms_data->environnement[i], "PATH=", 5) != 0)
 		i++;

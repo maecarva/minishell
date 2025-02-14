@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 11:16:52 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/13 13:23:33 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/14 16:30:20 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,16 +38,16 @@ static bool	get_echo_flag(char *cmd, int *i)
 	return (flag);
 }
 
-void	echo(t_config *ms_data)
+void	execute_echo(char *cmd, t_config *ms_data)
 {
 	int		i;
 	bool	flag;
 
-	// fprintf(stderr,"hello, je suis ici\n");
 	i = 5;
-	flag = get_echo_flag(((t_node2 *)(ms_data->ast->item))->command, &i);
+	flag = get_echo_flag(cmd, &i);
 	if (flag == false)
-		printf("%s\n", ((t_node2 *)(ms_data->ast->item))->command + i);
+		printf("%s\n", (cmd + i));
 	else
-		printf("%s", ((t_node2 *)(ms_data->ast->item))->command + i);
+		printf("%s", (cmd + i));
+	ms_data->last_error_code = 0;
 }

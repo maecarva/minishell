@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 14:41:06 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/13 21:19:10 by maecarva         ###   ########.fr       */
+/*   Updated: 2025/02/14 19:32:43 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -257,7 +257,7 @@ void	execute_pwd(char *cmd, t_config *minishell);
 void	execute_env(char *cmd, t_config *minishell);
 void	execute_exit(char *cmd, t_config *minishell);
 void	execute_cd(char *cmd, t_config *minishell);
-void	echo(t_config *ms_data);
+void	execute_echo(char *cmd, t_config *minishell);
 
 /* Free */
 // void	free_minishell(t_config **ms_data);
@@ -266,6 +266,8 @@ void	echo(t_config *ms_data);
 void	print_arbre(t_btree *root, int level);
 
 /* Others (en cours) */
+void	execute_ast(t_btree *original_ast, t_config **ms_data);
+// void	move_in_ast(t_config **ms_data);
 void	check_type_execute(t_config *ms_data);
 
 #endif /* MINISHELL_H */
