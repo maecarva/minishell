@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 10:05:52 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/13 21:31:14 by maecarva         ###   ########.fr       */
+/*   Updated: 2025/02/14 18:52:31 by maecarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,18 @@ int	main(int ac, char **av, char **env)
 		return (1);
 	while (1)
 	{
-		cmd = readline(minishell->prompt);
+		if (isatty(fileno(stdin)))
+			cmd = readline("");
+		else
+		{
+			char *line = NULL;
+			get_next_line(fileno(stdin), &line);
+			if (line == NULL)
+				break ;
+			cmd = ft_strtrim(line, "\n");
+			free(line);
+		}
+		// cmd = readline(minishell->prompt);
 		if (!cmd)
 			return (printf("exit\n"), clear_minishell(minishell));
 		add_history(cmd);

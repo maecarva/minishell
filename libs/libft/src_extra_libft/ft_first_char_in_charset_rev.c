@@ -1,29 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_count_char_in_str.c                             :+:      :+:    :+:   */
+/*   ft_first_char_in_charset_rev.c                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: maecarva <maecarva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/14 15:52:30 by maecarva          #+#    #+#             */
-/*   Updated: 2025/02/14 15:52:31 by maecarva         ###   ########.fr       */
+/*   Created: 2025/02/14 15:58:17 by maecarva          #+#    #+#             */
+/*   Updated: 2025/02/14 16:07:34 by maecarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_count_char_in_str(char *str, char c)
+char	ft_first_char_in_charset_rev(char *s, char *charset, int index)
 {
-	int	count;
-
-	count = 0;
-	if (!str)
-		return (count);
-	while (*str)
+	if (!s || !charset)
+		return ('\0');
+	while (index >= 0)
 	{
-		if (*str == c)
-			count++;
-		str++;
+		if (ft_is_in_charset(s[index], charset))
+			return (s[index]);
+		index--;
 	}
-	return (count);
+	return ('\0');
 }

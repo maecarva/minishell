@@ -12,8 +12,6 @@
 
 #include "../../../include_minishell/minishell.h"
 
-// false if invalid
-// check if > < >> << is followed by FILE_ARG
 bool	valid_token_list(t_dlist **splited)
 {
 	t_dlist	*tmp;
@@ -30,6 +28,11 @@ bool	valid_token_list(t_dlist **splited)
 				printf("Invalid token near : '%c'\n", ptr_to_lexertoklist(tmp->content)->token[0]);
 				return (false);
 			}
+		}
+		if (ptr_to_lexertoklist(tmp->content)->type == PIPE_TOKEN && ptr_to_lexertoklist(tmp->next->content)->type == PIPE_TOKEN)
+		{
+				printf("Invalid token near : '%c'\n", ptr_to_lexertoklist(tmp->content)->token[0]);
+				return (false);
 		}
 		tmp = tmp->next;
 		if (tmp == *splited)

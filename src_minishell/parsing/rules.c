@@ -98,8 +98,6 @@ bool	check_pipes(char *cmd) // peut etre pas 100%bon
 			while (i < cmdlen && ft_isspace(cmd[++i]))
 				;
 		}
-		// if (cmd[i] == '|' && pipe)
-		// 	return (true);
 	}
 	return (false);
 }

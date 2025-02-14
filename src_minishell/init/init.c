@@ -81,8 +81,8 @@ t_config	*init(int ac, char **av, char **env)
 {
 	t_config	*minishell;
 
-	if (isatty(STDIN_FILENO) == 0 ||isatty(STDOUT_FILENO) == 0 || isatty(STDERR_FILENO) == 0)
-		return (NULL);
+	// if (isatty(STDIN_FILENO) == 0 ||isatty(STDOUT_FILENO) == 0 || isatty(STDERR_FILENO) == 0)
+	// 	return (NULL);
 	minishell = ft_calloc(sizeof(t_config), 1);
 	if (!minishell)
 		return (NULL);
@@ -94,6 +94,6 @@ t_config	*init(int ac, char **av, char **env)
 		return (clear_minishell(minishell), NULL);
 	if (init_config(ac, av,minishell) == INIT_ERROR)
 		return (clear_minishell(minishell), NULL);
-	signals_interactive_mode();
+	// signals_interactive_mode();
 	return (minishell);
 }
