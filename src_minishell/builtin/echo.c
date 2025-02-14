@@ -43,7 +43,7 @@ void	echo(t_config *ms_data)
 	int		i;
 	bool	flag;
 
-	fprintf(stderr,"hello, je suis ici\n");
+	// fprintf(stderr,"hello, je suis ici\n");
 	i = 5;
 	flag = get_echo_flag(((t_node2 *)(ms_data->ast->item))->command, &i);
 	if (flag == false)

@@ -122,9 +122,9 @@ void	extract_quoted(char *cmd, int *i, int *start, int *end)
 	*end = *start + 1;
 	while (cmd[*end])
 	{
-		if (cmd[*end] == '\'')
+		if (cmd[*end] == '\'' && cquote == cmd[*end])
 			squote = !squote;
-		if (cmd[*end] == '\"')
+		if (cmd[*end] == '\"' && cquote == cmd[*end])
 			dquotes = !dquotes;
 		if (squote == false && dquotes == false && ft_isspace(cmd[*end]))
 			break ;
