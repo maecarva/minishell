@@ -39,9 +39,9 @@ int	main(int ac, char **av, char **env)
 				free(cmd);
 				continue ;
 			}
-			print_arbre(minishell->ast, 0);
+			// print_arbre(minishell->ast, 0);
 			free(cmd);
-			// check_type_execute(minishell);
+			check_type_execute(minishell);
 			free_ast(&ast);
 		}
 	}
