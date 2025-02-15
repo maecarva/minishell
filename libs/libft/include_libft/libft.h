@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 11:16:18 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/12 17:27:11 by maecarva         ###   ########.fr       */
+/*   Updated: 2025/02/15 16:05:34 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ char	*ft_strtrim(char const *s1, char const *set);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 int		ft_count_char_in_str(char *str, char c);
 bool	ft_is_in_charset(char c, char *charset);
+bool	ft_str_is_only_charset(char *str, char *charset);
 
 // memory
 void	ft_bzero(void *s, size_t n);

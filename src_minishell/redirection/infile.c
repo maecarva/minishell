@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 13:45:59 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/13 11:38:54 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/15 17:43:44 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,15 @@ static int	check_infile_access(t_pipes *p_data)
 {
 	if (access(p_data->name_infile, F_OK) == -1)
 	{
+		error_message(SHELL_NAME, p_data->name_infile, ": No such file or directory");
 		free_fd(&p_data->fd, p_data->nb_pipes);
-		ft_putstr_fd("no such file or directory: ", 2);
-		ft_putendl_fd(p_data->name_infile, 2);
 		p_data->ms_data->last_error_code = EXIT_FAILURE;
 		return (1);
 	}
 	if (access(p_data->name_infile, R_OK) == -1)
 	{
+		error_message(SHELL_NAME, p_data->name_infile, ": Permission denied");
 		free_fd(&p_data->fd, p_data->nb_pipes);
-		ft_putstr_fd("permission denied: ", 2);
-		ft_putendl_fd(p_data->name_infile, 2);
 		p_data->ms_data->last_error_code = EXIT_FAILURE;
 		return (1);
 	}

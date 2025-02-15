@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 13:46:49 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/12 14:43:53 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/15 16:45:40 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,32 @@
 static int	check_outfile_access(t_pipes *p_data, t_btree *cmdn)
 {
 	int	fd_outfile;
+	struct stat statbuf;
 
+	if (stat(p_data->name_outfile, &statbuf) == 0)
+	{
+		if (S_ISDIR(statbuf.st_mode))
+		{
+			error_message(SHELL_NAME, p_data->name_outfile, ": Is a directory");
+			unlink_hd(p_data);
+			free_fd(&p_data->fd, p_data->nb_pipes);
+			p_data->ms_data->last_error_code = ERROR_COMMAND;
+			return (1);
+		}
+	}
+	else
+	{
+		perror("stat");
+		unlink_hd(p_data);
+		free_fd(&p_data->fd, p_data->nb_pipes);
+		p_data->ms_data->last_error_code = ERROR_CODE;
+		clear_minishell(p_data->ms_data);
+	}
 	if (access(p_data->name_outfile, F_OK) == 0)
 	{
 		if (access(p_data->name_outfile, R_OK) == -1)
 		{
-			ft_putstr_fd("permission denied: ", 2);
-			ft_putendl_fd(p_data->name_outfile, 2);
+			error_message(SHELL_NAME, p_data->name_outfile, ": Permission denied");
 			unlink_hd(p_data);
 			free_fd(&p_data->fd, p_data->nb_pipes);
 			p_data->ms_data->last_error_code = EXIT_FAILURE;

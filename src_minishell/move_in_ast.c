@@ -6,38 +6,21 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 18:11:12 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/14 19:56:31 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/15 18:53:43 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// void	move_in_ast(t_config **ms_data)
-// {
-// 	t_lexertok	type;
-// 	t_btree	*original_ast;
-
-// 	original_ast = (*ms_data)->ast;
-// 	type = ((t_node2 *)((*ms_data)->ast->item))->type;
-// 	if (type == OR || type == AND)
-// 	{
-// 		(*ms_data)->ast = (*ms_data)->ast->left;
-// 		//print_arbre(ms_data->ast, 0);
-// 		check_type_execute(*ms_data);
-// 		if (type == OR && (*ms_data)->last_error_code != 0)
-// 		{
-// 			(*ms_data)->ast = original_ast;
-// 			(*ms_data)->ast = (*ms_data)->ast->right;
-// 			check_type_execute(*ms_data);
-// 		}
-// 		else if (type == AND && (*ms_data)->last_error_code == 0)
-// 		{
-// 			(*ms_data)->ast = original_ast;
-// 			(*ms_data)->ast = (*ms_data)->ast->right;
-// 			check_type_execute(*ms_data);
-// 		}
-// 	}
-// }
+void	error_message(char *s1, char *s2, char *s3)
+{
+	if (s1)
+		ft_putstr_fd(s1, 2);
+	if (s2)
+		ft_putstr_fd(s2, 2);
+	if (s3)
+		ft_putendl_fd(s3, 2);
+}
 
 void	execute_ast(t_btree *actual_ast, t_config **ms_data)
 {

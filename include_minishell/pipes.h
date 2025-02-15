@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 14:09:58 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/14 18:16:55 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/15 16:09:34 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,9 @@ typedef struct s_pipes
 }	t_pipes;
 
 /* prototypes */
+
+/* Errors */
+void	error_message(char *s1, char *s2, char *s3);
 
 /* Pipes */
 void	pipes(t_config *ms_data);

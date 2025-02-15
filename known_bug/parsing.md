@@ -6,4 +6,5 @@ echo "'$PWD'"
 maecarva ~> minishell # $?
 
 ls && ls | ls -la = fonctionne
-ls -la && ls && ls = fail
+
+ls -la | ls && ls = fail

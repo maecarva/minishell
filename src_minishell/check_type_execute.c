@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 17:00:49 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/14 19:32:21 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/15 13:34:15 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ void	check_type_execute(t_config *ms_data)
 		execute_exit(((t_node2 *)(ms_data->ast->item))->command, ms_data);
 	else if (((t_node2 *)(ms_data->ast->item))->type == CD)
 		execute_cd(((t_node2 *)(ms_data->ast->item))->command, ms_data);
-	// else if (((t_node *)(tree->item))->type == ECHO)
-	// 	echo(tree, envp);
-	//a completer avec tous les builtin
+	// else if (((t_node2 *)(ms_data->ast->item))->type == EXPORT)
+	// 	execute_export()
 }

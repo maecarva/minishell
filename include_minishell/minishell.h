@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 14:41:06 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/14 19:32:43 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/15 17:27:00 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,9 @@
 /* directory */
 # include <dirent.h>
 
+/* For stat */
+#include <sys/stat.h>
+
 /* Number constants */
 
 /* For Errors that we cannot handle : malloc, open, ... */
@@ -85,6 +88,9 @@
 # define SEARCHFORFILES 2
 
 # define NO_ENV_DEFAULT_SIZE 6
+
+# define SHELL_NAME NULL
+//"bash: "
 
 /* Colors */
 

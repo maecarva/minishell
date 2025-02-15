@@ -6,7 +6,7 @@
 #    By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/08 14:19:08 by ebonutto          #+#    #+#              #
-#    Updated: 2025/02/14 18:29:57 by ebonutto         ###   ########.fr        #
+#    Updated: 2025/02/15 13:56:26 by ebonutto         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ NAME = minishell
 
 # Compilateur et flags de compilation
 CC = cc
-CFLAGS = #-Werror -Wextra -Wall -g
+CFLAGS = -Werror -Wextra -Wall -g
 
 ################################################################################
 #                              DIRECTORY PATHS                                 #

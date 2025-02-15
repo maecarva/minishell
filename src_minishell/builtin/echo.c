@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 11:16:52 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/14 16:30:20 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/15 18:04:55 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,17 @@ static bool	get_echo_flag(char *cmd, int *i)
 	return (flag);
 }
 
+// la fct affiche un esapce en plus a la fin.... 
 void	execute_echo(char *cmd, t_config *ms_data)
 {
 	int		i;
 	bool	flag;
+	size_t	len_cmd;
 
+	len_cmd = ft_strlen(cmd);
+	while (ft_isspace(cmd[len_cmd - 1]) == 1)
+		len_cmd--;
+	cmd[len_cmd] = '\0';
 	i = 5;
 	flag = get_echo_flag(cmd, &i);
 	if (flag == false)
