@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 14:41:06 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/13 21:19:10 by maecarva         ###   ########.fr       */
+/*   Updated: 2025/02/15 17:40:17 by maecarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,6 +220,7 @@ int		clear_minishell(t_config *minishell);
 // // env
 char		**init_environnement(char **env);
 char	*get_value_by_name(char **envp, char *name);
+char	*get_var_ptr(char **envp, char *name);
 
 
 /* Signals */
@@ -260,6 +261,7 @@ void	execute_env(char *cmd, t_config *minishell);
 void	execute_exit(char *cmd, t_config *minishell);
 void	execute_cd(char *cmd, t_config *minishell);
 void	echo(t_config *ms_data);
+void	execute_unset(char *cmd, t_config *minishell);
 
 /* Free */
 // void	free_minishell(t_config **ms_data);

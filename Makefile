@@ -6,7 +6,7 @@
 #    By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/08 14:19:08 by ebonutto          #+#    #+#              #
-#    Updated: 2025/02/12 14:47:17 by ebonutto         ###   ########.fr        #
+#    Updated: 2025/02/15 16:50:12 by maecarva         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,6 +62,7 @@ SRC = src_minishell/main.c \
 	  src_minishell/builtin/env.c \
 	  src_minishell/builtin/exit.c \
 	  src_minishell/builtin/cd.c \
+	  src_minishell/builtin/unset.c \
 	  src_minishell/pipes/execute_command.c \
 	  src_minishell/redirection/infile.c \
 	  src_minishell/redirection/outfile.c \

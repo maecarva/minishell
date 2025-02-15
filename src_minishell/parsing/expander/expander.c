@@ -56,7 +56,7 @@ void	clean_quotes(char *s)
 	}
 }
 
-void	expand_pls(char **str, char **env, int *index)
+void	expand_pls(char **str, char **env, t_config *config, int *index)
 {
 	char	*ptrs[4];// 0: varname, 1: value, 2: beforevar, 3: aftervar
 	int		j;
@@ -68,6 +68,36 @@ void	expand_pls(char **str, char **env, int *index)
 	if (s[*index + 1] == '\0')
 		return ;
 	j = *index + 1;
+	if (ft_isdigit(s[j]))
+		return ((void)ft_memmove(&s[*index], &s[j + 1], ft_strlen(&s[j]) + 1));
+	else if (s[j] == '\"' || s[j] == '\'')
+		return ((void)ft_memmove(&s[*index], &s[j], ft_strlen(&s[j]) + 1));
+	else if (s[j] == '?')
+	{
+		ptrs[1] = ft_itoa(config->last_error_code);
+		ptrs[2] = ft_substr(s, 0, *index);
+		ptrs[3] = ft_substr(s, j + 1, ft_strlen(s));
+		ptrs[0] = ft_str_three_join(ptrs[2], ptrs[1], ptrs[3]);
+		*index += ft_strlen(ptrs[1]) - 1;
+		free(*str);
+		free(ptrs[1]);
+		free(ptrs[2]);
+		free(ptrs[3]);
+		*str = ptrs[0];
+		return ;
+	}
+	else if (s[j] == '$')
+	{
+		ptrs[2] = ft_substr(s, 0, *index);
+		ptrs[3] = ft_substr(s, j + 1, ft_strlen(s));
+		ptrs[0] = ft_str_three_join(ptrs[2], config->pidstr, ptrs[3]);
+		*index += ft_strlen(ptrs[1]) - 1;
+		free(*str);
+		free(ptrs[2]);
+		free(ptrs[3]);
+		*str = ptrs[0];
+		return ;
+	}
 	while (s[j] && ft_isalpha(s[j]) && ft_isalpha(s[j + 1]))
 		j++;
 	// if j == *index + 1 digit name -> need to handle
@@ -124,7 +154,7 @@ void expand_token(char **tokenstr, char **envp, t_config *config)
 			expand = true;
 		if (expand)
 		{
-			expand_pls(tokenstr, envp, &i);
+			expand_pls(tokenstr, envp, config, &i);
 			expand = false;
 			s = *tokenstr;
 		}
