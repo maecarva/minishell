@@ -21,17 +21,15 @@ static int	tab_size(char **splited)
 	i = 0;
 	while (splited[i])
 		i++;
-return (i);
+	return (i);
 }
 
 void	execute_cd(char *cmd, t_config *minishell)
 {
-	int		i;
 	char	**splited;
 
 	if (!cmd || !minishell)
 		return ;
-	i = 0;
 	splited = ft_split_charset(cmd, WHITESPACES);
 	if (!splited)
 		return ;

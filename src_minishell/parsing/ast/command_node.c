@@ -134,20 +134,51 @@ void	handle_redirections(t_btree **node, t_dlist *start, t_dlist *end)
 	
 }
 
+// t_btree	*create_cmd_node(t_dlist *start, t_dlist *end)
+// {
+// 	t_btree	*node;
+// 	// int		redirections[4]; // < << > >>
+// 	t_lexertoklist	*redirtok[2]; // 0 : < <<, 1 : > >>
+// 	t_node2	*nodecmdcontent;
+// 	// int		totalredir;
+//
+// 	// totalredir = 0;
+// 	if (!start || !end)
+// 		return (NULL);
+// 	// ft_bzero(redirections, sizeof(int) * 4);
+// 	// count_token_type(start, end, redirections);
+// 	// totalredir = redirections[0] + redirections[1] + redirections[2] + redirections[3];
+// 	ft_bzero(redirtok, sizeof(t_list *) * 2);
+// 	node = ft_calloc(sizeof(t_btree), 1);
+// 	if (!node)
+// 		return (NULL);
+// 	nodecmdcontent = ft_calloc(sizeof(t_node2), 1);
+// 	if (!nodecmdcontent)
+// 		return (free(node), NULL);
+// 	nodecmdcontent->type = CMD;
+// 	nodecmdcontent->command = extractcmd(start, end);
+// 	if (!nodecmdcontent->command)
+// 		return (free(node), free(nodecmdcontent), NULL);
+// 	node->item = nodecmdcontent;
+// 	// if (totalredir >= 0)
+// 	// 	handle_redirections(&node, start, end);
+// 	return (node);
+// }
+
 t_btree	*create_cmd_node(t_dlist *start, t_dlist *end)
 {
 	t_btree	*node;
-	// int		redirections[4]; // < << > >>
+	int		redirections[4]; // < << > >>
 	t_lexertoklist	*redirtok[2]; // 0 : < <<, 1 : > >>
 	t_node2	*nodecmdcontent;
-	// int		totalredir;
+	int		totalredir;
 
-	// totalredir = 0;
+	totalredir = 0;
 	if (!start || !end)
 		return (NULL);
-	// ft_bzero(redirections, sizeof(int) * 4);
-	// count_token_type(start, end, redirections);
-	// totalredir = redirections[0] + redirections[1] + redirections[2] + redirections[3];
+	ft_bzero(redirections, sizeof(int) * 4);
+	count_token_type(start, end, redirections);
+	totalredir = redirections[0] + redirections[1] + redirections[2] + redirections[3];
 	ft_bzero(redirtok, sizeof(t_list *) * 2);
 	node = ft_calloc(sizeof(t_btree), 1);
 	if (!node)
@@ -160,7 +191,7 @@ t_btree	*create_cmd_node(t_dlist *start, t_dlist *end)
 	if (!nodecmdcontent->command)
 		return (free(node), free(nodecmdcontent), NULL);
 	node->item = nodecmdcontent;
-	// if (totalredir >= 0)
-	// 	handle_redirections(&node, start, end);
+	if (totalredir >= 0)
+		handle_redirections(&node, start, end);
 	return (node);
 }

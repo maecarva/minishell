@@ -64,6 +64,7 @@ void	expand_pls(char **str, char **env, t_config *config, int *index)
 
 	if (!str || !index || !env)
 		return ;
+	ft_bzero(ptrs, sizeof(char *) * 4);
 	s = *str;
 	if (s[*index + 1] == '\0')
 		return ;

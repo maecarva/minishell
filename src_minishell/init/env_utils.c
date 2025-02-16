@@ -46,7 +46,7 @@ char	*get_value_by_name(char **envp, char *name)
 		get_name(n, envp[i]);
 		if (n[0] != '\0')
 		{
-			if (ft_strncmp(n, name, ft_strlen(n)) == 0)
+			if (ft_strncmp(n, name, ft_strlen(name)) == 0 && envp[i][ft_strlen(n)] == '=')
 			{
 				tmp = ft_strchr(envp[i], '=') + 1;
 				if (!tmp)
@@ -65,13 +65,13 @@ char	*get_value_by_name(char **envp, char *name)
 char	*get_var_ptr(char **envp, char *name)
 {
 	int		i;
-	char	*value;
-	char	*tmp;
+	// char	*value;
+	// char	*tmp;
 	char	n[MAX_PATH];
 
 	i = 0;
-	value = NULL;
-	tmp = NULL;
+	// value = NULL;
+	// tmp = NULL;
 	if (!envp)
 		return (NULL);
 	if (ft_strlen(name) == 0)

@@ -12,6 +12,32 @@
 
 #include "../../../include_minishell/minishell.h"
 
+bool	multiple_and_or(t_dlist *start, t_dlist *end)
+{
+	int		and;
+	int		or;
+	t_dlist	*tmp;
+
+	if (!start || !end)
+		return (false);
+	and = 0;
+	or = 0;
+	tmp = start;
+	if (start == end)
+		return (false);
+	while (tmp)
+	{
+		if (ptr_to_lexertoklist(tmp->content)->type == AND)
+			and++;
+		else if (ptr_to_lexertoklist(tmp->content)->type == OR)
+			or++;
+		tmp = tmp->next;
+		if (tmp == end)
+			break ;
+	}
+	return (and > 0 && or > 0);
+}
+
 bool	list_contain_pipe(t_dlist *start, t_dlist *end, t_dlist **pipeelem)
 {
 	t_dlist	*tmp;
@@ -35,7 +61,7 @@ bool	list_contain_pipe(t_dlist *start, t_dlist *end, t_dlist **pipeelem)
 	return (false);
 }
 
-bool	list_contain_operator(t_dlist *start, t_dlist *end, t_dlist **operator)
+bool	list_contain_operator(t_dlist *start, t_dlist *end)
 {
 	t_dlist		*tmp;
 	t_lexertok	type;
@@ -45,15 +71,12 @@ bool	list_contain_operator(t_dlist *start, t_dlist *end, t_dlist **operator)
 	tmp = start;
 	type = ptr_to_lexertoklist(start->content)->type;
 	if (start == end)
-		return (type == PIPE_TOKEN || type == OR || type == AND);
+		return (type == OR || type == AND);
 	while (tmp)
 	{
 		type = ptr_to_lexertoklist(tmp->content)->type;
-		if (type == PIPE_TOKEN || type == OR || type == AND)
-		{
-			*operator = tmp;
+		if (type == OR || type == AND)
 			return (true);
-		}
 		tmp = tmp->next;
 		if (tmp == end)
 			break ;
@@ -61,7 +84,64 @@ bool	list_contain_operator(t_dlist *start, t_dlist *end, t_dlist **operator)
 	return (false);
 }
 
+bool	get_last_and_or(t_dlist *start, t_dlist *end, t_dlist **operator)
+{
+	t_dlist		*tmp;
+	t_lexertok	type;
 
+	if (!start || !end)
+		return (false);
+	tmp = end;
+	type = ptr_to_lexertoklist(tmp->content)->type;
+	if (type == AND || type == OR)
+	{
+		*operator = tmp;
+		return (true);
+	}
+	while (tmp)
+	{
+		type = ptr_to_lexertoklist(tmp->content)->type;
+		if (type == OR || type == AND)
+		{
+			*operator = tmp;
+			return (true);
+		}
+		tmp = tmp->prev;
+		if (tmp == start)
+			break ;
+	}
+	return (false);
+}
+
+bool	get_first_and_or(t_dlist *start, t_dlist *end, t_dlist **operator)
+{
+	t_dlist		*tmp;
+	t_lexertok	type;
+
+	if (!start || !end)
+		return (false);
+	tmp = start;
+	type = ptr_to_lexertoklist(tmp->content)->type;
+	if (type == AND || type == OR)
+	{
+		*operator = tmp;
+		return (true);
+	}
+	while (tmp)
+	{
+		type = ptr_to_lexertoklist(tmp->content)->type;
+		if (type == OR || type == AND)
+		{
+			*operator = tmp;
+			return (true);
+		}
+		tmp = tmp->next;
+		if (tmp == start)
+			break ;
+	}
+	return (false);
+}
+// a || b && c && d || e || f && g
 void	construct(t_btree **ast, t_dlist *start, t_dlist *end)
 {
 	t_dlist	*tmp;
@@ -69,8 +149,34 @@ void	construct(t_btree **ast, t_dlist *start, t_dlist *end)
 	if (start == NULL || end == NULL)
 		return ;
 	tmp = NULL;
-	// if (list_contain_pipe(start, end, &tmp))
-	if (list_contain_operator(start, end, &tmp))
+	if (list_contain_operator(start, end))
+	{
+		// check if only one type of operator
+		// if (multiple_and_or(start, end) == false)
+		// {
+			get_first_and_or(start, end, &tmp);
+			// create operator node
+			*ast = create_operator_node(ptr_to_lexertoklist(tmp->content)->type);
+			if (!ast)
+				return ;
+			construct(&(*ast)->left, start, tmp->prev);
+			construct(&(*ast)->right, tmp->next, end);
+		// }
+		// else {
+		// 	// merde
+		// 	get_first_and_or(start, end, &tmp);
+		// 	// create operator node
+		// 	// t_dlist *tmp2 = NULL;
+		// 	// t_dlist *tmp3 = NULL;
+		// 	*ast = create_operator_node(ptr_to_lexertoklist(tmp->content)->type);
+		// 	if (!ast)
+		// 		return ;
+		// 	construct(&(*ast)->left, start, tmp);
+		// 	
+		// 	// construct(&(*ast)->right, tmp->next, end);
+		// }
+	}
+	else if (list_contain_pipe(start, end, &tmp))
 	{
 		// create pipe node
 		*ast = create_operator_node(ptr_to_lexertoklist(tmp->content)->type);
@@ -114,13 +220,12 @@ void	finalise_ast(t_btree **ast)
 	finalise_ast(&(*ast)->right);
 }
 
-// separate list to ditinguish cmd && pipes
 bool	create_ast(t_btree **ast, t_dlist *tokenlist, t_config *config)
 {
 	if (!tokenlist || !config)
 		return (false);
 	construct(ast, tokenlist, tokenlist->prev);
-	handle_redirections(ast, tokenlist, tokenlist->prev);
+	// handle_redirections(ast, tokenlist, tokenlist->prev);
 	finalise_ast(ast);
 	return (true);
 }

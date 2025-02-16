@@ -64,7 +64,7 @@ t_btree	*parse_cmd2(char *cmd, t_config *config)
 		return (free(trimmed), free_token_list(&lexed), NULL);
 	}
 
-	// print_token_list(&lexed);
+	print_token_list(&lexed);
 	// create ast
 	if (!create_ast(&ast, lexed, config))
 	{

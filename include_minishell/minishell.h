@@ -144,7 +144,8 @@ typedef enum e_lexertok
 	EXIT,
 	OR,
 	AND,
-	ERROR
+	ERROR,
+	NONE
 }	t_lexertok;
 
 typedef struct s_lexertoklist

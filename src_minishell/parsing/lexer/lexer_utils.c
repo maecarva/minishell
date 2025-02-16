@@ -23,7 +23,7 @@ void	print_token_list(t_dlist **dlist)
 	tmp = list;
 	while (tmp)
 	{
-		printf("token: str = [%s] type = [", ptr_to_lexertoklist(tmp->content)->token);
+		printf("token: str = [%s], ptr= [%p] type = [", ptr_to_lexertoklist(tmp->content)->token, tmp);
 		switch (ptr_to_lexertoklist(tmp->content)->type) {
 			case PIPE_TOKEN:
 				p("%s]\n", "PIPE_TOKEN");

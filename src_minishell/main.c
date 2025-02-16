@@ -53,38 +53,38 @@ int	main(int ac, char **av, char **env)
 	}
 	else {
 	
-	while (1)
-	{
-		if (isatty(fileno(stdin)))
-			cmd = readline(minishell->prompt);
-		else
+		while (1)
 		{
-			char *line = NULL;
-			get_next_line(fileno(stdin), &line);
-			if (line == NULL)
-				break ;
-			cmd = ft_strtrim(line, "\n");
-			free(line);
-		}
-		// cmd = readline(minishell->prompt);
-		if (!cmd)
-			return (printf("exit\n"), clear_minishell(minishell));
-		add_history(cmd);
-		if (cmd[0] != '\0')
-		{
-			ast = parse_cmd2(cmd, minishell);
-			minishell->ast = ast;
-			if (!minishell->ast)
+			if (isatty(fileno(stdin)))
+				cmd = readline(minishell->prompt);
+			else
 			{
-				free(cmd);
-				continue ;
+				char *line = NULL;
+				get_next_line(fileno(stdin), &line);
+				if (line == NULL)
+					break ;
+				cmd = ft_strtrim(line, "\n");
+				free(line);
 			}
-			// print_arbre(minishell->ast, 0);
-			free(cmd);
-			check_type_execute(minishell);
-			free_ast(&ast);
+			// cmd = readline(minishell->prompt);
+			if (!cmd)
+				return (printf("exit\n"), clear_minishell(minishell));
+			add_history(cmd);
+			if (cmd[0] != '\0')
+			{
+				ast = parse_cmd2(cmd, minishell);
+				minishell->ast = ast;
+				if (!minishell->ast)
+				{
+					free(cmd);
+					continue ;
+				}
+				print_arbre(minishell->ast, 0);
+				free(cmd);
+				// check_type_execute(minishell);
+				free_ast(&ast);
+			}
 		}
-	}
 	}
 	return (clear_minishell(minishell));
 }
