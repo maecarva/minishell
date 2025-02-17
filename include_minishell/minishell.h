@@ -6,13 +6,15 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 14:41:06 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/17 16:59:44 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/17 17:38:13 by maecarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+
+# define DEBUG 1
 
 /* Libraries */
 
@@ -148,7 +150,8 @@ typedef enum e_lexertok
 	EXIT,
 	OR,
 	AND,
-	ERROR
+	ERROR,
+	NONE
 }	t_lexertok;
 
 typedef struct s_lexertoklist
@@ -224,6 +227,7 @@ int		clear_minishell(t_config *minishell);
 // // env
 char		**init_environnement(char **env);
 char	*get_value_by_name(char **envp, char *name);
+char	*get_var_ptr(char **envp, char *name);
 
 
 /* Signals */
@@ -252,6 +256,10 @@ bool	create_ast(t_btree **ast, t_dlist *tokenlist, t_config *config);
 t_btree	*create_operator_node(t_lexertok type);
 t_btree	*create_cmd_node(t_dlist *start, t_dlist *end);
 void	free_ast(t_btree **ast);
+
+// wildcards
+
+int	tab_size(char **splited);
 /*		END PARSING		*/
 // ast
 
@@ -263,6 +271,9 @@ void	execute_pwd(char *cmd, t_config *minishell);
 void	execute_env(char *cmd, t_config *minishell);
 void	execute_exit(char *cmd, t_config *minishell);
 void	execute_cd(char *cmd, t_config *minishell);
+void	execute_unset(char *cmd, t_config *minishell);
+char	**duplicate_env_without_var(char *varname, t_config *minishell);
+void	execute_export(char *cmd, t_config *minishell);
 void	execute_echo(char *cmd, t_config *minishell);
 
 /* Free */

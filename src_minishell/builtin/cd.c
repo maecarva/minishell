@@ -12,27 +12,49 @@
 
 #include "../../include_minishell/minishell.h"
 
-void	execute_cd(char *cmd, t_config *minishell)
+int	tab_size(char **splited)
 {
 	int	i;
 
-	if (!cmd)
-		return ;
+	if (!splited || !*splited)
+		return (0);
 	i = 0;
-	if (ft_count_char_in_str(cmd, ' ') >= 2)
+	while (splited[i])
+		i++;
+	return (i);
+}
+
+void	execute_cd(char *cmd, t_config *minishell)
+{
+	char	**splited;
+
+	if (!cmd || !minishell)
+		return ;
+	splited = ft_split_charset(cmd, WHITESPACES);
+	if (!splited)
+		return ;
+	if (tab_size(splited) >= 3)
 	{
 		minishell->last_error_code = 1;
 		ft_putstr_fd(" too many arguments\n", 2);
 		return ;
 	}
-	while (cmd[i] && !ft_isspace(cmd[i]))
-		i++;
-	while (cmd[i] && ft_isspace(cmd[i]))
-		i++;
-	if (chdir(&cmd[i]) == -1)
+	else if (tab_size(splited) == 1)
 	{
-		error_message(SHELL_NAME, cmd, ": No such file or directory");
+		if (chdir(get_value_by_name(minishell->environnement, "HOME")) == -1)
+		{
+			ft_putstr_fd("bash: cd: HOME not set", 2);
+			minishell->last_error_code = 1;
+			return ;
+		}
+	}
+	else if (tab_size(splited) > 1 && chdir(splited[1]) == -1)
+	{
+		ft_putstr_fd("bash: cd: ", 2);
+		ft_putstr_fd(splited[1], 2);
+		ft_putstr_fd(": No such file or directory\n", 2);
 		minishell->last_error_code = 1;
+		return ;
 	}
 	else
 		minishell->last_error_code = 0;

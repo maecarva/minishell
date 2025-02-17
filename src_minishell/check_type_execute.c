@@ -29,6 +29,8 @@ void	check_type_execute(t_config *ms_data)
 		execute_exit(((t_node2 *)(ms_data->ast->item))->command, ms_data);
 	else if (((t_node2 *)(ms_data->ast->item))->type == CD)
 		execute_cd(((t_node2 *)(ms_data->ast->item))->command, ms_data);
-	// else if (((t_node2 *)(ms_data->ast->item))->type == EXPORT)
-	// 	execute_export()
+	else if (((t_node2 *)(ms_data->ast->item))->type == UNSET)
+		execute_unset(((t_node2 *)(ms_data->ast->item))->command, ms_data);
+	else if (((t_node2 *)(ms_data->ast->item))->type == EXPORT)
+		execute_export(((t_node2 *)(ms_data->ast->item))->command, ms_data);
 }

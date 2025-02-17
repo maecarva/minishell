@@ -6,12 +6,11 @@
 /*   By: maecarva <maecarva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/09 15:50:44 by maecarva          #+#    #+#             */
-/*   Updated: 2025/02/09 19:37:57 by maecarva         ###   ########.fr       */
+/*   Updated: 2025/02/17 16:35:01 by maecarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../include_minishell/minishell.h"
-#include <readline/readline.h>
 
 int	count_token_type(t_dlist *start, t_dlist *end, int	*redirtokcount)
 {
@@ -97,7 +96,7 @@ void	add_right(t_btree *node, t_btree *new)
 void	handle_redirections(t_btree **node, t_dlist *start, t_dlist *end)
 {
 	t_btree	*tmpleft;
-	t_btree	*tmpright;
+	// t_btree	*tmpright;
 	t_dlist	*tmp;
 	t_node2	*nodec;
 
@@ -107,7 +106,7 @@ void	handle_redirections(t_btree **node, t_dlist *start, t_dlist *end)
 	while (tmp)
 	{
 		nodec = NULL;
-		if (ptr_to_lexertoklist(tmp->content)->type >= REDIRECT_INPUT && ptr_to_lexertoklist(tmp->content)->type <= HEREDOC)
+		if (ptr_to_lexertoklist(tmp->content)->type >= TRUNCATE && ptr_to_lexertoklist(tmp->content)->type <= HEREDOC)
 		{
 			nodec = ft_calloc(sizeof(t_node2), 1);
 			nodec->type = ptr_to_lexertoklist(tmp->content)->type;
@@ -117,16 +116,16 @@ void	handle_redirections(t_btree **node, t_dlist *start, t_dlist *end)
 			tmpleft = NULL;
 			nodec = NULL;
 		}
-		if (ptr_to_lexertoklist(tmp->content)->type >= TRUNCATE && ptr_to_lexertoklist(tmp->content)->type <= APPEND)
-		{
-			nodec = ft_calloc(sizeof(t_node2), 1);
-			nodec->type = ptr_to_lexertoklist(tmp->content)->type;
-			nodec->file = ft_strdup(ptr_to_lexertoklist(tmp->next->content)->token);
-			tmpright = ft_btree_create_node(nodec);
-			add_right(*node, tmpright);
-			tmpright = NULL;
-			nodec = NULL;
-		}
+		// if (ptr_to_lexertoklist(tmp->content)->type >= TRUNCATE && ptr_to_lexertoklist(tmp->content)->type <= APPEND)
+		// {
+		// 	nodec = ft_calloc(sizeof(t_node2), 1);
+		// 	nodec->type = ptr_to_lexertoklist(tmp->content)->type;
+		// 	nodec->file = ft_strdup(ptr_to_lexertoklist(tmp->next->content)->token);
+		// 	tmpright = ft_btree_create_node(nodec);
+		// 	add_right(*node, tmpright);
+		// 	tmpright = NULL;
+		// 	nodec = NULL;
+		// }
 		if (tmp == end)
 			break ;
 		tmp = tmp->next;
@@ -134,20 +133,51 @@ void	handle_redirections(t_btree **node, t_dlist *start, t_dlist *end)
 	
 }
 
+// t_btree	*create_cmd_node(t_dlist *start, t_dlist *end)
+// {
+// 	t_btree	*node;
+// 	// int		redirections[4]; // < << > >>
+// 	t_lexertoklist	*redirtok[2]; // 0 : < <<, 1 : > >>
+// 	t_node2	*nodecmdcontent;
+// 	// int		totalredir;
+//
+// 	// totalredir = 0;
+// 	if (!start || !end)
+// 		return (NULL);
+// 	// ft_bzero(redirections, sizeof(int) * 4);
+// 	// count_token_type(start, end, redirections);
+// 	// totalredir = redirections[0] + redirections[1] + redirections[2] + redirections[3];
+// 	ft_bzero(redirtok, sizeof(t_list *) * 2);
+// 	node = ft_calloc(sizeof(t_btree), 1);
+// 	if (!node)
+// 		return (NULL);
+// 	nodecmdcontent = ft_calloc(sizeof(t_node2), 1);
+// 	if (!nodecmdcontent)
+// 		return (free(node), NULL);
+// 	nodecmdcontent->type = CMD;
+// 	nodecmdcontent->command = extractcmd(start, end);
+// 	if (!nodecmdcontent->command)
+// 		return (free(node), free(nodecmdcontent), NULL);
+// 	node->item = nodecmdcontent;
+// 	// if (totalredir >= 0)
+// 	// 	handle_redirections(&node, start, end);
+// 	return (node);
+// }
+
 t_btree	*create_cmd_node(t_dlist *start, t_dlist *end)
 {
 	t_btree	*node;
-	// int		redirections[4]; // < << > >>
+	int		redirections[4]; // < << > >>
 	t_lexertoklist	*redirtok[2]; // 0 : < <<, 1 : > >>
 	t_node2	*nodecmdcontent;
-	// int		totalredir;
+	int		totalredir;
 
-	// totalredir = 0;
+	totalredir = 0;
 	if (!start || !end)
 		return (NULL);
-	// ft_bzero(redirections, sizeof(int) * 4);
-	// count_token_type(start, end, redirections);
-	// totalredir = redirections[0] + redirections[1] + redirections[2] + redirections[3];
+	ft_bzero(redirections, sizeof(int) * 4);
+	count_token_type(start, end, redirections);
+	totalredir = redirections[0] + redirections[1] + redirections[2] + redirections[3];
 	ft_bzero(redirtok, sizeof(t_list *) * 2);
 	node = ft_calloc(sizeof(t_btree), 1);
 	if (!node)
@@ -160,7 +190,7 @@ t_btree	*create_cmd_node(t_dlist *start, t_dlist *end)
 	if (!nodecmdcontent->command)
 		return (free(node), free(nodecmdcontent), NULL);
 	node->item = nodecmdcontent;
-	// if (totalredir >= 0)
-	// 	handle_redirections(&node, start, end);
+	if (totalredir >= 0)
+		handle_redirections(&node, start, end);
 	return (node);
 }

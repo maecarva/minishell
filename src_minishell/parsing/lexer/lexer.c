@@ -12,8 +12,13 @@
 
 #include "../../../include_minishell/minishell.h"
 
-// false if invalid
-// check if > < >> << is followed by FILE_ARG
+bool	is_special_token(t_lexertok type)
+{
+	if (type == PIPE_TOKEN || type == AND || type == OR)
+		return (true);
+	return (false);
+}
+
 bool	valid_token_list(t_dlist **splited)
 {
 	t_dlist	*tmp;
@@ -33,6 +38,11 @@ bool	valid_token_list(t_dlist **splited)
 				//printf("syntax error near unexpected token '%c'\n", ptr_to_lexertoklist(tmp->content)->token[0]);
 				return (false);
 			}
+		}
+		if (is_special_token(ptr_to_lexertoklist(tmp->content)->type) && is_special_token(ptr_to_lexertoklist(tmp->next->content)->type))
+		{
+				printf("Invalid token near : '%c'\n", ptr_to_lexertoklist(tmp->content)->token[0]);
+				return (false);
 		}
 		tmp = tmp->next;
 		if (tmp == *splited)

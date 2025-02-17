@@ -96,6 +96,6 @@ t_config	*init(int ac, char **av, char **env)
 		return (clear_minishell(minishell), NULL);
 	if (init_config(ac, av,minishell) == INIT_ERROR)
 		return (clear_minishell(minishell), NULL);
-	signals_interactive_mode();
+	// signals_interactive_mode();
 	return (minishell);
 }
