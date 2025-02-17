@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 17:16:59 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/17 17:37:52 by maecarva         ###   ########.fr       */
+/*   Updated: 2025/02/15 17:51:45 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,5 +56,6 @@ void	execute_cd(char *cmd, t_config *minishell)
 		minishell->last_error_code = 1;
 		return ;
 	}
-	minishell->last_error_code = 0;
+	else
+		minishell->last_error_code = 0;
 }

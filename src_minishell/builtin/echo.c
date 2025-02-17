@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 11:16:52 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/13 13:23:33 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/15 18:04:55 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,16 +38,22 @@ static bool	get_echo_flag(char *cmd, int *i)
 	return (flag);
 }
 
-void	echo(t_config *ms_data)
+// la fct affiche un esapce en plus a la fin.... 
+void	execute_echo(char *cmd, t_config *ms_data)
 {
 	int		i;
 	bool	flag;
+	size_t	len_cmd;
 
-	// fprintf(stderr,"hello, je suis ici\n");
+	len_cmd = ft_strlen(cmd);
+	while (ft_isspace(cmd[len_cmd - 1]) == 1)
+		len_cmd--;
+	cmd[len_cmd] = '\0';
 	i = 5;
-	flag = get_echo_flag(((t_node2 *)(ms_data->ast->item))->command, &i);
+	flag = get_echo_flag(cmd, &i);
 	if (flag == false)
-		printf("%s\n", ((t_node2 *)(ms_data->ast->item))->command + i);
+		printf("%s\n", (cmd + i));
 	else
-		printf("%s", ((t_node2 *)(ms_data->ast->item))->command + i);
+		printf("%s", (cmd + i));
+	ms_data->last_error_code = 0;
 }

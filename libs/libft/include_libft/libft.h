@@ -82,6 +82,7 @@ int		ft_count_char_in_str_rev(char *str, char c, int index);
 bool	ft_is_in_charset(char c, char *charset);
 char	ft_first_char_in_charset_rev(char *s, char *charset, int index);
 char	ft_first_char_in_charset(char *s, char *charset);
+bool	ft_str_is_only_charset(char *str, char *charset);
 
 // memory
 void	ft_bzero(void *s, size_t n);

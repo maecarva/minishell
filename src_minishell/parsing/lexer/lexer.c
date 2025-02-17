@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maecarva <maecarva@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 12:18:01 by maecarva          #+#    #+#             */
-/*   Updated: 2025/02/13 21:21:27 by maecarva         ###   ########.fr       */
+/*   Updated: 2025/02/15 18:57:09 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,10 @@ bool	valid_token_list(t_dlist **splited)
 		{
 			if (ptr_to_lexertoklist(tmp->next->content)->type != FILE_ARG)
 			{
-				printf("Invalid token near : '%c'\n", ptr_to_lexertoklist(tmp->content)->token[0]);
+				ft_putstr_fd("syntax error near unexpected token '", 2);
+				ft_putchar_fd(ptr_to_lexertoklist(tmp->content)->token[0], 2);
+				ft_putendl_fd("\'", 2);
+				//printf("syntax error near unexpected token '%c'\n", ptr_to_lexertoklist(tmp->content)->token[0]);
 				return (false);
 			}
 		}

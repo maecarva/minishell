@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:29:18 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/12 17:09:34 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/15 17:49:50 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,7 @@ static void	handle_no_path(char ***cmds, char **path_cmd, t_pipes *p_data, int i
 	*path_cmd = find_path_cmd(paths, *cmds, p_data);
 	if (!*path_cmd)
 	{
-		ft_putstr_fd("command not found: ", 2);
-		ft_putendl_fd((*cmds)[0], 2);
+		error_message(SHELL_NAME, (*cmds)[0], ": command not found");
 		ft_free_double_ptr(&paths);
 		ft_free_double_ptr(cmds);
 		p_data->ms_data->last_error_code = ERROR_COMMAND;
@@ -71,13 +70,33 @@ static void	handle_no_path(char ***cmds, char **path_cmd, t_pipes *p_data, int i
 
 static void	check_access(char ***cmds, char **path_cmd, t_pipes *p_data)
 {
-	if (access(*path_cmd, F_OK | X_OK) != 0)
+	struct stat statbuf;
+
+	if (access(*path_cmd, F_OK | X_OK) != 0 || ft_str_is_only_charset(*path_cmd, "./") == true)
 	{
-		ft_putstr_fd("no such file or directory: ", 2);
-		ft_putendl_fd(*path_cmd, 2);
+		error_message(SHELL_NAME, *path_cmd, ": No such file or directory");
 		ft_free_double_ptr(cmds);
 		ft_free_simple_ptr(path_cmd);
 		p_data->ms_data->last_error_code = ERROR_COMMAND;
+		clear_minishell(p_data->ms_data);
+	}
+	if (stat(*path_cmd, &statbuf) == 0)
+	{
+		if (S_ISDIR(statbuf.st_mode))
+		{
+			error_message(SHELL_NAME, *path_cmd, ": Is a directory");
+			ft_free_double_ptr(cmds);
+			ft_free_simple_ptr(path_cmd);
+			p_data->ms_data->last_error_code = ERROR_COMMAND;
+			clear_minishell(p_data->ms_data);
+		}
+	}
+	else
+	{
+		perror("stat");
+		ft_free_double_ptr(cmds);
+		ft_free_simple_ptr(path_cmd);
+		p_data->ms_data->last_error_code = ERROR_CODE;
 		clear_minishell(p_data->ms_data);
 	}
 }
@@ -99,7 +118,7 @@ static void	handle_path(char ***cmds, char **path_cmd, t_pipes *p_data)
 		p_data->ms_data->last_error_code = ERROR_CODE;
 		clear_minishell(p_data->ms_data);
 	}
-	target = ft_strrchr(p_data->cmd, ' ');
+	target = ft_strchr(target, ' ');
 	if (!target)
 		size = ft_strlen(p_data->cmd);
 	else
@@ -117,6 +136,39 @@ static void	handle_path(char ***cmds, char **path_cmd, t_pipes *p_data)
 	check_access(cmds, path_cmd, p_data);
 }
 
+static void	check_builtin_execute(t_pipes *p_data)
+{
+	if (p_data->type == ECHO)
+	{
+		execute_echo(p_data->cmd, p_data->ms_data);
+		p_data->ms_data->last_error_code = 0;
+		clear_minishell(p_data->ms_data);
+	}
+	else if (p_data->type == PWD)
+	{
+		execute_pwd(p_data->cmd, p_data->ms_data);
+		p_data->ms_data->last_error_code = 0;
+		clear_minishell(p_data->ms_data);
+	}
+	else if (p_data->type == ENV)
+	{
+		execute_env(p_data->cmd, p_data->ms_data);
+		p_data->ms_data->last_error_code = 0;
+		clear_minishell(p_data->ms_data);
+	}
+	else if (p_data->type == EXIT)
+	{
+		execute_exit(p_data->cmd, p_data->ms_data);
+		p_data->ms_data->last_error_code = 0;
+		clear_minishell(p_data->ms_data);
+	}
+	else if (p_data->type == CD)
+	{
+		execute_cd(p_data->cmd, p_data->ms_data);
+		clear_minishell(p_data->ms_data);
+	}
+}
+
 void	execute_command(t_pipes *p_data)
 {
 	char	**cmds;
@@ -124,6 +176,7 @@ void	execute_command(t_pipes *p_data)
 	int		i;
 
 	i = 0;
+	check_builtin_execute(p_data);
 	while (p_data->ms_data->environnement[i] != NULL
 		&& ft_strncmp(p_data->ms_data->environnement[i], "PATH=", 5) != 0)
 		i++;
