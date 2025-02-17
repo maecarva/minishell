@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:17:02 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/17 17:45:43 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/17 18:32:20 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,12 @@ static void	first_child(t_pipes *p_data)
 			clear_minishell(p_data->ms_data);
 		}
 	}
+	fprintf(stderr, "name_outfile_first_parent:%s\n", p_data->name_outfile);
 	if (!p_data->name_outfile)
 		p_data->fd_outfile = p_data->fd[0][1];
 	else
 	{
-		p_data->fd_outfile = open(p_data->name_outfile, O_RDONLY, 0644);
+		p_data->fd_outfile = open(p_data->name_outfile, O_WRONLY, 0644);
 		if (p_data->fd_outfile == -1)
 		{
 			perror("open");

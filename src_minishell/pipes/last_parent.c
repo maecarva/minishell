@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:16:59 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/17 17:49:22 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/17 18:32:13 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@ static void	last_child(t_pipes *p_data)
 		p_data->fd_infile = p_data->fd[p_data->nb_pipes - 1][0];
 	else
 	{
-		p_data->fd_infile = open(p_data->name_infile, p_data->flags, 0644);
+		p_data->fd_infile = open(p_data->name_infile, O_RDONLY, 0644);
 	}
 	if (!p_data->name_outfile)
 		p_data->fd_outfile = 1;
 	else
 	{
-		p_data->fd_outfile = open(p_data->name_outfile, p_data->flags, 0644);
+		p_data->fd_outfile = open(p_data->name_outfile, O_WRONLY, 0644);
 		if (p_data->fd_outfile == -1)
 		{
 			perror("open");
