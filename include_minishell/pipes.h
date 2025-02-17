@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 14:09:58 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/15 16:09:34 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/17 17:37:16 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ typedef struct s_pipes
 	int		nb_pipes;
 	char	*name_infile;
 	char	*name_outfile;
+	int		fd_infile;
+	int		fd_outfile;
 	bool	is_hd;
 	char	*cmd;
 	t_lexertok	type;
@@ -53,7 +55,8 @@ void	free_fd(int ***fd, int len);
 void	unlink_hd(t_pipes *p_data);
 
 /* Redirection */
-int		get_infile(t_pipes *p_data);
-int		get_outfile(t_pipes *p_data);
+void	get_infile(t_pipes *p_data, t_btree *cmd);
+void	get_outfile(t_pipes *p_data, t_btree *cmd);
+void	get_redirections(t_pipes *p_data);
 
 #endif
