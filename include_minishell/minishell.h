@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 14:41:06 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/17 15:13:10 by maecarva         ###   ########.fr       */
+/*   Updated: 2025/02/17 17:38:13 by maecarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -250,6 +250,10 @@ bool	create_ast(t_btree **ast, t_dlist *tokenlist, t_config *config);
 t_btree	*create_operator_node(t_lexertok type);
 t_btree	*create_cmd_node(t_dlist *start, t_dlist *end);
 void	free_ast(t_btree **ast);
+
+// wildcards
+
+int	tab_size(char **splited);
 /*		END PARSING		*/
 // ast
 

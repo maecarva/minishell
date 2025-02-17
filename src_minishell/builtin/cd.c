@@ -6,13 +6,13 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 17:16:59 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/15 17:36:16 by maecarva         ###   ########.fr       */
+/*   Updated: 2025/02/17 17:37:52 by maecarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include_minishell/minishell.h"
 
-static int	tab_size(char **splited)
+int	tab_size(char **splited)
 {
 	int	i;
 

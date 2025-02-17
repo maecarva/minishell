@@ -6,7 +6,7 @@
 /*   By: maecarva <maecarva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 17:14:38 by maecarva          #+#    #+#             */
-/*   Updated: 2025/02/14 18:59:49 by maecarva         ###   ########.fr       */
+/*   Updated: 2025/02/17 18:00:54 by maecarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,7 +183,7 @@ bool	expander(t_dlist *lexed_list, t_config *config)
 					tmp2->next->prev = tmp2->prev;
 				}
 		}
-		expand_wildcards(&ptr_to_lexertoklist(tmp->content)->token);
+		// expand_wildcards(&ptr_to_lexertoklist(tmp->content)->token);
 		clean_quotes(ptr_to_lexertoklist(tmp->content)->token);
 		tmp = tmp->next;
 		if (tmp == lexed_list)

@@ -6,7 +6,7 @@
 /*   By: maecarva <maecarva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 11:25:54 by maecarva          #+#    #+#             */
-/*   Updated: 2025/02/09 15:41:12 by maecarva         ###   ########.fr       */
+/*   Updated: 2025/02/17 16:41:51 by maecarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ t_btree	*parse_cmd2(char *cmd, t_config *config)
 		return (free(trimmed), free_token_list(&lexed), NULL);
 	}
 
-	print_token_list(&lexed);
+	// print_token_list(&lexed);
 	// create ast
 	if (!create_ast(&ast, lexed, config))
 	{

@@ -6,13 +6,12 @@
 /*   By: maecarva <maecarva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 17:41:09 by maecarva          #+#    #+#             */
-/*   Updated: 2025/02/13 20:35:05 by maecarva         ###   ########.fr       */
+/*   Updated: 2025/02/17 18:00:37 by maecarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../include_minishell/minishell.h"
-#include <stddef.h>
-#include <stdio.h>
+#include <stdbool.h>
 
 /*
 struct dirent {
@@ -191,6 +190,66 @@ void	get_files(char **s, int *index, int how_many)
 	}
 }
 
+
+void	search_for_matching_files(char **cmd, char *pattern)
+{
+	char	**splited;
+	int		i;
+	int		j;
+	char	**files;
+	bool	valid;
+
+	if (!cmd || !*cmd || !pattern)
+		return ;
+	// printf("%s\n", pattern);
+	splited = ft_split(*cmd, '*');
+	files = ft_split(get_all_files(), ' ');
+	if (!splited)
+		return (free(pattern));
+	if (!files)
+		return (free(pattern), ft_free_double_ptr(&splited));
+	i = 0;
+	while (files[i])
+	{
+		j = 0;
+		valid = true;
+		while (splited[j] && valid == true)
+		{
+			if (j == 0 && *pattern != '*')
+			{
+				if (ft_strnstr(files[i], splited[j], ft_strlen(files[i])) != files[i])
+					valid = false;
+			}
+			else if (j == tab_size(splited) - 1 && pattern[ft_strlen(pattern)] - 1 != '*')
+			{
+				if (ft_strncmp(splited[j], &files[i][ft_strlen(files[i]) - ft_strlen(splited[j])], ft_strlen(splited[j])) != 0)
+					valid = false;
+			}
+			else if (ft_strnstr(files[i], splited[j], ft_strlen(files[i])) != NULL)
+			{
+				if (splited[j + 1] == NULL)
+					break ;
+				if (ft_strnstr(files[i], splited[j + 1], ft_strlen(files[i])) != NULL)
+				{
+					if (ft_strnstr(files[i], splited[j], ft_strlen(files[i])) && ft_strnstr(files[i], splited[j + 1], ft_strlen(files[i])))
+						valid = true;
+				}
+			}
+			else {
+				valid = false;
+			}
+			j++;
+		}
+		if (valid)
+			// printf("valid file : [%s]\n", files[i]);
+		i++;
+	}
+
+	ft_free_double_ptr(&splited);
+	ft_free_double_ptr(&files);
+	free(pattern);
+}
+
 // todo : echo *** OK
 // echo *l* search in middle
 // echo Ma*invalidsearch OK
@@ -198,10 +257,14 @@ void	expand_wildcards(char	**cmd)
 {
 	bool	quotes[2]; // 0 : single, 1 : double
 	int		i;
+	int		start;
+	int		end;
 
 	if (!*cmd || ft_count_char_in_str(*cmd, '*') == 0)
 		return ;
 	i = 0;
+	start = 0;
+	end = 0;
 	quotes[0] = false;
 	quotes[1] = false;
 	while ((*cmd)[i])
@@ -215,10 +278,24 @@ void	expand_wildcards(char	**cmd)
 			if ((*cmd)[i + 1] == '*')
 				while ((*cmd)[i + 1] == '*')
 					ft_strlcpy(&(*cmd)[i + 1], &(*cmd)[i + 2], ft_strlen(&(*cmd)[i + 1]));
-			if (ft_strlen(*cmd) == 1 || (*cmd)[i + 1] == '*' || ft_isspace((*cmd)[i + 1]))
+			start = i;
+			while (start > 0 && !ft_isspace((*cmd)[start - 1]))
+				start--;
+			end = i;
+			while ((*cmd)[end] && !ft_isspace((*cmd)[end]))
+				end++;
+			// write(1, &(*cmd)[start], end - start);
+			// ft_putchar_fd('\n', STDOUT_FILENO);
+			// get files
+			if (end - start == 1)
 				get_files(cmd, &i, GETALLFILES);
-			else 
-				get_files(cmd, &i, SEARCHFORFILES);
+			else
+				search_for_matching_files(cmd, ft_substr(*cmd, start, end - start));
+			i += end;
+			// if (ft_strlen(*cmd) == 1 || (*cmd)[i + 1] == '*' || ft_isspace((*cmd)[i + 1]))
+			// 	get_files(cmd, &i, GETALLFILES);
+			// else 
+			// 	get_files(cmd, &i, SEARCHFORFILES);
 		}
 		i++;
 	}
