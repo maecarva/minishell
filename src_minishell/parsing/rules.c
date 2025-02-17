@@ -102,6 +102,41 @@ bool	check_pipes(char *cmd) // peut etre pas 100%bon
 	return (false);
 }
 
+bool	check_and(char *cmd)
+{
+	int		i;
+	int		cmdlen;
+	int		andcount;
+	bool	sq;
+	bool	dq;
+
+	if (!cmd)
+		return (false);
+	i = -1;
+	cmdlen = ft_strlen(cmd);
+	sq = false;
+	dq = false;
+	if (cmd[cmdlen] == '&' || *cmd == '&')
+		return (true);
+	while (cmd[++i])
+	{
+		if (cmd[i] == '\'' && dq == false)
+			sq = !sq;
+		if (cmd[i] == '\"' && sq == false)
+			dq = !dq;
+		andcount = 0;
+		if (cmd[i] == '&' && sq == false && dq == false)
+		{
+			while (cmd[i + andcount] && cmd[i + andcount] == '&')
+				andcount++;
+			if (andcount != 2)
+				return (true);
+			i += andcount;
+		}
+	}
+	return (false);
+}
+
 // return true if invalid input
 bool	check_invalid_input(char *cmd)
 {
@@ -120,5 +155,7 @@ bool	check_invalid_input(char *cmd)
 	// check redir
 	if (check_redir(cmd))
 		return (true);
+	if (check_and(cmd))
+		return (ft_putstr_fd(" syntax error near unexpected token `&'\n", STDERR_FILENO), true);
 	return (false);
 }

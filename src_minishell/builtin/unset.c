@@ -6,7 +6,7 @@
 /*   By: maecarva <maecarva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 16:47:45 by maecarva          #+#    #+#             */
-/*   Updated: 2025/02/15 18:58:11 by maecarva         ###   ########.fr       */
+/*   Updated: 2025/02/17 15:41:06 by maecarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,6 @@ char	**duplicate_env_without_var(char *varname, t_config *minishell)
 	env[j] = NULL;
 	return (env);
 }
-
-
-
-
 
 void	execute_unset(char *cmd, t_config *minishell)
 {

@@ -142,39 +142,55 @@ bool	get_first_and_or(t_dlist *start, t_dlist *end, t_dlist **operator)
 	return (false);
 }
 // a || b && c && d || e || f && g
-void	construct(t_btree **ast, t_dlist *start, t_dlist *end)
+void	construct(t_btree **ast, t_dlist *start, t_dlist *end, bool split3, int index)
 {
 	t_dlist	*tmp;
+	t_dlist	*tmp2;
 
 	if (start == NULL || end == NULL)
 		return ;
 	tmp = NULL;
+	tmp2 = NULL;
 	if (list_contain_operator(start, end))
 	{
+
+	// printf("construct ast = %p start = %p end = %p split3 = %s, index = %d\n", *ast, start, end, split3 == true ? "true" : "false", index);
 		// check if only one type of operator
-		// if (multiple_and_or(start, end) == false)
-		// {
+		if (multiple_and_or(start, end) == false)
+		{
 			get_first_and_or(start, end, &tmp);
 			// create operator node
 			*ast = create_operator_node(ptr_to_lexertoklist(tmp->content)->type);
 			if (!ast)
 				return ;
-			construct(&(*ast)->left, start, tmp->prev);
-			construct(&(*ast)->right, tmp->next, end);
-		// }
-		// else {
-		// 	// merde
-		// 	get_first_and_or(start, end, &tmp);
-		// 	// create operator node
-		// 	// t_dlist *tmp2 = NULL;
-		// 	// t_dlist *tmp3 = NULL;
-		// 	*ast = create_operator_node(ptr_to_lexertoklist(tmp->content)->type);
-		// 	if (!ast)
-		// 		return ;
-		// 	construct(&(*ast)->left, start, tmp);
-		// 	
-		// 	// construct(&(*ast)->right, tmp->next, end);
-		// }
+			construct(&(*ast)->left, start, tmp->prev, false, index);
+			construct(&(*ast)->right, tmp->next, end, false, index);
+		}
+		else {
+			// merde
+			if (split3 == false)
+			{
+				get_last_and_or(start, end, &tmp);
+				*ast = create_operator_node(ptr_to_lexertoklist(tmp->content)->type);
+				if (!*ast)
+					return ;
+				construct(&(*ast)->left, start, tmp->prev, true, index + 1);
+				construct(&(*ast)->right, tmp->next, end, false, index + 1);
+			}
+			else
+			{
+				get_last_and_or(start, end, &tmp);
+				if (!tmp)
+					return ;
+				get_last_and_or(start, tmp->prev, &tmp2);
+				if (!tmp2)
+					return ;
+				*ast = create_operator_node(ptr_to_lexertoklist(tmp2->content)->type);
+					
+				construct(&(*ast)->left, start, tmp2->prev, true, index + 1);
+				construct(&(*ast)->right, tmp2->next, end, false, index + 1);
+			}
+		}
 	}
 	else if (list_contain_pipe(start, end, &tmp))
 	{
@@ -182,8 +198,8 @@ void	construct(t_btree **ast, t_dlist *start, t_dlist *end)
 		*ast = create_operator_node(ptr_to_lexertoklist(tmp->content)->type);
 		if (!ast)
 			return ;
-		construct(&(*ast)->left, start, tmp->prev);
-		construct(&(*ast)->right, tmp->next, end);
+		construct(&(*ast)->left, start, tmp->prev, false, index + 1);
+		construct(&(*ast)->right, tmp->next, end, false, index + 1);
 	}
 	else
 	{
@@ -224,7 +240,7 @@ bool	create_ast(t_btree **ast, t_dlist *tokenlist, t_config *config)
 {
 	if (!tokenlist || !config)
 		return (false);
-	construct(ast, tokenlist, tokenlist->prev);
+	construct(ast, tokenlist, tokenlist->prev, false, 0);
 	// handle_redirections(ast, tokenlist, tokenlist->prev);
 	finalise_ast(ast);
 	return (true);

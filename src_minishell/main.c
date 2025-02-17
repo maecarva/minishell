@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 10:05:52 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/15 19:04:42 by maecarva         ###   ########.fr       */
+/*   Updated: 2025/02/17 14:33:58 by maecarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,17 +35,13 @@ int	main(int ac, char **av, char **env)
 		i = 0;
 		while (arg_input[i])
 		{
-			// Parse arg_input[i]
-			// Execute arg_input[i]
 			ast = parse_cmd2(arg_input[i], minishell);
 			minishell->ast = ast;
 			if (!minishell->ast)
 			{
-				// free(arg_input[i]);
 				i++;
 				continue ;
 			}
-			// free(arg_input[i]);
 			check_type_execute(minishell);
 			free_ast(&ast);
 			i++;
@@ -81,7 +77,7 @@ int	main(int ac, char **av, char **env)
 				}
 				print_arbre(minishell->ast, 0);
 				free(cmd);
-				// check_type_execute(minishell);
+				check_type_execute(minishell);
 				free_ast(&ast);
 			}
 		}

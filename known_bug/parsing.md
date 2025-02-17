@@ -1,7 +1,6 @@
 # rules
-## handle cmd like = echo test |  | grep test > output.txt
-create a function next_char to skip spaces and check what is the next character. If special char -> invalid  *OK*
+- check parenthesis (quoted parenthesis, equal ( and ))
 
-echo "'$PWD'" OK
-maecarva ~> minishell # $? *OK*
-echo $USERhello
+# TODO
+change PWD and OLDPWD when cd
+export
