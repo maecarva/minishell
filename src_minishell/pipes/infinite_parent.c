@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 17:05:52 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/13 10:44:06 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/17 17:53:20 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,21 @@
 
 static void	mid_child(t_pipes *p_data, int i)
 {
-	close(p_data->fd[i][0]);
-	if (dup2(p_data->fd[i - 1][0], STDIN_FILENO) == -1)
+	close(p_data->fd[i][0]);                            // premier des 3 a fermer : 1 / 3
+	if (!p_data->name_infile)
+		p_data->fd_infile = p_data->fd[i - 1][0];
+	else
+	{
+		p_data->fd_infile = open(p_data->name_infile, p_data->flags, 0644);
+	}
+	if (!p_data->name_outfile)
+		p_data->fd_outfile = p_data->fd[i - 1][0];
+	else
+	{
+		p_data->fd_outfile = open(p_data->name_outfile, p_data->flags, 0644);
+		
+	}
+	if (dup2(p_data->fd_infile, STDIN_FILENO) == -1)
 	{
 		perror("dup2");
 		close(p_data->fd[i - 1][0]);
@@ -25,7 +38,7 @@ static void	mid_child(t_pipes *p_data, int i)
 		clear_minishell(p_data->ms_data);
 	}
 	close(p_data->fd[i - 1][0]);
-	if (dup2(p_data->fd[i][1], STDOUT_FILENO) == -1)
+	if (dup2(p_data->fd_outfile, STDOUT_FILENO) == -1)
 	{
 		perror("dup2");
 		close(p_data->fd[i][1]);
@@ -35,7 +48,8 @@ static void	mid_child(t_pipes *p_data, int i)
 	}
 	close(p_data->fd[i][1]);
 	free_fd(&(p_data->fd), p_data->nb_pipes);
-	p_data->cmd = ((t_node2 *)(p_data->ms_data->ast->left->item))->command;
+	p_data->cmd = ((t_node2 *)(p_data->ms_data->ast->item))->command;
+	p_data->type = ((t_node2 *)(p_data->ms_data->ast->item))->type;
 	execute_command(p_data);
 }
 
@@ -67,7 +81,11 @@ void	infinite_parent(t_pipes *p_data)
 			free_fd(&(p_data->fd), p_data->nb_pipes);
 		}
 		if (pid == 0)
+		{
+			p_data->ms_data->ast = p_data->ms_data->ast->left;
+			get_redirections(p_data);
 			mid_child(p_data, i);
+		}
 		close((p_data->fd)[i - 1][0]);
 		i++;
 	}

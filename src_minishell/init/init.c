@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 11:38:51 by maecarva          #+#    #+#             */
-/*   Updated: 2025/02/13 20:52:36 by maecarva         ###   ########.fr       */
+/*   Updated: 2025/02/15 18:45:51 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ char	*get_minishell_pid()
 		return (NULL);
 	if (get_next_line(fd, &fline) != 0)
 	{
+		ft_close(fd);
 		if (fline != NULL)
 			free(fline);
 		return (NULL);
@@ -35,6 +36,7 @@ char	*get_minishell_pid()
 		i++;
 	pid = ft_substr(fline, 0, i);
 	free(fline);
+	ft_close(fd);
 	return (pid);
 }
 
@@ -81,8 +83,8 @@ t_config	*init(int ac, char **av, char **env)
 {
 	t_config	*minishell;
 
-	if (isatty(STDIN_FILENO) == 0 ||isatty(STDOUT_FILENO) == 0 || isatty(STDERR_FILENO) == 0)
-		return (NULL);
+	// if (isatty(STDIN_FILENO) == 0 ||isatty(STDOUT_FILENO) == 0 || isatty(STDERR_FILENO) == 0)
+	// 	return (NULL);
 	minishell = ft_calloc(sizeof(t_config), 1);
 	if (!minishell)
 		return (NULL);

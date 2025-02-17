@@ -1,29 +1,14 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   loop.c                                             :+:      :+:    :+:   */
+/*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lalex-ku <lalex-ku@42sp.org.br>            +#+  +:+       +#+        */
+/*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/22 17:32:45 by lalex-ku          #+#    #+#             */
-/*   Updated: 2022/06/22 17:32:50 by lalex-ku         ###   ########.fr       */
+/*   Created: 2025/02/15 17:14:10 by ebonutto          #+#    #+#             */
+/*   Updated: 2025/02/15 17:14:16 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <fcntl.h>
-#include <stdio.h>
-#include <unistd.h>
+#include "minishell.h"
 
-int	main(int argc, char const *argv[])
-{
-	int	pid;
-
-	pid = fork();
-	open("infile", O_RDONLY);
-	while (1)
-	{
-		printf("Helloo miniHELL %i\n", pid);
-		sleep(1);
-	}
-	return (0);
-}

@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 14:41:06 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/13 21:19:10 by maecarva         ###   ########.fr       */
+/*   Updated: 2025/02/17 16:59:44 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,9 @@
 /* directory */
 # include <dirent.h>
 
+/* For stat */
+#include <sys/stat.h>
+
 /* Number constants */
 
 /* For Errors that we cannot handle : malloc, open, ... */
@@ -85,6 +88,9 @@
 # define SEARCHFORFILES 2
 
 # define NO_ENV_DEFAULT_SIZE 6
+
+# define SHELL_NAME NULL
+//"bash: "
 
 /* Colors */
 
@@ -257,7 +263,7 @@ void	execute_pwd(char *cmd, t_config *minishell);
 void	execute_env(char *cmd, t_config *minishell);
 void	execute_exit(char *cmd, t_config *minishell);
 void	execute_cd(char *cmd, t_config *minishell);
-void	echo(t_config *ms_data);
+void	execute_echo(char *cmd, t_config *minishell);
 
 /* Free */
 // void	free_minishell(t_config **ms_data);
@@ -266,6 +272,8 @@ void	echo(t_config *ms_data);
 void	print_arbre(t_btree *root, int level);
 
 /* Others (en cours) */
+void	execute_ast(t_btree *original_ast, t_config **ms_data);
+// void	move_in_ast(t_config **ms_data);
 void	check_type_execute(t_config *ms_data);
 
 #endif /* MINISHELL_H */
