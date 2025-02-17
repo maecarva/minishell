@@ -88,8 +88,8 @@ SRC_EXTRA = ft_abs.c \
 			ft_only_whitespaces_after.c \
 			ft_is_in_charset.c \
 			ft_first_char_in_charset_rev.c \
-			ft_first_char_in_charset.c
-			ft_str_is_only_charset.c \
+			ft_first_char_in_charset.c \
+			ft_str_is_only_charset.c
 
 SRC_DOUBLE_LINKED_LIST = dll_add_back.c \
 						 dll_new.c \

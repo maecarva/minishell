@@ -3,8 +3,8 @@
 
 
 # TODO
-change PWD and OLDPWD when cd
-export
+change PWD and OLDPWD when cd 
+leaks wildcards
 
 # elio
 ls && ls | ls -la = fonctionne
