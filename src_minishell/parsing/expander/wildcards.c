@@ -197,12 +197,15 @@ void	search_for_matching_files(char **cmd, int start, int end, char *pattern)
 	int		j;
 	char	**files;
 	bool	valid;
-	char	*validfiles = ft_strdup("");
+	char	*validfiles = NULL;
+	char	*tmp;
 
 	if (!cmd || !*cmd || !pattern)
 		return ;
 	splited = ft_split(*cmd, '*');
-	files = ft_split(get_all_files(), ' ');
+	tmp = get_all_files();
+	files = ft_split(tmp, ' ');
+	ft_free_simple_ptr(&tmp);
 	if (!splited)
 		return (free(pattern));
 	if (!files)
@@ -248,10 +251,14 @@ void	search_for_matching_files(char **cmd, int start, int end, char *pattern)
 			}
 			if (valid)
 			{
-				if (files[i + 1] == NULL || *validfiles == '\0')
-					validfiles = ft_strjoin(validfiles, files[i]);
+				if (!validfiles)
+					validfiles = ft_strdup(files[i]);
 				else
+				{
+					tmp = validfiles;
 					validfiles = ft_str_three_join(validfiles, " ", files[i]);
+					free(tmp);
+				}
 			}
 			i++;
 		}
@@ -262,6 +269,9 @@ void	search_for_matching_files(char **cmd, int start, int end, char *pattern)
 		char *after = ft_substr(*cmd, end, ft_strlen(&(*cmd)[end]));
 		free(*cmd);
 		*cmd = ft_str_three_join(before, validfiles, after);
+		free(before);
+		free(after);
+		free(validfiles);
 	}
 	ft_free_double_ptr(&splited);
 	ft_free_double_ptr(&files);

@@ -150,6 +150,7 @@ typedef enum e_lexertok
 	EXIT,
 	OR,
 	AND,
+	PARENTHESIS,
 	ERROR,
 	NONE
 }	t_lexertok;

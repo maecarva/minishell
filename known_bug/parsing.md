@@ -4,7 +4,8 @@
 
 # TODO
 change PWD and OLDPWD when cd 
-leaks wildcards
+leaks wildcards *OK*
+parenthesis parsing
 
 # elio
 ls && ls | ls -la = fonctionne
