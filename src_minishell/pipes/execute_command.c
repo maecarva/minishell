@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
+/*   By: x03phy <x03phy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:29:18 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/18 17:43:13 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/18 22:33:30 by x03phy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,17 @@ static void	check_access(char ***cmds, char **path_cmd, t_pipes *p_data)
 {
 	struct stat statbuf;
 
-	if (access(*path_cmd, F_OK | X_OK) != 0 || ft_str_is_only_charset(*path_cmd, "./") == true)
+	if (access(*path_cmd, F_OK) != 0)
 	{
 		error_message(SHELL_NAME, *path_cmd, ": No such file or directory");
+		ft_free_double_ptr(cmds);
+		ft_free_simple_ptr(path_cmd);
+		p_data->ms_data->last_error_code = ERROR_COMMAND;
+		clear_minishell(p_data->ms_data);
+	}
+	if (access(*path_cmd, X_OK) != 0)
+	{
+		error_message(SHELL_NAME, *path_cmd, ": Permission denied");
 		ft_free_double_ptr(cmds);
 		ft_free_simple_ptr(path_cmd);
 		p_data->ms_data->last_error_code = ERROR_COMMAND;
