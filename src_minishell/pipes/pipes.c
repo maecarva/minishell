@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:10:04 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/14 16:18:01 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/18 11:31:04 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,7 @@ void	pipes(t_config *ms_data)
 
 	init_p_data(&p_data, ms_data);
 	if (p_data.nb_pipes == 0)
-	{
-		if (simple_command(&p_data) == 1)
-			ms_data->last_error_code = EXIT_FAILURE;
-	}
+		simple_command(&p_data);
 	else
 	{
 		first_parent(&p_data);

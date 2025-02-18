@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 09:42:12 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/12 16:03:12 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/18 11:31:36 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static int	**create_fd(int len)
 	int	i;
 
 	if (len == 0)
-		return 0;
+		return (0);
 	fd = malloc(sizeof(int *) * (len));
 	if (!fd)
 		return (0);
@@ -95,5 +95,6 @@ void	unlink_hd(t_pipes *p_data)
 	{
 		if (unlink("here_doc.tmp") == -1)
 			perror("unlink");	
+		p_data->is_hd = false;
 	}
 }

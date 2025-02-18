@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maecarva <maecarva@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 14:29:27 by maecarva          #+#    #+#             */
-/*   Updated: 2025/02/17 15:43:42 by maecarva         ###   ########.fr       */
+/*   Updated: 2025/02/18 11:10:29 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,4 +168,5 @@ void	execute_export(char *cmd, t_config *minishell)
 		free(name);
 	}
 	ft_free_double_ptr(&splited);
+	minishell->last_error_code = 0;
 }

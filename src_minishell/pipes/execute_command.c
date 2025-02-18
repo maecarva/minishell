@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:29:18 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/15 17:49:50 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/18 11:26:30 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,6 @@ static void	handle_path(char ***cmds, char **path_cmd, t_pipes *p_data)
 		size = ft_strlen(p_data->cmd);
 	else
 		size = target - p_data->cmd;
-
 	*path_cmd = ft_calloc(sizeof(char), (size + 1));
 	if (!*path_cmd)
 	{
@@ -141,30 +140,36 @@ static void	check_builtin_execute(t_pipes *p_data)
 	if (p_data->type == ECHO)
 	{
 		execute_echo(p_data->cmd, p_data->ms_data);
-		p_data->ms_data->last_error_code = 0;
 		clear_minishell(p_data->ms_data);
 	}
 	else if (p_data->type == PWD)
 	{
 		execute_pwd(p_data->cmd, p_data->ms_data);
-		p_data->ms_data->last_error_code = 0;
 		clear_minishell(p_data->ms_data);
 	}
 	else if (p_data->type == ENV)
 	{
 		execute_env(p_data->cmd, p_data->ms_data);
-		p_data->ms_data->last_error_code = 0;
 		clear_minishell(p_data->ms_data);
 	}
 	else if (p_data->type == EXIT)
 	{
 		execute_exit(p_data->cmd, p_data->ms_data);
-		p_data->ms_data->last_error_code = 0;
 		clear_minishell(p_data->ms_data);
 	}
 	else if (p_data->type == CD)
 	{
 		execute_cd(p_data->cmd, p_data->ms_data);
+		clear_minishell(p_data->ms_data);
+	}
+	else if (p_data->type == EXPORT)
+	{
+		execute_export(p_data->cmd, p_data->ms_data);
+		clear_minishell(p_data->ms_data);
+	}
+	else if (p_data->type == UNSET)
+	{
+		execute_unset(p_data->cmd, p_data->ms_data);
 		clear_minishell(p_data->ms_data);
 	}
 }

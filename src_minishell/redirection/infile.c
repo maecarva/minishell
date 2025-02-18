@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 13:45:59 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/17 17:37:27 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/18 14:42:50 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,17 +33,17 @@ static void	check_infile_access(t_pipes *p_data)
 static void	create_hd(t_pipes *p_data, char *limiter)
 {
 	char	*line;
-	int		fd_infile;
 
 	p_data->name_infile = "here_doc.tmp";
-	fd_infile = open("here_doc.tmp", O_WRONLY | O_CREAT, 0644);
-	if (fd_infile == -1)
+	p_data->fd_infile = open("here_doc.tmp", O_WRONLY | O_CREAT, 0644);
+	if (p_data->fd_infile == -1)
 	{
 		perror("open");
 		free_fd(&(p_data->fd), p_data->nb_pipes);
 		p_data->ms_data->last_error_code = ERROR_CODE;
 		clear_minishell(p_data->ms_data);
 	}
+	p_data->is_hd = true;
 	line = NULL;
 	while (1)
 	{
@@ -59,20 +59,16 @@ static void	create_hd(t_pipes *p_data, char *limiter)
 				ft_max(ft_strlen(limiter), ft_strlen(line))) == '\n')
 		{
 			free(line);
-			close(fd_infile);
+			close(p_data->fd_infile);
 			return ;
 		}
-		ft_putstr_fd(line, fd_infile);
+		ft_putstr_fd(line, p_data->fd_infile);
 	}
 }
 
 void	get_infile(t_pipes *p_data, t_btree *cmd)
 {
-	if (p_data->is_hd == true)
-	{
-		unlink_hd(p_data);
-		p_data->is_hd = false;
-	}
+	unlink_hd(p_data);
 	if (((t_node2 *)(cmd->item))->type == REDIRECT_INPUT)
 	{
 		p_data->name_infile = ((t_node2 *)(cmd->item))->file;
