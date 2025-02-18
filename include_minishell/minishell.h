@@ -254,6 +254,7 @@ void	handle_redirections(t_btree **node, t_dlist *start, t_dlist *end);
 // expander
 bool	expander(t_dlist *lexed_list, t_config *config);
 void	expand_wildcards(char **cmd);
+void	clean_quotes(char *s);
 // ast
 bool	create_ast(t_btree **ast, t_dlist *tokenlist, t_config *config);
 t_btree	*create_operator_node(t_lexertok type);

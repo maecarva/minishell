@@ -21,7 +21,7 @@ bool	valid_name(char *name)
 	i = -1;
 	while (name[++i])
 	{
-		if (!ft_isalpha(name[i]) && (size_t)i < ft_strlen(name) - 1)
+		if (!ft_isalpha(name[i]) && (size_t)i < ft_strlen(name) - 1 && name[i] != '_')
 			return (false);
 	}
 	if (name[ft_strlen(name) - 1] != '+' && !ft_isalpha(name[ft_strlen(name) - 1]))
@@ -88,10 +88,10 @@ void	add_to_env(char *name, char *value, t_config *minishell)
 	env[++i] = NULL;
 	ft_free_double_ptr(&minishell->environnement);
 	minishell->environnement = env;
-	free(value);
+	// free(value);
 }
 
-void	execute_export(char *cmd, t_config *minishell)
+void	execute_export2(char *cmd, t_config *minishell)
 {
 	int		i;
 	char	*tmp;
@@ -117,7 +117,11 @@ void	execute_export(char *cmd, t_config *minishell)
 		error = false;
 		j = -1;
 		while (splited[i] && ft_strchr(splited[i], '=') == NULL)
+		{
+			if (i % 2 && splited[i + 1])
+				print_err(splited[i + 1]);
 			i++;
+		}
 		if (splited[i] == NULL)
 			break ;
 		while (splited[i][++j] && splited[i][j] != '=')
@@ -169,4 +173,86 @@ void	execute_export(char *cmd, t_config *minishell)
 	}
 	ft_free_double_ptr(&splited);
 	minishell->last_error_code = 0;
+}
+
+// only alphanum + _
+
+bool	is_valid_env_name(char *name)
+{
+	int	i;
+
+	if (!name)
+		return (false);
+	i = 0;
+	while (name[i])
+	{
+		if (!ft_isalnum(name[i]) && name[i] != '_')
+			return (false);
+		i++;
+	}
+	return (true);
+}
+
+void	execute_export(char *cmd, t_config *minishell)
+{
+	int		i;
+	char	*name;
+	int		j;
+	int		quotestatus;
+	char	*value;
+
+	if (!cmd || !minishell)
+		return ;
+	i = 0;
+	j = 0;
+	quotestatus = 0;
+	name = NULL;
+	value = NULL;
+	while (!ft_isspace(cmd[i]))
+		i++;
+	while (ft_isspace(cmd[i]))
+		i++;
+	while (cmd[i])
+	{
+		j = i;
+		while ((cmd[j] && ft_isalnum(cmd[j])) || cmd[j] == '_')
+			j++;
+		name = ft_substr(cmd, i, j - i);
+		if (!name)
+			break ;
+		p("name : [%s]\n", name);
+		i = j;
+		while (cmd[i] && cmd[i] != '=')
+			i++;
+		if (cmd[i] == '=')
+			i++;
+		j = i;
+		while (cmd[j])
+		{
+			if (cmd[j] == '\'' && quotestatus == 0)
+				quotestatus = 1;
+			else if (cmd[j] == '\'' && quotestatus == 1)
+				quotestatus = 0;
+			else if (cmd[j] == '\"' && quotestatus == 0)
+				quotestatus = 2;
+			else if (cmd[j] == '\"' && quotestatus == 2)
+				quotestatus = 0;
+			if (ft_isspace(cmd[j]) && quotestatus == 0)
+				break ;
+			j++;
+		}
+		value = ft_substr(cmd, i, j - i);
+		p("value : [%s]\n", value);
+		clean_quotes(value);	
+		p("value : [%s]\n", value);
+		add_to_env(name, value, minishell);
+		ft_free_simple_ptr(&name);
+		ft_free_simple_ptr(&value);
+		i += j - i;
+	}
+	// if (!is_valid_env_name(cmd))
+	// {
+	// 	print_err(name);
+	// }
+		
 }
