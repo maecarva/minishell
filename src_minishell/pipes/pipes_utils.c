@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 09:42:12 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/18 11:31:36 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/18 17:33:13 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ void	init_p_data(t_pipes *p_data, t_config *ms_data)
 	}
 	else
 		p_data->fd = 0;
+	p_data->to_close_one = -1;
+	p_data->to_close_two = -1;
 	p_data->is_hd = false;
 	p_data->name_infile = NULL;
 	p_data->name_outfile = NULL;

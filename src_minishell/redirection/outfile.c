@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 13:46:49 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/18 10:57:04 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/18 17:41:03 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ static void	check_outfile_access(t_pipes *p_data, t_btree *cmdn)
 		if (access(p_data->name_outfile, R_OK) == -1)
 		{
 			error_message(SHELL_NAME, p_data->name_outfile, ": Permission denied");
+			ft_close(&p_data->to_close_one);
+			ft_close(&p_data->to_close_two);
 			unlink_hd(p_data);
 			free_fd(&p_data->fd, p_data->nb_pipes);
 			p_data->ms_data->last_error_code = EXIT_FAILURE;
@@ -50,12 +52,14 @@ static void	check_outfile_access(t_pipes *p_data, t_btree *cmdn)
 	if (p_data->fd_outfile == -1)
 	{
 		perror("open");
+		ft_close(&p_data->to_close_one);
+		ft_close(&p_data->to_close_two);
 		unlink_hd(p_data);
 		free_fd(&(p_data->fd), p_data->nb_pipes);
 		p_data->ms_data->last_error_code = ERROR_CODE;
 		clear_minishell(p_data->ms_data);
 	}
-	close(p_data->fd_outfile);
+	ft_close(&p_data->fd_outfile);
 }
 
 void	get_outfile(t_pipes *p_data, t_btree *cmd)
