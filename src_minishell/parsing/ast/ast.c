@@ -141,6 +141,23 @@ bool	get_first_and_or(t_dlist *start, t_dlist *end, t_dlist **operator)
 	}
 	return (false);
 }
+
+bool	list_contain_operator_near_parenthesis(t_dlist *start, t_dlist *end)
+{
+	t_dlist	*tmp;
+
+	if (!start || !end)
+		return (false);
+	get_last_and_or(start, end, &tmp);
+	while (tmp)
+	{
+		if (ptr_to_lexertoklist(tmp->next->content)->type == PARENTHESIS_L || ptr_to_lexertoklist(tmp->prev->content)->type == PARENTHESIS_R)
+			return (true);
+		get_last_and_or(start, end, &tmp);
+	}
+	return (false);
+}
+
 // a || b && c && d || e || f && g
 void	construct(t_btree **ast, t_dlist *start, t_dlist *end, bool split3, int index)
 {
@@ -151,10 +168,14 @@ void	construct(t_btree **ast, t_dlist *start, t_dlist *end, bool split3, int ind
 		return ;
 	tmp = NULL;
 	tmp2 = NULL;
+
+	// check && || neigbouring parenthesis
+	// if (list_contain_operator_near_parenthesis(start, end))
+	// {
+	//
+	// }
 	if (list_contain_operator(start, end))
 	{
-
-	// printf("construct ast = %p start = %p end = %p split3 = %s, index = %d\n", *ast, start, end, split3 == true ? "true" : "false", index);
 		// check if only one type of operator
 		if (multiple_and_or(start, end) == false)
 		{
@@ -217,7 +238,7 @@ void	finalise_ast(t_btree **ast)
 	n = (t_node2 *)((*ast)->item);
 	if (n->type == CMD)
 	{
-		if (ft_strnstr(n->command, "echo", ft_strlen("echo")) == n->command)
+		if ((ft_strnstr(n->command, "echo", ft_strlen("echo")) == n->command) && (ft_isspace(n->command[4]) || n->command[4] == '\0'))
 			n->type = ECHO;
 		else if (ft_strnstr(n->command, "cd", ft_strlen("cd")) == n->command)
 			n->type = CD;

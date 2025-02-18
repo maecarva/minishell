@@ -137,6 +137,41 @@ bool	check_and(char *cmd)
 	return (false);
 }
 
+
+bool	check_parenthesis(char *cmd)
+{
+	int	state;
+	int	i;
+	int	parentesis;
+
+	if (!cmd)
+		return (false);
+	i = 0;
+	parentesis = 0;
+	state = 0;
+	while (cmd[i])
+	{
+		if (cmd[i] == '\'' && state == 0)
+			state = 1;
+		else if (cmd[i] == '\'' && state == 1)
+			state = 0;
+		else if (cmd[i] == '\"' && state == 0)
+			state = 2;
+		else if (cmd[i] == '\"' && state == 2)
+			state = 0;
+		else if (cmd[i] == '(' && state == 0)
+			parentesis++;
+		else if (cmd[i] == ')' && state == 0)
+			parentesis--;
+		i++;
+	}
+	if (parentesis < 0)
+		return (ft_putstr_fd(" syntax error near unexpected token `)'\n", STDERR_FILENO), true);
+	else if (parentesis > 0)
+		return (ft_putstr_fd(" syntax error near unexpected token `('\n", STDERR_FILENO), true);
+	return (false);
+
+}
 // return true if invalid input
 bool	check_invalid_input(char *cmd)
 {
@@ -157,5 +192,7 @@ bool	check_invalid_input(char *cmd)
 		return (true);
 	if (check_and(cmd))
 		return (ft_putstr_fd(" syntax error near unexpected token `&'\n", STDERR_FILENO), true);
+	if (check_parenthesis(cmd))
+		return (true);
 	return (false);
 }

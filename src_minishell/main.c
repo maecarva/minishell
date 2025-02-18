@@ -77,7 +77,7 @@ int	main(int ac, char **av, char **env)
 				}
 				print_arbre(minishell->ast, 0);
 				free(cmd);
-				check_type_execute(minishell);
+				// check_type_execute(minishell);
 				free_ast(&ast);
 			}
 		}

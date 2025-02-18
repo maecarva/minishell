@@ -55,6 +55,12 @@ void	print_token_list(t_dlist **dlist)
 			case OR:
 				p("%s]\n", "OR");
 				break ;
+			case PARENTHESIS_L:
+				p("%s]\n", "PARENTHESIS_L");
+				break ;
+			case PARENTHESIS_R:
+				p("%s]\n", "PARENTHESIS_R");
+				break ;
 			default:
 				p("%s]\n", "ERROR");
 				break ;

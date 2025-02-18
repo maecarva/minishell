@@ -1,9 +1,9 @@
 # rules
 - check parenthesis (quoted parenthesis, equal ( and ))
-
+echo a && )(
 
 # TODO
-change PWD and OLDPWD when cd 
+change PWD and OLDPWD when cd *OK*
 leaks wildcards *OK*
 parenthesis parsing
 
