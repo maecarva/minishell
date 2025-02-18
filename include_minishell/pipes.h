@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 14:09:58 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/17 17:37:16 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/18 15:04:38 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	error_message(char *s1, char *s2, char *s3);
 
 /* Pipes */
 void	pipes(t_config *ms_data);
-int		simple_command(t_pipes *p_data);
+void	simple_command(t_pipes *p_data);
 void	first_parent(t_pipes *p_data);
 void	infinite_parent(t_pipes *p_data);
 void	last_parent(t_pipes *p_data);

@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 11:38:51 by maecarva          #+#    #+#             */
-/*   Updated: 2025/02/15 18:45:51 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/18 13:22:00 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	*get_minishell_pid()
 		return (NULL);
 	if (get_next_line(fd, &fline) != 0)
 	{
-		ft_close(fd);
+		ft_close(&fd);
 		if (fline != NULL)
 			free(fline);
 		return (NULL);
@@ -36,7 +36,7 @@ char	*get_minishell_pid()
 		i++;
 	pid = ft_substr(fline, 0, i);
 	free(fline);
-	ft_close(fd);
+	ft_close(&fd);
 	return (pid);
 }
 

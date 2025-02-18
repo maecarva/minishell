@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 18:11:12 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/17 18:44:29 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/18 16:02:34 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,21 +22,21 @@ void	error_message(char *s1, char *s2, char *s3)
 		ft_putendl_fd(s3, 2);
 }
 
-void	execute_ast(t_btree *actual_ast, t_config **ms_data)
+void	execute_ast(t_btree *actual_ast, t_config *ms_data)
 {
 	t_lexertok	type;
 
 	if (!actual_ast)
 		return ;
 	type = ((t_node2 *)(actual_ast->item))->type;
-	(*ms_data)->ast = actual_ast;
+	ms_data->ast = actual_ast;
 	if (type != OR && type != AND)
 	{
-		check_type_execute(*ms_data);
+		check_type_execute(ms_data);
 		return ;
 	}
-	print_arbre(actual_ast, 0);
+	// print_arbre(actual_ast, 0);
 	execute_ast(actual_ast->left, ms_data);
-	if ((type == OR && (*ms_data)->last_error_code != 0) || (type == AND && (*ms_data)->last_error_code == 0))
+	if ((type == OR && ms_data->last_error_code != 0) || (type == AND && ms_data->last_error_code == 0))
 		execute_ast(actual_ast->right, ms_data);
 }

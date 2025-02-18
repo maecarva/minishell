@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 14:41:06 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/17 17:38:13 by maecarva         ###   ########.fr       */
+/*   Updated: 2025/02/18 16:00:10 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,6 +181,7 @@ typedef	struct s_config {
 	char	*current_path;
 	char	*prompt;
 	t_btree	*ast;
+	t_btree	*dont_fucking_touch_me;
 	int		last_error_code;
 	char	*pidstr;
 }	t_config;
@@ -283,7 +284,7 @@ void	execute_echo(char *cmd, t_config *minishell);
 void	print_arbre(t_btree *root, int level);
 
 /* Others (en cours) */
-void	execute_ast(t_btree *original_ast, t_config **ms_data);
+void	execute_ast(t_btree *original_ast, t_config *ms_data);
 // void	move_in_ast(t_config **ms_data);
 void	check_type_execute(t_config *ms_data);
 

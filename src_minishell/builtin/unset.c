@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maecarva <maecarva@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 16:47:45 by maecarva          #+#    #+#             */
-/*   Updated: 2025/02/17 15:41:06 by maecarva         ###   ########.fr       */
+/*   Updated: 2025/02/18 11:15:03 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,5 +76,6 @@ void	execute_unset(char *cmd, t_config *minishell)
 		i++;
 	}
 	ft_free_double_ptr(&splited);
+	minishell->last_error_code = 0;
 }
 

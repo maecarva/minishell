@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 13:46:49 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/17 18:36:03 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/18 10:57:04 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 static void	check_outfile_access(t_pipes *p_data, t_btree *cmdn)
 {
-	int	fd_outfile;
 	// struct stat statbuf;
 
 	// if (stat(p_data->name_outfile, &statbuf) == 0)
@@ -47,8 +46,8 @@ static void	check_outfile_access(t_pipes *p_data, t_btree *cmdn)
 			clear_minishell(p_data->ms_data);
 		}
 	}
-	fd_outfile = open(((t_node2 *)(cmdn->item))->file, p_data->flags, 0644);
-	if (fd_outfile == -1)
+	p_data->fd_outfile = open(((t_node2 *)(cmdn->item))->file, p_data->flags, 0644);
+	if (p_data->fd_outfile == -1)
 	{
 		perror("open");
 		unlink_hd(p_data);
@@ -56,22 +55,15 @@ static void	check_outfile_access(t_pipes *p_data, t_btree *cmdn)
 		p_data->ms_data->last_error_code = ERROR_CODE;
 		clear_minishell(p_data->ms_data);
 	}
-	close(fd_outfile);
+	close(p_data->fd_outfile);
 }
 
 void	get_outfile(t_pipes *p_data, t_btree *cmd)
 {
 	p_data->name_outfile = ((t_node2 *)(cmd->item))->file;
-	fprintf(stderr, "in get outfile : %s\n", p_data->name_outfile);
 	if (((t_node2 *)(cmd->item))->type == TRUNCATE)
-	{
-		perror("ntm1");
 		p_data->flags = O_WRONLY | O_CREAT | O_TRUNC;
-	}
 	else if (((t_node2 *)(cmd->item))->type == APPEND)
-	{
-		perror("ntm2");
 		p_data->flags = O_WRONLY | O_CREAT | O_APPEND;
-	}
 	check_outfile_access(p_data, cmd);
 }
