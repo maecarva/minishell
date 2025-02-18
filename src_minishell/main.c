@@ -84,8 +84,8 @@ int	main(int ac, char **av, char **env)
 				// printf("=================\n");
 				// print_arbre(minishell->dont_fucking_touch_me, 0);
 				free(cmd);
-                execute_ast(minishell->ast, minishell);
-				// check_type_execute(minishell);
+                // execute_ast(minishell->ast, minishell);
+				check_type_execute(minishell);
 				// print_arbre(*minishell->head_ast, 0);
 				free_ast(&(minishell->dont_fucking_touch_me));
 			}

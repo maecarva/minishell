@@ -184,10 +184,15 @@ bool	is_valid_env_name(char *name)
 	if (!name)
 		return (false);
 	i = 0;
+	if (ft_isdigit(name[i]))
+		return (false);
 	while (name[i])
 	{
-		if (!ft_isalnum(name[i]) && name[i] != '_')
-			return (false);
+		if (!ft_isalnum(name[i]))
+		{
+			if (name[i] != '_')
+				return (false);
+		}
 		i++;
 	}
 	return (true);
@@ -208,6 +213,7 @@ void	execute_export(char *cmd, t_config *minishell)
 	quotestatus = 0;
 	name = NULL;
 	value = NULL;
+	// p("%s\n", cmd);
 	while (!ft_isspace(cmd[i]))
 		i++;
 	while (ft_isspace(cmd[i]))
@@ -215,12 +221,13 @@ void	execute_export(char *cmd, t_config *minishell)
 	while (cmd[i])
 	{
 		j = i;
-		while ((cmd[j] && ft_isalnum(cmd[j])) || cmd[j] == '_')
+		while (cmd[j] && cmd[j] != '=')
 			j++;
 		name = ft_substr(cmd, i, j - i);
 		if (!name)
 			break ;
-		p("name : [%s]\n", name);
+
+		// p("name : [%s]\n", name);
 		i = j;
 		while (cmd[i] && cmd[i] != '=')
 			i++;
@@ -241,18 +248,23 @@ void	execute_export(char *cmd, t_config *minishell)
 				break ;
 			j++;
 		}
+		if (!is_valid_env_name(name))
+		{
+			print_err(name);
+			minishell->last_error_code = 1;
+			ft_free_simple_ptr(&name);
+			i += j - i;
+			continue ;
+		}
 		value = ft_substr(cmd, i, j - i);
-		p("value : [%s]\n", value);
+		// p("value : [%s]\n", value);
 		clean_quotes(value);	
-		p("value : [%s]\n", value);
+		// p("value : [%s]\n", value);
 		add_to_env(name, value, minishell);
-		ft_free_simple_ptr(&name);
-		ft_free_simple_ptr(&value);
+		if (name)
+			ft_free_simple_ptr(&name);
+		if (value)
+			ft_free_simple_ptr(&value);
 		i += j - i;
-	}
-	// if (!is_valid_env_name(cmd))
-	// {
-	// 	print_err(name);
-	// }
-		
+	}	
 }

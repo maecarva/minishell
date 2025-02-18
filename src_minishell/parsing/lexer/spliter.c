@@ -185,7 +185,7 @@ t_dlist	*spliter(char *cmd)
 			while (cmd[i] && ft_isspace(cmd[i]))
 				i++;
 			start = i;
-			while (cmd[i] && !ft_isspace(cmd[i]) && !ft_strchr(SPECIALS_TOKEN, cmd[i]))
+			while (cmd[i] && !ft_isspace(cmd[i]) && !ft_strchr(SPECIALS_TOKEN, cmd[i]))/* && !ft_is_in_charset(cmd[i], "\'\"")*/ // add quoted condition ?
 				i++;
 			end = i - start;
 			add_to_token_list(&splited, cmd, start, end);
