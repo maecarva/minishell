@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../include_minishell/minishell.h"
+#include <unistd.h>
 
 int	tab_size(char **splited)
 {
@@ -22,6 +23,28 @@ int	tab_size(char **splited)
 	while (splited[i])
 		i++;
 	return (i);
+}
+
+void	clean_env_vars(t_config *minishell)
+{
+	char	*oldpwd;
+	char	pwd[MAX_PATH];
+	char	*cmd;
+
+	if (!minishell)
+		return ;
+	ft_bzero(pwd, MAX_PATH);
+	if (getcwd(pwd, MAX_PATH) == pwd)
+	{
+		oldpwd = get_value_by_name(minishell->environnement, "PWD");
+		cmd = ft_strjoin("export OLDPWD=", oldpwd);
+		execute_export(cmd, minishell);
+		ft_free_simple_ptr(&oldpwd);
+		ft_free_simple_ptr(&cmd);
+		cmd = ft_strjoin("export PWD=", pwd);
+		execute_export(cmd, minishell);
+		ft_free_simple_ptr(&cmd);
+	}
 }
 
 void	execute_cd(char *cmd, t_config *minishell)
@@ -57,5 +80,8 @@ void	execute_cd(char *cmd, t_config *minishell)
 		return ;
 	}
 	else
+	{
 		minishell->last_error_code = 0;
+		clean_env_vars(minishell);
+	}
 }

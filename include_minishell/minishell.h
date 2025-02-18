@@ -150,6 +150,8 @@ typedef enum e_lexertok
 	EXIT,
 	OR,
 	AND,
+	PARENTHESIS_L,
+	PARENTHESIS_R,
 	ERROR,
 	NONE
 }	t_lexertok;
@@ -192,7 +194,7 @@ typedef	struct s_config {
 # define R_RIGHTCHAR	'>'
 # define HERE_DOC		"<<"
 
-# define SPECIALS_TOKEN	"|<>&"
+# define SPECIALS_TOKEN	"|<>&()"
 # define WHITESPACES	" \t\n\v\f\r"
 # define EXPAND_CHARSET "$?\'\""
 

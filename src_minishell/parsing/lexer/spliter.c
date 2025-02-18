@@ -63,6 +63,10 @@ t_lexertok	get_token_type(char *token, t_dlist **dlist)
 		type = APPEND;
 	else if (token[0] == '<' && token[1] == '<')
 		type = HEREDOC;
+	else if (token[0] == '(')
+		type = PARENTHESIS_L;
+	else if (token[0] == ')')
+		type = PARENTHESIS_R;
 	else
 	{
 		if ((*dlist) && (*dlist)->prev)

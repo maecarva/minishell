@@ -1,10 +1,11 @@
 # rules
 - check parenthesis (quoted parenthesis, equal ( and ))
-
+echo a && )(
 
 # TODO
-change PWD and OLDPWD when cd
-export
+change PWD and OLDPWD when cd *OK*
+leaks wildcards *OK*
+parenthesis parsing
 
 # elio
 ls && ls | ls -la = fonctionne
