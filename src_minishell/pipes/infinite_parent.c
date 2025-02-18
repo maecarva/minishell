@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 17:05:52 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/18 15:04:18 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/18 16:29:21 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static void	mid_child(t_pipes *p_data, int i)
 		p_data->fd_outfile = p_data->fd[i][1];
 	else
 	{
-		p_data->fd_outfile = open(p_data->name_outfile, O_WRONLY, 0644);
+		p_data->fd_outfile = open(p_data->name_outfile, p_data->flags, 0644);
 		if (p_data->fd_outfile == -1)
 		{
 			perror("open");
