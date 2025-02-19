@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+         #
+#    By: x03phy <x03phy@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/08 14:19:08 by ebonutto          #+#    #+#              #
-#    Updated: 2025/02/17 14:34:25 by maecarva         ###   ########.fr        #
+#    Updated: 2025/02/18 22:19:30 by x03phy           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ NAME = minishell
 
 # Compilateur et flags de compilation
 CC = cc
-CFLAGS = -Werror -Wextra -Wall -g
+CFLAGS = #-Werror -Wextra -Wall -g
 
 ################################################################################
 #                              DIRECTORY PATHS                                 #

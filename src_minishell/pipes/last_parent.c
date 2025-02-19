@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:16:59 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/18 16:28:47 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/18 17:39:45 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ void	last_parent(t_pipes *p_data)
 	if (pid == 0)
 	{
 		p_data->ms_data->ast =  p_data->ms_data->ast->right;
+		p_data->to_close_one = p_data->fd[p_data->nb_pipes - 1][0];
 		get_redirections(p_data);
 		last_child(p_data);
 	}
