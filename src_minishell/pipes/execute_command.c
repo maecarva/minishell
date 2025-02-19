@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: x03phy <x03phy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:29:18 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/18 22:33:30 by x03phy           ###   ########.fr       */
+/*   Updated: 2025/02/19 11:53:50 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,13 @@ static void	handle_no_path(char ***cmds, char **path_cmd, t_pipes *p_data, int i
 		perror("malloc");
 		ft_free_double_ptr(&paths);
 		p_data->ms_data->last_error_code = ERROR_CODE;
+		clear_minishell(p_data->ms_data);
+	}
+	if (ft_strchr(*cmds[0], '/') != NULL && access(*cmds[0], F_OK) != 0)
+	{
+		error_message(SHELL_NAME, *cmds[0], ": No such file or directory");
+		ft_free_double_ptr(cmds);
+		p_data->ms_data->last_error_code = ERROR_COMMAND;
 		clear_minishell(p_data->ms_data);
 	}
 	*path_cmd = find_path_cmd(paths, *cmds, p_data);
@@ -189,6 +196,29 @@ void	execute_command(t_pipes *p_data)
 	int		i;
 
 	i = 0;
+	if (p_data->cmd == NULL || p_data->cmd[0] == '\0')
+	{
+		p_data->ms_data->last_error_code = EXIT_SUCCESS;
+		clear_minishell(p_data->ms_data);
+	}
+	if (ft_str_is_only_charset(p_data->cmd, ".") == true)
+	{
+		error_message(SHELL_NAME, p_data->cmd, ": command not found");
+		p_data->ms_data->last_error_code = ERROR_COMMAND;
+		clear_minishell(p_data->ms_data);
+	}
+	else if (ft_strcmp(p_data->cmd, "./") == 0 || ft_strcmp(p_data->cmd, "../") == 0)
+	{
+		error_message(SHELL_NAME, p_data->cmd, ": Is a directory");
+		p_data->ms_data->last_error_code = CFBNE;
+		clear_minishell(p_data->ms_data);
+	}
+	else if (p_data->cmd[0] == '.' && p_data->cmd[1] != '/' && p_data->cmd[1] != '.' && p_data->cmd[1] != '\0')
+	{
+		error_message(SHELL_NAME, p_data->cmd, ": command not found");
+		p_data->ms_data->last_error_code = ERROR_COMMAND;
+		clear_minishell(p_data->ms_data);
+	}
 	check_builtin_execute(p_data);
 	while (p_data->ms_data->environnement[i] != NULL
 		&& ft_strncmp(p_data->ms_data->environnement[i], "PATH=", 5) != 0)

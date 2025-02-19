@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:10:04 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/18 11:31:04 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/19 11:30:12 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	check_children(t_pipes *p_data)
 		if (pid == p_data->pid_last_parent)
 		{
 			if (exit_code == ERROR_COMMAND || exit_code == ERROR_CODE
-				|| exit_code == EXIT_FAILURE)
+				|| exit_code == EXIT_FAILURE || exit_code == CFBNE)
 			{
 				if (p_data->ms_data->last_error_code != ERROR_CODE)	
 				p_data->ms_data->last_error_code = exit_code;

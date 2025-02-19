@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 14:41:06 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/18 16:00:10 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/19 14:29:13 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,13 @@
 /* Number constants */
 
 /* For Errors that we cannot handle : malloc, open, ... */
-# define ERROR_CODE 42
+# define ERROR_CODE -42
 
 /* Invalid Command */
 # define ERROR_COMMAND 127
+
+/* Command found but not executable */
+#define CFBNE 126
 
 /* ? */
 # define ENV_PARSING_ERROR 1
