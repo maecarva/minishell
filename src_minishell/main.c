@@ -80,7 +80,9 @@ int	main(int ac, char **av, char **env)
 				minishell->dont_fucking_touch_me = ast;
 				print_arbre(minishell->dont_fucking_touch_me, 0);
 				free(cmd);
+
                 execute_ast(minishell->ast, minishell);
+
 				free_ast(&(minishell->dont_fucking_touch_me));
 			}
 		}

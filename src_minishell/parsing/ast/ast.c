@@ -252,7 +252,11 @@ void	finalise_ast(t_btree **ast)
 			n->type = ENV;
 		else if (ft_strnstr(n->command, "exit", ft_strlen("exit")) == n->command)
 			n->type = EXIT;
+		else
+			clean_quotes(n->command);
 	} 
+	// if (n->type == ECHO)
+	// 	clean_quotes(n->command);
 	finalise_ast(&(*ast)->left);
 	finalise_ast(&(*ast)->right);
 }

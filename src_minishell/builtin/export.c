@@ -12,35 +12,35 @@
 
 #include "../../include_minishell/minishell.h"
 
-bool	valid_name(char *name)
+// bool	valid_name(char *name)
+// {
+// 	int	i;
+//
+// 	if (!name)
+// 		return (false);
+// 	i = -1;
+// 	while (name[++i])
+// 	{
+// 		if (!ft_isalpha(name[i]) && (size_t)i < ft_strlen(name) - 1 && name[i] != '_')
+// 			return (false);
+// 	}
+// 	if (name[ft_strlen(name) - 1] != '+' && !ft_isalpha(name[ft_strlen(name) - 1]))
+// 		return (false);
+// 	return (true);
+// }
+
+void	print_err(char *cmd, t_config *minishell)
 {
 	int	i;
 
-	if (!name)
-		return (false);
-	i = -1;
-	while (name[++i])
-	{
-		if (!ft_isalpha(name[i]) && (size_t)i < ft_strlen(name) - 1)
-			return (false);
-	}
-	if (name[ft_strlen(name) - 1] != '+' && !ft_isalpha(name[ft_strlen(name) - 1]))
-		return (false);
-	return (true);
-}
-
-// bash: export: `C++++++++=test': not a valid identifier
-void	print_err(char *cmd)
-{
-	int	i;
-
-	if (!cmd)
+	if (!cmd || !minishell)
 		return ;
 	i = -1;
 	ft_putstr_fd("bash: export: `", STDERR_FILENO);
 	while (cmd[++i] )
 		ft_putchar_fd(cmd[i], STDERR_FILENO);
 	ft_putstr_fd("': not a valid identifier\n", STDERR_FILENO);
+	minishell->last_error_code = 1;
 }
 
 char	*get_varname(char *s, int start, int end)
@@ -77,7 +77,14 @@ void	add_to_env(char *name, char *value, t_config *minishell)
 	i = 0;
 	while (minishell->environnement[i])
 	{
-		env[i] = ft_strdup(minishell->environnement[i]);
+		if (ft_strncmp(name, minishell->environnement[i], ft_strlen(name)) == 0 && minishell->environnement[i][ft_strlen(name)] == '=')
+		{
+			free(minishell->environnement[i]);
+			minishell->environnement[i] = ft_str_three_join(name, "=", value);
+			return (ft_free_double_ptr(&env));
+		}
+		else
+			env[i] = ft_strdup(minishell->environnement[i]);
 		if (!env[i])
 			return (ft_free_double_ptr(&env), (void)free(value));
 		i++;
@@ -88,85 +95,110 @@ void	add_to_env(char *name, char *value, t_config *minishell)
 	env[++i] = NULL;
 	ft_free_double_ptr(&minishell->environnement);
 	minishell->environnement = env;
-	free(value);
+}
+
+// only alphanum + _
+
+bool	is_valid_env_name(char *name)
+{
+	int	i;
+
+	if (!name)
+		return (false);
+	if (name[0] == '\0')
+		return (false);
+	i = 0;
+	if (ft_isdigit(name[i]))
+		return (false);
+	i++;
+	while (name[i])
+	{
+		if (!ft_isalnum(name[i]))
+		{
+			if (name[i] != '_')
+				return (false);
+		}
+		i++;
+	}
+	return (true);
 }
 
 void	execute_export(char *cmd, t_config *minishell)
 {
 	int		i;
-	char	*tmp;
-	char	**splited;
 	char	*name;
-	char	*value;
 	int		j;
-	bool	error;
+	int		quotestatus;
+	char	*value;
 
-	j = 0;
-	i = -1;
-	tmp = NULL;
-	splited = NULL;
-	name = NULL;
-	value = NULL;
 	if (!cmd || !minishell)
 		return ;
-	splited = ft_split_charset(cmd, WHITESPACES);
-	if (!splited)
-		return ;
-	while (splited[++i])
+	i = 0;
+	j = 0;
+	quotestatus = 0;
+	name = NULL;
+	value = NULL;
+	// p("%s\n", cmd);
+	while (!ft_isspace(cmd[i]))
+		i++;
+	while (ft_isspace(cmd[i]))
+		i++;
+	while (cmd[i])
 	{
-		error = false;
-		j = -1;
-		while (splited[i] && ft_strchr(splited[i], '=') == NULL)
+		j = i;
+		if (cmd[j] == '=')
+		{	
+			print_err("=", minishell);
 			i++;
-		if (splited[i] == NULL)
+			continue ;
+		}
+			
+		while (cmd[j] && cmd[j] != '=')
+			j++;
+		name = ft_substr(cmd, i, j - i);
+		if (!name)
 			break ;
-		while (splited[i][++j] && splited[i][j] != '=')
+
+		// p("name : [%s]\n", name);
+		i = j;
+		while (cmd[i] && cmd[i] != '=')
+			i++;
+		if (cmd[i] == '=')
+			i++;
+		j = i;
+		while (cmd[j])
 		{
-			if (((splited[i][j] == '+' && splited[i][j + 1] == '+') || (splited[i][j] == '+' && splited[i][j + 1] != '=')))
-			{
-				print_err(splited[i]);
-				error = true;
+			if (cmd[j] == '\'' && quotestatus == 0)
+				quotestatus = 1;
+			else if (cmd[j] == '\'' && quotestatus == 1)
+				quotestatus = 0;
+			else if (cmd[j] == '\"' && quotestatus == 0)
+				quotestatus = 2;
+			else if (cmd[j] == '\"' && quotestatus == 2)
+				quotestatus = 0;
+			if (ft_isspace(cmd[j]) && quotestatus == 0)
 				break ;
-			}
+			j++;
 		}
-		if (error == true)
-			continue ;
-		name = get_varname(splited[i], 0, j);
-		if (!name || ft_strlen(name) == 0)
-			continue ;
-		if (valid_name(name) == false)
+		clean_quotes(name);
+		if (!is_valid_env_name(name))
 		{
-			print_err(splited[i]);
-			free(name);
+			print_err(name, minishell);
+			ft_free_simple_ptr(&name);
+			i += j - i;
 			continue ;
 		}
-		if (name[ft_strlen(name) - 1] == '+') // add to existing
-		{
-			name[ft_strlen(name) - 1] = '\0';
-			value = get_value_by_name(minishell->environnement, name);
-			if (!value)
-				add_to_env(name, ft_strdup(&splited[i][j + 1]), minishell);
-			else
-			{
-				// danger si fail
-				char	**tmpenv = duplicate_env_without_var(name, minishell);
-				ft_free_double_ptr(&minishell->environnement);
-				minishell->environnement = tmpenv;
-				char	*tmp = ft_strdup(&splited[i][j + 1]);
-				add_to_env(name, ft_strjoin(value, tmp ), minishell);
-				free(tmp);
-				free(value);
-			}
-		}
-		else
-		{
-			char	**tmpenv = duplicate_env_without_var(name, minishell);
-			ft_free_double_ptr(&minishell->environnement);
-			minishell->environnement = tmpenv;
-			add_to_env(name, ft_strdup(&splited[i][j + 1]), minishell);
-		}
-		free(name);
+		value = ft_substr(cmd, i, j - i);
+		// p("value : [%s]\n", value);
+		clean_quotes(value);	
+		// p("value : [%s]\n", value);
+		add_to_env(name, value, minishell);
+		if (name)
+			ft_free_simple_ptr(&name);
+		if (value)
+			ft_free_simple_ptr(&value);
+		i += j - i;
+		while (cmd[i] && ft_isspace(cmd[i]))
+			i++;
 	}
-	ft_free_double_ptr(&splited);
-	minishell->last_error_code = 0;
 }

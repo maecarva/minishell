@@ -35,13 +35,11 @@ bool	valid_token_list(t_dlist **splited)
 				ft_putstr_fd("syntax error near unexpected token '", 2);
 				ft_putchar_fd(ptr_to_lexertoklist(tmp->content)->token[0], 2);
 				ft_putendl_fd("\'", 2);
-				//printf("syntax error near unexpected token '%c'\n", ptr_to_lexertoklist(tmp->content)->token[0]);
 				return (false);
 			}
 		}
 		if (is_special_token(ptr_to_lexertoklist(tmp->content)->type) && is_special_token(ptr_to_lexertoklist(tmp->next->content)->type))
 		{
-				// printf("Invalid token near : '%c'\n", ptr_to_lexertoklist(tmp->content)->token[0]);
 				ft_putstr_fd("Invalid token near : '", 2);
 				ft_putchar_fd(ptr_to_lexertoklist(tmp->content)->token[0], 2);
 				ft_putendl_fd("\'", 2);

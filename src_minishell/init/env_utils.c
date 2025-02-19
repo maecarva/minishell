@@ -46,7 +46,7 @@ char	*get_value_by_name(char **envp, char *name)
 		get_name(n, envp[i]);
 		if (n[0] != '\0')
 		{
-			if (ft_strncmp(n, name, ft_strlen(name)) == 0 && envp[i][ft_strlen(n)] == '=')
+			if (ft_strncmp(n, name, ft_strlen(name)) == 0 && envp[i][ft_strlen(name)] == '=')
 			{
 				tmp = ft_strchr(envp[i], '=') + 1;
 				if (!tmp)

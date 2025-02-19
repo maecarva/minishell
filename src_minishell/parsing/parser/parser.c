@@ -49,7 +49,7 @@ t_btree	*parse_cmd2(char *cmd, t_config *config)
 		return (free(trimmed), NULL);
 	}
 	// delete empty quotes
-	delete_doubles_quotes_end_str(trimmed);
+	// delete_doubles_quotes_end_str(trimmed);
 
 	// 3 : lexer string and check invalid redirections
 	if (!lexer(trimmed, &lexed))
