@@ -99,11 +99,8 @@ void	expand_pls(char **str, char **env, t_config *config, int *index)
 		*str = ptrs[0];
 		return ;
 	}
-	// while (s[j] && ((ft_isalnum(s[j]) && (ft_isalnum(s[j + 1]) || s[j + 1] == '_'))))
 	while (s[j] && ((ft_isalnum(s[j]) || s[j] == '_') && (ft_isalnum(s[j + 1]) || s[j + 1] == '_')))
 		j++;
-	// if j == *index + 1 digit name -> need to handle
-	// write(1, &s[*index + 1], j - *index);
 	ptrs[0] = ft_substr(s, *index + 1 , j - *index);
 	if (!ptrs[0])
 		return ;
@@ -153,6 +150,12 @@ void expand_token(char **tokenstr, char **envp, t_config *config)
 			expand = true;
 		if (expand)
 		{
+			if (s[i + 1] == '\"' && state == 2)
+			{
+				i++;
+				expand = false;
+				continue ;
+			}
 			expand_pls(tokenstr, envp, config, &i);
 			expand = false;
 			s = *tokenstr;

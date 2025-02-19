@@ -96,7 +96,6 @@ void	add_right(t_btree *node, t_btree *new)
 void	handle_redirections(t_btree **node, t_dlist *start, t_dlist *end)
 {
 	t_btree	*tmpleft;
-	// t_btree	*tmpright;
 	t_dlist	*tmp;
 	t_node2	*nodec;
 
@@ -116,21 +115,10 @@ void	handle_redirections(t_btree **node, t_dlist *start, t_dlist *end)
 			tmpleft = NULL;
 			nodec = NULL;
 		}
-		// if (ptr_to_lexertoklist(tmp->content)->type >= TRUNCATE && ptr_to_lexertoklist(tmp->content)->type <= APPEND)
-		// {
-		// 	nodec = ft_calloc(sizeof(t_node2), 1);
-		// 	nodec->type = ptr_to_lexertoklist(tmp->content)->type;
-		// 	nodec->file = ft_strdup(ptr_to_lexertoklist(tmp->next->content)->token);
-		// 	tmpright = ft_btree_create_node(nodec);
-		// 	add_right(*node, tmpright);
-		// 	tmpright = NULL;
-		// 	nodec = NULL;
-		// }
 		if (tmp == end)
 			break ;
 		tmp = tmp->next;
 	}
-	
 }
 
 // t_btree	*create_cmd_node(t_dlist *start, t_dlist *end)

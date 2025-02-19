@@ -17,6 +17,7 @@ void	execute_exit(char *cmd, t_config *ms_data)
 	char	**cmds;
 	int		size;
 	long	error_code;
+	int		i;
 
 	cmds = ft_split_charset(cmd, WHITESPACES);
 	if (!cmds)
@@ -34,7 +35,7 @@ void	execute_exit(char *cmd, t_config *ms_data)
 		ft_free_double_ptr(&cmds);
 		clear_minishell(ms_data);
 	}
-	if (ft_strisnumber(cmds[1]) == false || ft_islong(cmds[1]) == false)
+	if ((ft_strisnumber(cmds[1]) == false || ft_islong(cmds[1]) == false))
 	{
 		error_message(SHELL_NAME, cmds[1], ": numeric argument required");
 		ft_free_double_ptr(&cmds);

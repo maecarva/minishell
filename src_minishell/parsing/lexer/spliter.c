@@ -245,8 +245,12 @@ t_dlist	*spliter(char *cmd)
 				{
 					cquote = cmd[i];
 					i++;
-					while (cmd[i] && cmd[i] != cquote)
+					if (cmd[i] == cquote)
 						i++;
+					else
+						while (cmd[i] && cmd[i] != cquote)
+							i++;
+					i++;
 				}
 				else
 					i++;
