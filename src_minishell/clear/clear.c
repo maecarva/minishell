@@ -28,5 +28,6 @@ int	clear_minishell(t_config *minishell)
 	ft_free_double_ptr(&minishell->environnement);
 	free(minishell->pidstr);
 	free(minishell);
+	// p("error code : %d\n", errorcode);
 	exit(errorcode);
 }

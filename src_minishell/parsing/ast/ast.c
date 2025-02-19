@@ -255,8 +255,8 @@ void	finalise_ast(t_btree **ast)
 		else
 			clean_quotes(n->command);
 	} 
-	// if (n->type == ECHO)
-	// 	clean_quotes(n->command);
+	if (n->type == ECHO)
+		clean_quotes(n->command);
 	finalise_ast(&(*ast)->left);
 	finalise_ast(&(*ast)->right);
 }

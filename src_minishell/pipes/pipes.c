@@ -30,7 +30,7 @@ void	check_children(t_pipes *p_data)
 		if (pid == p_data->pid_last_parent)
 		{
 			if (exit_code == ERROR_COMMAND || exit_code == ERROR_CODE
-				|| exit_code == EXIT_FAILURE || exit_code == CFBNE)
+				|| exit_code == EXIT_FAILURE || exit_code == CFBNE || exit_code == 2)
 			{
 				if (p_data->ms_data->last_error_code != ERROR_CODE)	
 				p_data->ms_data->last_error_code = exit_code;
