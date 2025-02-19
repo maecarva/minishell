@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 10:05:52 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/19 14:00:43 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/19 15:55:27 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int	main(int ac, char **av, char **env)
 					continue ;
 				}
 				minishell->dont_fucking_touch_me = ast;
-				print_arbre(minishell->dont_fucking_touch_me, 0);
+				// print_arbre(minishell->dont_fucking_touch_me, 0);
 				free(cmd);
 
                 execute_ast(minishell->ast, minishell);
