@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 13:54:27 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/19 14:28:05 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/19 14:56:50 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	execute_exit(char *cmd, t_config *ms_data)
 		ft_free_double_ptr(&cmds);
 		clear_minishell(ms_data);
 	}
-	if (ft_strisnumber(cmds[1]) == false)
+	if (ft_strisnumber(cmds[1]) == false || ft_islong(cmds[1]) == false)
 	{
 		error_message(SHELL_NAME, cmds[1], ": numeric argument required");
 		ft_free_double_ptr(&cmds);
