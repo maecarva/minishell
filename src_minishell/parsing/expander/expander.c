@@ -99,7 +99,8 @@ void	expand_pls(char **str, char **env, t_config *config, int *index)
 		*str = ptrs[0];
 		return ;
 	}
-	while (s[j] && ft_isalpha(s[j]) && ft_isalpha(s[j + 1]))
+	// while (s[j] && ((ft_isalnum(s[j]) && (ft_isalnum(s[j + 1]) || s[j + 1] == '_'))))
+	while (s[j] && ((ft_isalnum(s[j]) || s[j] == '_') && (ft_isalnum(s[j + 1]) || s[j + 1] == '_')))
 		j++;
 	// if j == *index + 1 digit name -> need to handle
 	// write(1, &s[*index + 1], j - *index);
@@ -109,10 +110,7 @@ void	expand_pls(char **str, char **env, t_config *config, int *index)
 	ptrs[1] = get_value_by_name(env, ptrs[0]);
 	free(ptrs[0]);
 	if (!ptrs[1]) // no valid name
-	{
 		ft_memmove(&s[*index], &s[j + 1], ft_strlen(&s[j]) + 1);
-		*index += j;
-	}
 	else
 	{
 		ptrs[2] = ft_substr(s, 0, *index);
@@ -151,13 +149,16 @@ void expand_token(char **tokenstr, char **envp, t_config *config)
 			state = 2;
 		else if (s[i] == '\"' && state == 2)
 			state = 0;
-		else if (s[i] == '$' && (state == 0 || state == 2))
+		else if (s[i] == '$' && s[i + 1] != '\0' && (state == 0 || state == 2))
 			expand = true;
 		if (expand)
 		{
 			expand_pls(tokenstr, envp, config, &i);
 			expand = false;
 			s = *tokenstr;
+			i = 0;
+			state = 0;
+			continue ;
 		}
 		i++;
 	}
@@ -184,7 +185,7 @@ bool	expander(t_dlist *lexed_list, t_config *config)
 				}
 		}
 		expand_wildcards(&ptr_to_lexertoklist(tmp->content)->token);
-		clean_quotes(ptr_to_lexertoklist(tmp->content)->token);
+		// clean_quotes(ptr_to_lexertoklist(tmp->content)->token);
 		tmp = tmp->next;
 		if (tmp == lexed_list)
 			break ;

@@ -143,7 +143,7 @@ void	extract_quoted(char *cmd, int *i, int *start, int *end)
 	*i = *end;
 }
 
-t_dlist	*spliter(char *cmd)
+t_dlist	*spliter2(char *cmd)
 {
 	t_dlist	*splited;
 	int		start;
@@ -192,6 +192,68 @@ t_dlist	*spliter(char *cmd)
 		}
 		while (cmd[i] && ft_isspace(cmd[i]))
 			i++;
+	}
+	return (splited);
+}
+
+t_dlist	*spliter(char *cmd)
+{
+	t_dlist	*splited;
+	int		start;
+	int		end;
+	int		i;
+	char	cquote;
+
+	if (!cmd)
+		return (NULL);
+	splited = NULL;
+	i = 0;
+	cquote = 0;
+	while (cmd[i] != '\0')
+	{
+		while (cmd[i] && ft_isspace(cmd[i])) // Ignorer les espaces au début
+			i++;
+		if (cmd[i] == '\0') // Si on atteint la fin de la commande, on arrête
+			break;
+		
+		start = i;
+		if (ft_strchr(SPECIALS_TOKEN, cmd[i])) // Cas des tokens spéciaux comme |, >, etc.
+		{
+			if (cmd[i] == cmd[i + 1]) // Si c'est un double token (>> ou <<)
+			{
+				end = i + 2;
+				add_to_token_list(&splited, cmd, start, end - start);
+				i += 2;
+			}
+			else 
+			{
+				end = i + 1;
+				add_to_token_list(&splited, cmd, start, end - start);
+				i += 1;
+			}
+		}
+		else if (cmd[i] == '\"' || cmd[i] == '\'') // Cas des tokens entre guillemets
+		{
+			extract_quoted(cmd, &i, &start, &end);
+			add_to_token_list(&splited, cmd, start, end - start);
+		}
+		else // Cas général : mot sans guillemets ni caractère spécial
+		{
+			while (cmd[i] && !ft_isspace(cmd[i]) && !ft_strchr(SPECIALS_TOKEN, cmd[i]))
+			{
+				if (cmd[i] == '\"' || cmd[i] == '\'') // Si on rencontre une quote
+				{
+					cquote = cmd[i];
+					i++;
+					while (cmd[i] && cmd[i] != cquote)
+						i++;
+				}
+				else
+					i++;
+			}
+			end = i;
+			add_to_token_list(&splited, cmd, start, end - start);
+		}
 	}
 	return (splited);
 }
