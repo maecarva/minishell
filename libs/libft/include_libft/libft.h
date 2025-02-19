@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 11:16:18 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/18 13:20:44 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/19 14:23:57 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,8 @@ char	*ft_str_three_join(char const *s1, char const *s2, char const *s3);
 int		ft_strcmp(char *src1, char *src2);
 void	ft_swap(int *a, int *b);
 bool	ft_only_whitespaces_after(char *str);
+long	ft_atol(const char *str);
+bool	ft_strisnumber(char *str);
 
 // double linked list
 void	dll_clear(t_dlist **dlist);

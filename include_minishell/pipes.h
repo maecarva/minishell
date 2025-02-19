@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 14:09:58 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/18 15:04:38 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/18 17:43:04 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ typedef struct s_pipes
 	char	*name_outfile;
 	int		fd_infile;
 	int		fd_outfile;
+	int		to_close_one;
+	int		to_close_two;
 	bool	is_hd;
 	char	*cmd;
 	t_lexertok	type;

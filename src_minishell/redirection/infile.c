@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 13:45:59 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/18 14:42:50 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/18 17:40:48 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ static void	check_infile_access(t_pipes *p_data)
 	if (access(p_data->name_infile, F_OK) == -1)
 	{
 		error_message(SHELL_NAME, p_data->name_infile, ": No such file or directory");
+		ft_close(&p_data->to_close_one);
+		ft_close(&p_data->to_close_two);
 		free_fd(&p_data->fd, p_data->nb_pipes);
 		p_data->ms_data->last_error_code = EXIT_FAILURE;
 		clear_minishell(p_data->ms_data);
@@ -24,6 +26,8 @@ static void	check_infile_access(t_pipes *p_data)
 	if (access(p_data->name_infile, R_OK) == -1)
 	{
 		error_message(SHELL_NAME, p_data->name_infile, ": Permission denied");
+		ft_close(&p_data->to_close_one);
+		ft_close(&p_data->to_close_two);
 		free_fd(&p_data->fd, p_data->nb_pipes);
 		p_data->ms_data->last_error_code = EXIT_FAILURE;
 		clear_minishell(p_data->ms_data);
@@ -39,6 +43,8 @@ static void	create_hd(t_pipes *p_data, char *limiter)
 	if (p_data->fd_infile == -1)
 	{
 		perror("open");
+		ft_close(&p_data->to_close_one);
+		ft_close(&p_data->to_close_two);
 		free_fd(&(p_data->fd), p_data->nb_pipes);
 		p_data->ms_data->last_error_code = ERROR_CODE;
 		clear_minishell(p_data->ms_data);
@@ -51,6 +57,8 @@ static void	create_hd(t_pipes *p_data, char *limiter)
 		{
 			perror("malloc");
 			unlink_hd(p_data);
+			ft_close(&p_data->to_close_one);
+			ft_close(&p_data->to_close_two);
 			free_fd(&(p_data->fd), p_data->nb_pipes);
 			p_data->ms_data->last_error_code = ERROR_CODE;
 			clear_minishell(p_data->ms_data);
@@ -59,7 +67,7 @@ static void	create_hd(t_pipes *p_data, char *limiter)
 				ft_max(ft_strlen(limiter), ft_strlen(line))) == '\n')
 		{
 			free(line);
-			close(p_data->fd_infile);
+			ft_close(&p_data->fd_infile);
 			return ;
 		}
 		ft_putstr_fd(line, p_data->fd_infile);
