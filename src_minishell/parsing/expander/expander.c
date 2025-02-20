@@ -99,11 +99,8 @@ void	expand_pls(char **str, char **env, t_config *config, int *index)
 		*str = ptrs[0];
 		return ;
 	}
-	// while (s[j] && ((ft_isalnum(s[j]) && (ft_isalnum(s[j + 1]) || s[j + 1] == '_'))))
 	while (s[j] && ((ft_isalnum(s[j]) || s[j] == '_') && (ft_isalnum(s[j + 1]) || s[j + 1] == '_')))
 		j++;
-	// if j == *index + 1 digit name -> need to handle
-	// write(1, &s[*index + 1], j - *index);
 	ptrs[0] = ft_substr(s, *index + 1 , j - *index);
 	if (!ptrs[0])
 		return ;
@@ -153,6 +150,12 @@ void expand_token(char **tokenstr, char **envp, t_config *config)
 			expand = true;
 		if (expand)
 		{
+			if (s[i + 1] == '\"' && state == 2)
+			{
+				i++;
+				expand = false;
+				continue ;
+			}
 			expand_pls(tokenstr, envp, config, &i);
 			expand = false;
 			s = *tokenstr;
@@ -168,12 +171,14 @@ bool	expander(t_dlist *lexed_list, t_config *config)
 {
 	t_dlist	*tmp;
 	t_dlist	*tmp2;
+	char	*token;
 
 	if (!lexed_list)
 		return (false);
 	tmp = lexed_list;
 	while (tmp)
 	{
+		token = ptr_to_lexertoklist(tmp->content)->token;
 		if (ft_strchr(ptr_to_lexertoklist(tmp->content)->token, '$'))
 		{
 				expand_token(&ptr_to_lexertoklist(tmp->content)->token, config->environnement, config);
@@ -185,7 +190,12 @@ bool	expander(t_dlist *lexed_list, t_config *config)
 				}
 		}
 		expand_wildcards(&ptr_to_lexertoklist(tmp->content)->token);
-		// clean_quotes(ptr_to_lexertoklist(tmp->content)->token);
+		// if ((token[0] == '\'' || token[0] == '\"') && token[0] == token[1])
+		// {
+		// 	token[0] = ' ';
+		// 	token[1] = '\0';
+		// 	// printf("[%s]\n", token);
+		// }
 		tmp = tmp->next;
 		if (tmp == lexed_list)
 			break ;

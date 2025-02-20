@@ -44,7 +44,8 @@ void	execute_echo(char *cmd, t_config *ms_data)
 	int		i;
 	bool	flag;
 	size_t	len_cmd;
-
+	
+	// printf("echo cmd [%s]\n", cmd);
 	len_cmd = ft_strlen(cmd);
 	while (ft_isspace(cmd[len_cmd - 1]) == 1)
 		len_cmd--;

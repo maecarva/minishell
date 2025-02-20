@@ -15,12 +15,20 @@
 void	execute_pwd(char *cmd, t_config *minishell)
 {
 	char	path[MAX_PATH];
+	char	*pathbis;
 
 	ft_bzero(path, MAX_PATH);
 	if (!cmd)
 		return ;
-	if (getcwd(path, MAX_PATH) != path)
-		return (ft_putstr_fd("pwd: can't get current working directory.\n", STDERR_FILENO));
-	printf("%s\n", path);
+	if (getcwd(path, MAX_PATH) == path)
+		printf("%s\n", path);
+	else
+	{
+		pathbis = get_value_by_name(minishell->environnement, "PWD");
+		if (pathbis)
+			printf("%s\n", pathbis);
+		free(pathbis);
+	}
 	minishell->last_error_code = 0;
 }
+

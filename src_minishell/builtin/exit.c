@@ -18,7 +18,8 @@ void	execute_exit(char *cmd, t_config *ms_data)
 	int		size;
 	long	error_code;
 
-	cmds = ft_split_charset(cmd, WHITESPACES);
+	// printf("[%s]\n", cmd);
+	cmds = ft_split_charset(cmd, " \t\n\v\f\r\'\"");
 	if (!cmds)
 	{
 		perror("malloc");
@@ -28,6 +29,13 @@ void	execute_exit(char *cmd, t_config *ms_data)
 	size = 0;
 	while (cmds[size])
 		size++;
+	if (size == 1 && ft_strlen(cmd) >= 5)
+	{
+		error_message(SHELL_NAME, cmds[1], ": numeric argument required");
+		ft_free_double_ptr(&cmds);
+		ms_data->last_error_code = 2;
+		clear_minishell(ms_data);
+	}
 	if (size == 1)
 	{
 		ms_data->last_error_code = 0;
