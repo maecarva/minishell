@@ -171,12 +171,14 @@ bool	expander(t_dlist *lexed_list, t_config *config)
 {
 	t_dlist	*tmp;
 	t_dlist	*tmp2;
+	char	*token;
 
 	if (!lexed_list)
 		return (false);
 	tmp = lexed_list;
 	while (tmp)
 	{
+		token = ptr_to_lexertoklist(tmp->content)->token;
 		if (ft_strchr(ptr_to_lexertoklist(tmp->content)->token, '$'))
 		{
 				expand_token(&ptr_to_lexertoklist(tmp->content)->token, config->environnement, config);
@@ -188,7 +190,12 @@ bool	expander(t_dlist *lexed_list, t_config *config)
 				}
 		}
 		expand_wildcards(&ptr_to_lexertoklist(tmp->content)->token);
-		// clean_quotes(ptr_to_lexertoklist(tmp->content)->token);
+		// if ((token[0] == '\'' || token[0] == '\"') && token[0] == token[1])
+		// {
+		// 	token[0] = ' ';
+		// 	token[1] = '\0';
+		// 	// printf("[%s]\n", token);
+		// }
 		tmp = tmp->next;
 		if (tmp == lexed_list)
 			break ;

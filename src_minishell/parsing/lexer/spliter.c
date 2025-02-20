@@ -196,6 +196,18 @@ t_dlist	*spliter2(char *cmd)
 	return (splited);
 }
 
+// char	*spaces(int total)
+// {
+// 	char	*spaces;
+// 	int		i;
+//
+// 	spaces = ft_calloc(sizeof(char), total + 1);
+// 	if (!spaces)
+// 		return (NULL);
+// 	i = 0;
+// 	while (i)
+// }
+
 t_dlist	*spliter(char *cmd)
 {
 	t_dlist	*splited;

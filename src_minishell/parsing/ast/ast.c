@@ -266,7 +266,6 @@ bool	create_ast(t_btree **ast, t_dlist *tokenlist, t_config *config)
 	if (!tokenlist || !config)
 		return (false);
 	construct(ast, tokenlist, tokenlist->prev, false, 0);
-	// handle_redirections(ast, tokenlist, tokenlist->prev);
 	finalise_ast(ast);
 	return (true);
 }
