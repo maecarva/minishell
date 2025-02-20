@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../include_minishell/minishell.h"
+#include <unistd.h>
 
 bool	is_only_whitespaces(char *cmd)
 {
@@ -175,7 +176,6 @@ bool	check_parenthesis(char *cmd)
 // return true if invalid input
 bool	check_invalid_input(char *cmd)
 {
-	// bool	errors[3]; // quotes, redir, pipe
 	if (!cmd)
 		return (false);
 	// check whitespaces
@@ -183,7 +183,7 @@ bool	check_invalid_input(char *cmd)
 		return (true);
 	// check quotes
 	if (check_quotes(cmd))
-		return (printf("Invalid quotes.\n"), true);
+		return (ft_putstr_fd("Invalid quotes.\n", STDERR_FILENO), true);
 	// check pipes
 	if (check_pipes(cmd))
 		return (ft_putstr_fd(" syntax error near unexpected token `|'\n", STDERR_FILENO), true);

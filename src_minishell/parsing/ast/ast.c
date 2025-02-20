@@ -142,22 +142,93 @@ bool	get_first_and_or(t_dlist *start, t_dlist *end, t_dlist **operator)
 	return (false);
 }
 
-bool	list_contain_operator_near_parenthesis(t_dlist *start, t_dlist *end)
+bool	list_contain_parenthesis(t_dlist *start, t_dlist *end)
 {
 	t_dlist	*tmp;
 
 	if (!start || !end)
 		return (false);
-	get_last_and_or(start, end, &tmp);
+	tmp = start;
 	while (tmp)
 	{
-		if (ptr_to_lexertoklist(tmp->next->content)->type == PARENTHESIS_L || ptr_to_lexertoklist(tmp->prev->content)->type == PARENTHESIS_R)
-			return (true);
-		get_last_and_or(start, end, &tmp);
+		if (ptr_to_lexertoklist(tmp->content)->type == PARENTHESIS_L || ptr_to_lexertoklist(tmp->content)->type == PARENTHESIS_R)
+		{
+			if (tmp != start && tmp != end)
+				return (true);
+		}
+		tmp = tmp->next;
+		if (tmp == start)
+			break ;
 	}
 	return (false);
 }
 
+void	get_last_valid_operator(t_dlist *start, t_dlist *end, t_dlist **operator)
+{
+	int			parenthesis;
+	t_dlist		*tmp;
+	t_lexertok	type;
+
+	if (!start || !end || !operator)
+		return ;
+	parenthesis = 0;
+	tmp = end;
+	while (tmp)
+	{
+		type = ptr_to_lexertoklist(tmp->content)->type;
+		if (type == PARENTHESIS_L)
+			parenthesis++;
+		if (type == PARENTHESIS_R)
+			parenthesis--;
+		if (parenthesis == 0 && (type == AND || type == OR))
+		{
+			*operator = tmp;
+			return ;
+		}
+		tmp = tmp->prev;
+		if (tmp == start)
+			break ;
+	}
+}
+
+// premiere boucle a chier surement
+void	get_first_valid_operator(t_dlist **start, t_dlist **end, t_dlist **operator)
+{
+	int			parenthesis;
+	t_dlist		*tmp;
+	t_lexertok	type;
+
+	if (!*start || !*end || !operator)
+		return ;
+	parenthesis = 0;
+	while (ptr_to_lexertoklist((*start)->content)->type == PARENTHESIS_L && ptr_to_lexertoklist((*end)->content)->type == PARENTHESIS_R)
+	{
+		if (*start == *end && (ptr_to_lexertoklist((*start)->content)->type == OR || ptr_to_lexertoklist((*start)->content)->type == AND))
+			return ;
+		if (ptr_to_lexertoklist((*start)->content)->type == PARENTHESIS_L && ptr_to_lexertoklist((*end)->content)->type == PARENTHESIS_R)
+		{
+			*start = (*start)->next;
+			*end = (*end)->prev;
+		}
+	}
+	tmp = *start;
+	while (tmp)
+	{
+		type = ptr_to_lexertoklist(tmp->content)->type;
+		if (type == PARENTHESIS_L)
+			parenthesis++;
+		if (type == PARENTHESIS_R)
+			parenthesis--;
+		if (parenthesis == 0 && (type == AND || type == OR))
+		{
+			*operator = tmp;
+			return ;
+		}
+		tmp = tmp->next;
+		if (tmp == *end)
+			break ;
+	}
+}
 // a || b && c && d || e || f && g
 void	construct(t_btree **ast, t_dlist *start, t_dlist *end, bool split3, int index)
 {
@@ -170,11 +241,20 @@ void	construct(t_btree **ast, t_dlist *start, t_dlist *end, bool split3, int ind
 	tmp2 = NULL;
 
 	// check && || neigbouring parenthesis
-	// if (list_contain_operator_near_parenthesis(start, end))
-	// {
-	//
-	// }
-	if (list_contain_operator(start, end))
+	if (list_contain_parenthesis(start, end) && list_contain_operator(start, end))
+	{
+		get_first_valid_operator(&start, &end, &tmp);
+		if (tmp != NULL)
+		{
+			*ast = create_operator_node(ptr_to_lexertoklist(tmp->content)->type);
+			if (!ast)
+				return ;
+			construct(&(*ast)->left, start, tmp->prev, false, index);
+			construct(&(*ast)->right, tmp->next, end, false, index);
+		}
+
+	}
+	else if (list_contain_operator(start, end))
 	{
 		// check if only one type of operator
 		if (multiple_and_or(start, end) == false)
@@ -252,8 +332,8 @@ void	finalise_ast(t_btree **ast)
 			n->type = ENV;
 		else if (ft_strnstr(n->command, "exit", ft_strlen("exit")) == n->command)
 			n->type = EXIT;
-		else
-			clean_quotes(n->command);
+		// else
+		// 	clean_quotes(n->command);
 	} 
 	if (n->type == ECHO)
 		clean_quotes(n->command);
