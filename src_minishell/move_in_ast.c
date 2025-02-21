@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 18:11:12 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/19 16:03:05 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/21 11:44:27 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	execute_ast(t_btree *actual_ast, t_config *ms_data)
 	ms_data->ast = actual_ast;
 	if (type != OR && type != AND)
 	{
-		check_type_execute(ms_data);
+		pipes(ms_data);
 		return ;
 	}
 	// print_arbre(actual_ast, 0);

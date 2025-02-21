@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 13:45:59 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/18 17:40:48 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/21 11:30:59 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static void	create_hd(t_pipes *p_data, char *limiter)
 	p_data->fd_infile = open("here_doc.tmp", O_WRONLY | O_CREAT, 0644);
 	if (p_data->fd_infile == -1)
 	{
-		perror("open");
+		perror("here_doc.tmp");
 		ft_close(&p_data->to_close_one);
 		ft_close(&p_data->to_close_two);
 		free_fd(&(p_data->fd), p_data->nb_pipes);

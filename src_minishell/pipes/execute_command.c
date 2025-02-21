@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:29:18 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/19 15:45:12 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/21 11:46:18 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ static void	check_access(char ***cmds, char **path_cmd, t_pipes *p_data)
 		error_message(SHELL_NAME, *path_cmd, ": Permission denied");
 		ft_free_double_ptr(cmds);
 		ft_free_simple_ptr(path_cmd);
-		p_data->ms_data->last_error_code = ERROR_COMMAND;
+		p_data->ms_data->last_error_code = CFBNE;
 		clear_minishell(p_data->ms_data);
 	}
 	if (stat(*path_cmd, &statbuf) == 0)
