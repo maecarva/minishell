@@ -21,14 +21,18 @@ bool	is_special_token(t_lexertok type)
 
 bool	valid_token_list(t_dlist **splited)
 {
-	t_dlist	*tmp;
+	t_dlist		*tmp;
+	t_lexertok	type;
+	t_lexertok	next_type;
 
 	if (!(*splited))
 		return (false);
 	tmp = *splited;
 	while (tmp)
 	{
-		if (ptr_to_lexertoklist(tmp->content)->type >= TRUNCATE && ptr_to_lexertoklist(tmp->content)->type <= HEREDOC)
+		type = ptr_to_lexertoklist(tmp->content)->type;
+		next_type = ptr_to_lexertoklist(tmp->next->content)->type;
+		if (type >= TRUNCATE && type <= HEREDOC)
 		{
 			if (ptr_to_lexertoklist(tmp->next->content)->type != FILE_ARG)
 			{
@@ -38,17 +42,22 @@ bool	valid_token_list(t_dlist **splited)
 				return (false);
 			}
 		}
-		if (is_special_token(ptr_to_lexertoklist(tmp->content)->type) && is_special_token(ptr_to_lexertoklist(tmp->next->content)->type))
+		if (is_special_token(type) && is_special_token(ptr_to_lexertoklist(tmp->next->content)->type))
 		{
 				ft_putstr_fd("Invalid token near : '", 2);
 				ft_putchar_fd(ptr_to_lexertoklist(tmp->content)->token[0], 2);
 				ft_putendl_fd("\'", 2);
 				return (false);
 		}
-		if (ptr_to_lexertoklist(tmp->content)->type == PARENTHESIS_L && tmp != *splited && (ptr_to_lexertoklist(tmp->prev->content)->type != OR && ptr_to_lexertoklist(tmp->prev->content)->type != AND))
+		if (type == PARENTHESIS_L && tmp != *splited && (ptr_to_lexertoklist(tmp->prev->content)->type != OR && ptr_to_lexertoklist(tmp->prev->content)->type != AND && ptr_to_lexertoklist(tmp->prev->content)->type != PARENTHESIS_L))
 			return (ft_putendl_fd("Invalid token near : '('", 2), false);
-		if (ptr_to_lexertoklist(tmp->content)->type == PARENTHESIS_L && (ptr_to_lexertoklist(tmp->next->content)->type == OR && ptr_to_lexertoklist(tmp->next->content)->type == AND))
+		if (type == PARENTHESIS_L && (ptr_to_lexertoklist(tmp->next->content)->type == OR || ptr_to_lexertoklist(tmp->next->content)->type == AND))
 			return (ft_putendl_fd("Invalid token near : '('", 2), false);
+
+		if (type == PARENTHESIS_R && tmp != (*splited)->prev && (ptr_to_lexertoklist(tmp->next->content)->type != OR && ptr_to_lexertoklist(tmp->next->content)->type != AND && ptr_to_lexertoklist(tmp->next->content)->type != PARENTHESIS_R))
+			return (ft_putendl_fd("Invalid token near : ')'", 2), false);
+		if (type == PARENTHESIS_R && (ptr_to_lexertoklist(tmp->prev->content)->type == OR || ptr_to_lexertoklist(tmp->prev->content)->type == AND))
+			return (ft_putendl_fd("Invalid token near : ')'", 2), false);
 		tmp = tmp->next;
 		if (tmp == *splited)
 			break ;

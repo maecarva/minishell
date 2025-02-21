@@ -231,7 +231,7 @@ t_dlist	*spliter(char *cmd)
 		start = i;
 		if (ft_strchr(SPECIALS_TOKEN, cmd[i])) // Cas des tokens spéciaux comme |, >, etc.
 		{
-			if (cmd[i] == cmd[i + 1]) // Si c'est un double token (>> ou <<)
+			if (cmd[i] == cmd[i + 1] && cmd[i] != '(' && cmd[i] != ')') // Si c'est un double token (>> ou <<)
 			{
 				end = i + 2;
 				add_to_token_list(&splited, cmd, start, end - start);

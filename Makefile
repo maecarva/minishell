@@ -19,7 +19,8 @@ NAME = minishell
 
 # Compilateur et flags de compilation
 CC = cc
-CFLAGS = -Werror -Wextra -Wall -g
+CFLAGS = -Werror -Wextra -Wall -g 
+# CFLAGS += -D DEBUG=1
 
 ################################################################################
 #                              DIRECTORY PATHS                                 #

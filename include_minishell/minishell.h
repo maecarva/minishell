@@ -14,8 +14,6 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# define DEBUG 1
-
 /* Libraries */
 
 /* A definir */
