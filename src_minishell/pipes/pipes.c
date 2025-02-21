@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:10:04 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/19 15:58:29 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/21 10:36:54 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ void	check_children(t_pipes *p_data)
 	int		exit_code;
 
 	pid = 1;
+	if (p_data->do_not_wait == true)
+		return ;
 	while (pid > 0)
 	{
 		pid = waitpid(-1, &status, 0);

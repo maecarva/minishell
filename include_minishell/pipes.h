@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 14:09:58 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/18 17:43:04 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/21 10:36:06 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 typedef struct s_pipes
 {
 	int		**fd;  //malloced
+	bool	do_not_wait;
 	int		nb_pipes;
 	char	*name_infile;
 	char	*name_outfile;
