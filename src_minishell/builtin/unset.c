@@ -54,28 +54,24 @@ char	**duplicate_env_without_var(char *varname, t_config *minishell)
 	return (env);
 }
 
-void	execute_unset(char *cmd, t_config *minishell)
+void	execute_unset(char **cmd, t_config *minishell)
 {
 	int		i;
-	char	**splited;
 	char	**envdup;
 
-	if (!cmd || !minishell)
-		return ;
-	splited = ft_split_charset(cmd, WHITESPACES);
-	if (!splited || !*splited)
+	if (!cmd  || !cmd[0] || !minishell)
 		return ;
 	i = 1;
-	while (splited[i])
+	while (cmd[i])
 	{
-		envdup = duplicate_env_without_var(splited[i], minishell);
+		envdup = duplicate_env_without_var(cmd[i], minishell);
 		if (!envdup)
 			break ;
 		ft_free_double_ptr(&minishell->environnement);
 		minishell->environnement = envdup;
 		i++;
 	}
-	ft_free_double_ptr(&splited);
+	// ft_free_double_ptr(&cmd);
 	minishell->last_error_code = 0;
 }
 

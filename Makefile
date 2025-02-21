@@ -6,7 +6,7 @@
 #    By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/08 14:19:08 by ebonutto          #+#    #+#              #
-#    Updated: 2025/02/21 13:50:32 by ebonutto         ###   ########.fr        #
+#    Updated: 2025/02/21 16:37:03 by maecarva         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,6 +58,7 @@ SRC = src_minishell/main.c \
 	  src_minishell/parsing/ast/command_node.c \
 	  src_minishell/parsing/ast/pipe_node.c \
 	  src_minishell/parsing/ast/clear.c \
+	  src_minishell/parsing/utils/quotes.c \
 	  src_minishell/builtin/echo.c \
 	  src_minishell/builtin/pwd.c \
 	  src_minishell/builtin/env.c \

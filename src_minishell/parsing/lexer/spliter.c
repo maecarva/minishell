@@ -6,7 +6,7 @@
 /*   By: maecarva <maecarva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 13:01:37 by maecarva          #+#    #+#             */
-/*   Updated: 2025/02/13 21:20:15 by maecarva         ###   ########.fr       */
+/*   Updated: 2025/02/21 16:36:04 by maecarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,10 @@ void	extract_quoted(char *cmd, int *i, int *start, int *end)
 		if (cmd[*end] == '\"' && cquote == cmd[*end])
 			dquotes = !dquotes;
 		if (squote == false && dquotes == false && ft_isspace(cmd[*end]))
+		{
+			*end -= 1;
 			break ;
+		}
 		if (cmd[*end] == cquote && squote == false && dquotes == false && !ft_isalnum(cmd[*end + 1])
 			&& !ft_is_in_charset(cmd[*end], "\'\""))
 			break ;
@@ -196,18 +199,6 @@ t_dlist	*spliter2(char *cmd)
 	return (splited);
 }
 
-// char	*spaces(int total)
-// {
-// 	char	*spaces;
-// 	int		i;
-//
-// 	spaces = ft_calloc(sizeof(char), total + 1);
-// 	if (!spaces)
-// 		return (NULL);
-// 	i = 0;
-// 	while (i)
-// }
-
 t_dlist	*spliter(char *cmd)
 {
 	t_dlist	*splited;
@@ -225,13 +216,13 @@ t_dlist	*spliter(char *cmd)
 	{
 		while (cmd[i] && ft_isspace(cmd[i])) // Ignorer les espaces au début
 			i++;
-		if (cmd[i] == '\0') // Si on atteint la fin de la commande, on arrête
+		if (cmd[i] == '\0')
 			break;
 		
 		start = i;
-		if (ft_strchr(SPECIALS_TOKEN, cmd[i])) // Cas des tokens spéciaux comme |, >, etc.
+		if (ft_strchr(SPECIALS_TOKEN, cmd[i]))
 		{
-			if (cmd[i] == cmd[i + 1] && cmd[i] != '(' && cmd[i] != ')') // Si c'est un double token (>> ou <<)
+			if (cmd[i] == cmd[i + 1] && cmd[i] != '(' && cmd[i] != ')')
 			{
 				end = i + 2;
 				add_to_token_list(&splited, cmd, start, end - start);

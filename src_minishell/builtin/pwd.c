@@ -12,7 +12,7 @@
 
 #include "../../include_minishell/minishell.h"
 
-void	execute_pwd(char *cmd, t_config *minishell)
+void	execute_pwd(char **cmd, t_config *minishell)
 {
 	char	path[MAX_PATH];
 	char	*pathbis;

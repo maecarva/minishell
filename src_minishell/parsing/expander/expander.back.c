@@ -243,7 +243,7 @@ bool	expander(t_dlist *lexed_list, t_config *config)
 			}
 		}
 		expand_wildcards(&ptr_to_lexertoklist(tmp->content)->token);
-		clean_quotes(ptr_to_lexertoklist(tmp->content)->token);
+		clean_quotes(&ptr_to_lexertoklist(tmp->content)->token);
 		tmp = tmp->next;
 		if (tmp == lexed_list)
 			break ;

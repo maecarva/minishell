@@ -54,49 +54,49 @@ void	print_node(t_btree *node)
 			printf("%s\n", n->file);
 		break ;
 		case ECHO:
-			printf("ECHO ");
+			printf("ECHO ={");
 			for (int i = 0; n->command[i]; i++) {
 				printf(" [%s]", n->command[i]);
 			}
 			printf(" }\n");
 		break ;
 		case CD:
-			printf("CD ");
+			printf("CD ={");
 			for (int i = 0; n->command[i]; i++) {
 				printf(" [%s]", n->command[i]);
 			}
 			printf(" }\n");
 		break ;
 		case PWD:
-			printf("PWD ");
+			printf("PWD ={");
 			for (int i = 0; n->command[i]; i++) {
 				printf(" [%s]", n->command[i]);
 			}
 			printf(" }\n");
 		break ;
 		case EXPORT:
-			printf("EXPORT ");
+			printf("EXPORT ={");
 			for (int i = 0; n->command[i]; i++) {
 				printf(" [%s]", n->command[i]);
 			}
 			printf(" }\n");
 		break ;
 		case UNSET:
-			printf("UNSET ");
+			printf("UNSET ={");
 			for (int i = 0; n->command[i]; i++) {
 				printf(" [%s]", n->command[i]);
 			}
 			printf(" }\n");
 		break ;
 		case ENV:
-			printf("ENV ");
+			printf("ENV ={");
 			for (int i = 0; n->command[i]; i++) {
 				printf(" [%s]", n->command[i]);
 			}
 			printf(" }\n");
 		break ;
 		case EXIT:
-			printf("EXIT ");
+			printf("EXIT ={");
 			for (int i = 0; n->command[i]; i++) {
 				printf(" [%s]", n->command[i]);
 			}
@@ -127,21 +127,4 @@ void	print_arbre(t_btree *root, int level)
 		print_arbre( root->left, level + 1 );
 	}
 }
-
-// command : ls -la | grep 'test'
-// t_btree	*arbre_bidon()
-// {
-// 	t_btree	*arbre;
-// 	t_node	*tmpnode;
-
-// 	tmpnode = ft_calloc(sizeof(t_node), 1);
-// 	tmpnode->type = PIPE;
-// 	tmpnode->cmd = NULL;
-
-// 	arbre = ft_btree_create_node(tmpnode);
-// 	arbre->left = ft_btree_create_node(left());
-// 	arbre->right = ft_btree_create_node(right());
-// 	print_arbre(arbre, 0);
-// 	return (arbre);
-// }
 

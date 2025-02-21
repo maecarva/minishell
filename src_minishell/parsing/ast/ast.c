@@ -268,7 +268,6 @@ void	construct(t_btree **ast, t_dlist *start, t_dlist *end, bool split3, int ind
 			construct(&(*ast)->right, tmp->next, end, false, index);
 		}
 		else {
-			// merde
 			if (split3 == false)
 			{
 				get_last_and_or(start, end, &tmp);

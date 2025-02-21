@@ -195,7 +195,7 @@ void	execute_command(t_pipes *p_data)
 		handle_path(&path_cmd, p_data);
 	else
 		handle_no_path(&path_cmd, p_data, i);
-	printf("cmds:%s\n", p_data->cmds[1]);
+	// printf("cmds:%s\n", p_data->cmds[1]);
 	if (execve(path_cmd, p_data->cmds, p_data->ms_data->environnement) == -1)
 	{
 		perror("execve");

@@ -6,7 +6,7 @@
 /*   By: maecarva <maecarva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 17:14:38 by maecarva          #+#    #+#             */
-/*   Updated: 2025/02/17 18:00:54 by maecarva         ###   ########.fr       */
+/*   Updated: 2025/02/21 15:35:43 by maecarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,45 +15,6 @@
 bool	is_quoted(bool *quotes)
 {
 	return (quotes[0] == true || quotes[1] == true);
-}
-
-void	clean_quotes(char *s)
-{
-	int		i;
-	int		j;
-	bool	quoted;
-
-	if (!s)
-		return ;
-	i = 0;
-	quoted = false;
-	while (s[i])
-	{
-		j = 0;
-		if (s[i] == '\'' && quoted == false)
-		{
-			j = i + 1;
-			while (s[j] && s[j] != '\'')
-				j++;
-			if (s[j] == '\0')
-				break ;
-			ft_strlcpy(&s[j], &s[j + 1], ft_strlen(&s[j]));
-			ft_strlcpy(&s[i], &s[i + 1], ft_strlen(&s[i]));
-			i = j - 2;
-		}
-		else if (s[i] == '\"' && quoted == false)
-		{
-			j = i + 1;
-			while (s[j] && s[j] != '\"')
-				j++;
-			if (s[j] == '\0')
-				break ;
-			ft_strlcpy(&s[j], &s[j + 1], ft_strlen(&s[j]));
-			ft_strlcpy(&s[i], &s[i + 1], ft_strlen(&s[i]));
-			i = j - 2;
-		}
-		i++;
-	}
 }
 
 void	expand_pls(char **str, char **env, t_config *config, int *index)
@@ -179,23 +140,17 @@ bool	expander(t_dlist *lexed_list, t_config *config)
 	while (tmp)
 	{
 		token = ptr_to_lexertoklist(tmp->content)->token;
-		if (ft_strchr(ptr_to_lexertoklist(tmp->content)->token, '$'))
+		if (ft_strchr(ptr_to_lexertoklist(tmp->content)->token, '$') && ptr_to_lexertoklist(tmp->prev->content)->type != HEREDOC)
 		{
-				expand_token(&ptr_to_lexertoklist(tmp->content)->token, config->environnement, config);
-				if (ft_strlen(ptr_to_lexertoklist(tmp->content)->token) == 0 && dll_size(&lexed_list) > 1)
-				{
-					tmp2 = tmp;
-					tmp->prev->next = tmp->next;
-					tmp2->next->prev = tmp2->prev;
-				}
+			expand_token(&ptr_to_lexertoklist(tmp->content)->token, config->environnement, config);
+			if (ft_strlen(ptr_to_lexertoklist(tmp->content)->token) == 0 && dll_size(&lexed_list) > 1)
+			{
+				tmp2 = tmp;
+				tmp->prev->next = tmp->next;
+				tmp2->next->prev = tmp2->prev;
+			}
 		}
 		expand_wildcards(&ptr_to_lexertoklist(tmp->content)->token);
-		// if ((token[0] == '\'' || token[0] == '\"') && token[0] == token[1])
-		// {
-		// 	token[0] = ' ';
-		// 	token[1] = '\0';
-		// 	// printf("[%s]\n", token);
-		// }
 		tmp = tmp->next;
 		if (tmp == lexed_list)
 			break ;

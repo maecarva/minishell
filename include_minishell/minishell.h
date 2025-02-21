@@ -256,7 +256,7 @@ void	handle_redirections(t_btree **node, t_dlist *start, t_dlist *end);
 bool	expander(t_dlist *lexed_list, t_config *config);
 void	expand_wildcards(char **cmd);
 void	expand_token(char **tokenstr, char **envp, t_config *config);
-void	clean_quotes(char *s);
+void	clean_quotes(char **s);
 // ast
 bool	create_ast(t_btree **ast, t_dlist *tokenlist, t_config *config);
 t_btree	*create_operator_node(t_lexertok type);
@@ -273,14 +273,14 @@ int	tab_size(char **splited);
 /* Builtin functions */
 
 /* echo */
-void	execute_pwd(char *cmd, t_config *minishell);
-void	execute_env(char *cmd, t_config *minishell);
+void	execute_pwd(char **cmd, t_config *minishell);
+void	execute_env(char **cmd, t_config *minishell);
 void	execute_exit(char *cmd, t_config *minishell);
-void	execute_cd(char *cmd, t_config *minishell);
-void	execute_unset(char *cmd, t_config *minishell);
+void	execute_cd(char **cmd, t_config *minishell);
+void	execute_unset(char **cmd, t_config *minishell);
 char	**duplicate_env_without_var(char *varname, t_config *minishell);
-void	execute_export(char *cmd, t_config *minishell);
-void	execute_echo(char *cmd, t_config *minishell);
+void	execute_export(char **cmd, t_config *minishell);
+void	execute_echo(char **cmd, t_config *minishell);
 
 /* Free */
 // void	free_minishell(t_config **ms_data);
