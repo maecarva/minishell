@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 14:41:06 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/19 14:29:13 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/21 16:47:56 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,6 +187,7 @@ typedef	struct s_config {
 	t_btree	*dont_fucking_touch_me;
 	int		last_error_code;
 	char	*pidstr;
+	t_list	*here_docs;
 }	t_config;
 
 /* Char constants */

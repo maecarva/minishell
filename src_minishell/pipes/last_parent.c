@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:16:59 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/21 13:17:26 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/21 16:27:06 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ static void	last_child(t_pipes *p_data)
 		p_data->fd_infile = open(p_data->name_infile, O_RDONLY, 0644);
 		if (p_data->fd_infile == -1)
 		{
+			fprintf(stderr, "ptn mais t es ou1\n");
 			perror("open");
 			ft_close(&p_data->fd[p_data->nb_pipes - 1][0]);
 			unlink_hd(p_data);
@@ -57,7 +58,7 @@ static void	last_child(t_pipes *p_data)
 	}
 	ft_close(&p_data->fd[p_data->nb_pipes - 1][0]);
 	ft_close(&p_data->fd_infile);
-	unlink_hd(p_data);
+	// unlink_hd(p_data);
 	if (dup2(p_data->fd_outfile, STDOUT_FILENO) == -1)
 	{
 		perror("dup2");

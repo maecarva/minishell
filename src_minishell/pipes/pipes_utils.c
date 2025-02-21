@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 09:42:12 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/21 10:36:36 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/21 14:59:59 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void	unlink_hd(t_pipes *p_data)
 	if (p_data->is_hd == true)
 	{
 		if (unlink("here_doc.tmp") == -1)
-			perror("unlink");	
+			perror("unlink");
 		p_data->is_hd = false;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:17:02 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/21 13:16:45 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/21 15:56:03 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,4 +103,5 @@ void	first_parent(t_pipes *p_data)
 		get_redirections(p_data);
 		first_child(p_data);
 	}
+	printf("%d\n", pid);
 }
