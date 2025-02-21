@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 11:16:18 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/19 14:54:03 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/21 13:42:09 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,7 @@ bool	ft_only_whitespaces_after(char *str);
 long	ft_atol(const char *str);
 bool	ft_strisnumber(char *str);
 bool	ft_islong(char *str);
+size_t	ft_strcpy(char *dest, const char *src);
 
 // double linked list
 void	dll_clear(t_dlist **dlist);
