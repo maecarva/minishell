@@ -207,7 +207,7 @@ typedef	struct s_config {
 typedef	struct	s_node2
 {
 	t_lexertok	type;
-	char		*command;
+	char		**command;
 	char		*file;
 }	t_node2;
 

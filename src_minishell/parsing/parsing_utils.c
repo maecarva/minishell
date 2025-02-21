@@ -17,26 +17,6 @@ t_node2	*ptr_to_node(void *node)
 	return ((t_node2 *)(node));
 }
 
-// t_node	*left(void)
-// {
-// 	t_node	*n = ft_calloc(sizeof(t_node), 1);
-// 	n->type = COMMAND;
-// 	n->cmd = ft_calloc(sizeof(t_cmd), 1);
-// 	n->cmd->cmd = "ls";
-// 	n->cmd->quotes = false;
-// 	return (n);
-// }
-
-// t_node	*right(void)
-// {
-// 	t_node	*n = ft_calloc(sizeof(t_node), 1);
-// 	n->type = COMMAND;
-// 	n->cmd = ft_calloc(sizeof(t_cmd), 1);
-// 	n->cmd->cmd = "grep";
-// 	n->cmd->quotes = false;
-// 	return (n);
-// }
-
 void padding ( char ch, int n ){
  
 	for (int i = 0; i <= n; i++ )
@@ -51,9 +31,11 @@ void	print_node(t_btree *node)
 			printf("PIPE \n");
 		break ;
 		case CMD:
-			printf("COMMAND= ");
-			printf("%s ", n->command);
-			printf("\n");
+			printf("COMMAND= {");
+			for (int i = 0; n->command[i]; i++) {
+				printf(" [%s]", n->command[i]);
+			}
+			printf(" }\n");
 		break ;
 		case TRUNCATE:
 			printf("TRUNCATE > ");
@@ -73,31 +55,52 @@ void	print_node(t_btree *node)
 		break ;
 		case ECHO:
 			printf("ECHO ");
-			printf("%s\n", n->command);
+			for (int i = 0; n->command[i]; i++) {
+				printf(" [%s]", n->command[i]);
+			}
+			printf(" }\n");
 		break ;
 		case CD:
 			printf("CD ");
-			printf("%s\n", n->command);
+			for (int i = 0; n->command[i]; i++) {
+				printf(" [%s]", n->command[i]);
+			}
+			printf(" }\n");
 		break ;
 		case PWD:
 			printf("PWD ");
-			printf("%s\n", n->command);
+			for (int i = 0; n->command[i]; i++) {
+				printf(" [%s]", n->command[i]);
+			}
+			printf(" }\n");
 		break ;
 		case EXPORT:
 			printf("EXPORT ");
-			printf("%s\n", n->command);
+			for (int i = 0; n->command[i]; i++) {
+				printf(" [%s]", n->command[i]);
+			}
+			printf(" }\n");
 		break ;
 		case UNSET:
 			printf("UNSET ");
-			printf("%s\n", n->command);
+			for (int i = 0; n->command[i]; i++) {
+				printf(" [%s]", n->command[i]);
+			}
+			printf(" }\n");
 		break ;
 		case ENV:
 			printf("ENV ");
-			printf("%s\n", n->command);
+			for (int i = 0; n->command[i]; i++) {
+				printf(" [%s]", n->command[i]);
+			}
+			printf(" }\n");
 		break ;
 		case EXIT:
 			printf("EXIT ");
-			printf("%s\n", n->command);
+			for (int i = 0; n->command[i]; i++) {
+				printf(" [%s]", n->command[i]);
+			}
+			printf(" }\n");
 		break ;
 		case OR:
 			printf("OR \n");
