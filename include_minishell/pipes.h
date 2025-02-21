@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 14:09:58 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/21 10:36:06 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/21 13:16:31 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ typedef struct s_pipes
 	int		to_close_one;
 	int		to_close_two;
 	bool	is_hd;
-	char	*cmd;
+	char	**cmds;
 	t_lexertok	type;
 	int		flags;
 	int		pid_last_parent;
