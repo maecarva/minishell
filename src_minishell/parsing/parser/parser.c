@@ -48,9 +48,13 @@ t_btree	*parse_cmd2(char *cmd, t_config *config)
 		config->last_error_code = 2;
 		return (free(trimmed), NULL);
 	}
-	// delete empty quotes
-	// delete_doubles_quotes_end_str(trimmed);
 
+	expand_token(&trimmed, config->environnement, config);
+	if (ft_strlen(trimmed) == 0)
+	{
+		config->last_error_code = 0;
+		return (free(trimmed), NULL);
+	}
 	// 3 : lexer string and check invalid redirections
 	if (!lexer(trimmed, &lexed))
 	{

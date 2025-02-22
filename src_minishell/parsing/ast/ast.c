@@ -315,9 +315,9 @@ void	finalise_ast(t_btree **ast)
 	if (!(*ast))
 		return ;
 	n = (t_node2 *)((*ast)->item);
-	if (n->type == CMD)
+	if (n->type == CMD && n->command[0] != NULL)
 	{
-		if ((ft_strnstr(n->command[0], "echo", ft_strlen("echo")) == n->command[0]) && (ft_isspace(n->command[0][4]) || n->command[0][4] == '\0'))
+		if ((ft_strnstr(n->command[0], "echo", ft_strlen("echo")) == n->command[0]) && (n->command[0][4] == '\0'))
 			n->type = ECHO;
 		else if (ft_strnstr(n->command[0], "cd", ft_strlen("cd")) == n->command[0])
 			n->type = CD;
@@ -331,11 +331,7 @@ void	finalise_ast(t_btree **ast)
 			n->type = ENV;
 		else if (ft_strnstr(n->command[0], "exit", ft_strlen("exit")) == n->command[0])
 			n->type = EXIT;
-		// else
-		// 	clean_quotes(n->command);
 	} 
-	// if (n->type == ECHO)
-	// 	clean_quotes(n->command[0]);
 	finalise_ast(&(*ast)->left);
 	finalise_ast(&(*ast)->right);
 }

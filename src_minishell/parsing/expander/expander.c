@@ -6,7 +6,7 @@
 /*   By: maecarva <maecarva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 17:14:38 by maecarva          #+#    #+#             */
-/*   Updated: 2025/02/21 15:35:43 by maecarva         ###   ########.fr       */
+/*   Updated: 2025/02/22 18:25:29 by maecarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,13 @@ void expand_token(char **tokenstr, char **envp, t_config *config)
 	i = 0;
 	while (s[i])
 	{
+		if (s[i] == '<' && s[i + 1] == '<')
+		{
+			while (s[i] && s[i] != '$')
+				i++;
+			if (s[i] == '$')
+				i++;
+		}
 		if (s[i] == '\'' && state == 0)
 			state = 1;
 		else if (s[i] == '\'' && state == 1)
@@ -107,7 +114,7 @@ void expand_token(char **tokenstr, char **envp, t_config *config)
 			state = 2;
 		else if (s[i] == '\"' && state == 2)
 			state = 0;
-		else if (s[i] == '$' && s[i + 1] != '\0' && (state == 0 || state == 2))
+		else if (s[i] == '$' && s[i + 1] != '\0' && (state == 0 || state == 2) && !ft_isspace(s[i + 1]))
 			expand = true;
 		if (expand)
 		{
@@ -132,17 +139,17 @@ bool	expander(t_dlist *lexed_list, t_config *config)
 {
 	t_dlist	*tmp;
 	t_dlist	*tmp2;
-	char	*token;
+	// char	*token;
 
 	if (!lexed_list)
 		return (false);
 	tmp = lexed_list;
 	while (tmp)
 	{
-		token = ptr_to_lexertoklist(tmp->content)->token;
+		// token = ptr_to_lexertoklist(tmp->content)->token;
 		if (ft_strchr(ptr_to_lexertoklist(tmp->content)->token, '$') && ptr_to_lexertoklist(tmp->prev->content)->type != HEREDOC)
 		{
-			expand_token(&ptr_to_lexertoklist(tmp->content)->token, config->environnement, config);
+			// expand_token(&ptr_to_lexertoklist(tmp->content)->token, config->environnement, config);
 			if (ft_strlen(ptr_to_lexertoklist(tmp->content)->token) == 0 && dll_size(&lexed_list) > 1)
 			{
 				tmp2 = tmp;
@@ -156,4 +163,5 @@ bool	expander(t_dlist *lexed_list, t_config *config)
 			break ;
 	}
 	return (true);
+	(void)config;
 }

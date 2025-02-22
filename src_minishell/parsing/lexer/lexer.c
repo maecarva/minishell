@@ -23,7 +23,7 @@ bool	valid_token_list(t_dlist **splited)
 {
 	t_dlist		*tmp;
 	t_lexertok	type;
-	t_lexertok	next_type;
+	// t_lexertok	next_type;
 
 	if (!(*splited))
 		return (false);
@@ -31,7 +31,7 @@ bool	valid_token_list(t_dlist **splited)
 	while (tmp)
 	{
 		type = ptr_to_lexertoklist(tmp->content)->type;
-		next_type = ptr_to_lexertoklist(tmp->next->content)->type;
+		// next_type = ptr_to_lexertoklist(tmp->next->content)->type;
 		if (type >= TRUNCATE && type <= HEREDOC)
 		{
 			if (ptr_to_lexertoklist(tmp->next->content)->type != FILE_ARG)
@@ -69,6 +69,7 @@ bool	lexer(char *cmd, t_dlist **lexed_list)
 {
 	if (!cmd)
 		return (true);
+
 	*lexed_list = spliter(cmd);
 	if (!(*lexed_list))
 		return (false);

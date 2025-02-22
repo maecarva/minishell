@@ -49,7 +49,11 @@ char	**extractcmd(t_dlist *start, t_dlist *end)
 	{
 		token = ptr_to_lexertoklist(tmp->content)->token;
 		if ((ptr_to_lexertoklist(tmp->content)->type == CMD || ptr_to_lexertoklist(tmp->content)->type == ARGS))
+		{
+			if (ft_strlen(token) == 0 && ptr_to_lexertoklist(tmp->content)->type == CMD)
+				return (NULL);
 			totallen++;
+		}
 		if (tmp == end)
 			break ;
 		tmp = tmp->next;
@@ -112,6 +116,8 @@ void	handle_redirections(t_btree **node, t_dlist *start, t_dlist *end)
 			nodec = ft_calloc(sizeof(t_node2), 1);
 			nodec->type = ptr_to_lexertoklist(tmp->content)->type;
 			nodec->file = ft_strdup(ptr_to_lexertoklist(tmp->next->content)->token);
+			// clean quotes !!!
+			clean_quotes(&nodec->file);
 			tmpleft = ft_btree_create_node(nodec);
 			add_left(*node, tmpleft);
 			tmpleft = NULL;
