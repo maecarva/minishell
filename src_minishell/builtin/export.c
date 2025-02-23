@@ -106,86 +106,6 @@ bool	is_valid_env_name(char *name)
 	return (true);
 }
 
-/*void	execute_export(char *cmd, t_config *minishell)
-{
-	int		i;
-	char	*name;
-	int		j;
-	int		quotestatus;
-	char	*value;
-
-	if (!cmd || !minishell)
-		return ;
-	i = 0;
-	j = 0;
-	quotestatus = 0;
-	name = NULL;
-	value = NULL;
-	// p("%s\n", cmd);
-	while (!ft_isspace(cmd[i]))
-		i++;
-	while (ft_isspace(cmd[i]))
-		i++;
-	while (cmd[i])
-	{
-		j = i;
-		if (cmd[j] == '=')
-		{	
-			print_err("=", minishell);
-			i++;
-			continue ;
-		}
-
-		while (cmd[j] && cmd[j] != '=')
-			j++;
-		name = ft_substr(cmd, i, j - i);
-		if (!name)
-			break ;
-
-		// p("name : [%s]\n", name);
-		i = j;
-		while (cmd[i] && cmd[i] != '=')
-			i++;
-		if (cmd[i] == '=')
-			i++;
-		j = i;
-		while (cmd[j])
-		{
-			if (cmd[j] == '\'' && quotestatus == 0)
-				quotestatus = 1;
-			else if (cmd[j] == '\'' && quotestatus == 1)
-				quotestatus = 0;
-			else if (cmd[j] == '\"' && quotestatus == 0)
-				quotestatus = 2;
-			else if (cmd[j] == '\"' && quotestatus == 2)
-				quotestatus = 0;
-			if (ft_isspace(cmd[j]) && quotestatus == 0)
-				break ;
-			j++;
-		}
-		clean_quotes(name);
-		if (!is_valid_env_name(name))
-		{
-			print_err(name, minishell);
-			ft_free_simple_ptr(&name);
-			i += j - i;
-			continue ;
-		}
-		value = ft_substr(cmd, i, j - i);
-		// p("value : [%s]\n", value);
-		clean_quotes(value);	
-		// p("value : [%s]\n", value);
-		add_to_env(name, value, minishell);
-		if (name)
-			ft_free_simple_ptr(&name);
-		if (value)
-			ft_free_simple_ptr(&value);
-		i += j - i;
-		while (cmd[i] && ft_isspace(cmd[i]))
-			i++;
-	}
-}*/
-
 void	execute_export(char **cmd, t_config *minishell)
 {
 	int		i;
@@ -202,13 +122,11 @@ void	execute_export(char **cmd, t_config *minishell)
 		tmp = ft_strchr(cmd[i], '=');
 		if (!tmp)
 		{
-			print_err(cmd[i], minishell);
 			i++;
 			continue ;
 		}
 		j =  tmp - cmd[i];
 		name = ft_substr(cmd[i], 0, j);
-		// p("name : [%s]\n", name);
 		if (!is_valid_env_name(name))
 		{
 			print_err(name, minishell);
@@ -217,8 +135,7 @@ void	execute_export(char **cmd, t_config *minishell)
 			continue ;
 		}
 		value = ft_substr(cmd[i], j + 1, ft_strlen(&cmd[i][j + 1]));
-		// p("value : [%s]\n", value);
-		if (ft_strlen(value) != 0)
+		if (value)
 		{
 			clean_quotes(&value);
 			add_to_env(name, value, minishell);

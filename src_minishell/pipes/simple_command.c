@@ -120,8 +120,8 @@ void	simple_parent(t_pipes *p_data)
 		execute_pwd(((t_node2 *)(p_data->ms_data->ast->item))->command, p_data->ms_data);
 	else if (((t_node2 *)(p_data->ms_data->ast->item))->type == ENV)
 		execute_env(((t_node2 *)(p_data->ms_data->ast->item))->command, p_data->ms_data);
-	// else if (((t_node2 *)(p_data->ms_data->ast->item))->type == EXIT)
-	// 	execute_exit(((t_node2 *)(p_data->ms_data->ast->item))->command, p_data->ms_data);
+	else if (((t_node2 *)(p_data->ms_data->ast->item))->type == EXIT)
+		execute_exit(((t_node2 *)(p_data->ms_data->ast->item))->command, p_data->ms_data);
 	else if (((t_node2 *)(p_data->ms_data->ast->item))->type == CD)
 		execute_cd(((t_node2 *)(p_data->ms_data->ast->item))->command, p_data->ms_data);
 	else if (((t_node2 *)(p_data->ms_data->ast->item))->type == UNSET)

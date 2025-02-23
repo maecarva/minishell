@@ -6,7 +6,7 @@
 /*   By: maecarva <maecarva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 17:14:38 by maecarva          #+#    #+#             */
-/*   Updated: 2025/02/22 18:25:29 by maecarva         ###   ########.fr       */
+/*   Updated: 2025/02/23 19:13:33 by maecarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,31 +135,106 @@ void expand_token(char **tokenstr, char **envp, t_config *config)
 	}
 }
 
-bool	expander(t_dlist *lexed_list, t_config *config)
+t_dlist	*create_arg_list(char	**files)
+{
+	t_dlist	*lst;
+	int		i;
+	t_lexertoklist	*tmp;
+
+	if (!files || !*files)
+		return (NULL);
+	i = 0;
+	lst = NULL;
+	tmp = NULL;
+	while (files[i])
+	{
+		tmp = ft_calloc(sizeof(t_lexertoklist), 1);
+		if (!tmp)
+			return (dll_clear(&lst), NULL);
+		tmp->token = ft_strdup(files[i]);
+		tmp->type = ARGS;
+		dll_add_back(&lst, dll_new(tmp));
+		tmp = NULL;
+		i++;
+	}
+	return (lst);
+}
+
+void	suppress_element(t_dlist **lst)
+{
+	t_dlist	*before;
+	t_dlist	*after;
+	t_dlist	*tmp;
+
+	if (!lst || !*lst)
+		return ;
+	if (dll_size(lst) == 1)
+		free_token_list(lst);
+	else if (dll_size(lst) == 2)
+	{
+		before = (*lst)->prev;
+		tmp = (*lst);
+		tmp->next = tmp;
+		tmp->prev = tmp;
+		before->prev = before;
+		before->next = before;
+		free_token_list(&tmp);
+		*lst = before;
+	}
+	else
+	{
+		before = (*lst)->prev;
+		after = (*lst)->next;
+		tmp = (*lst);
+		tmp->next = tmp;
+		tmp->prev = tmp;
+		before->next = after;
+		after->prev = before;
+		*lst = after;
+		free_token_list(&tmp);
+	}
+}
+
+bool	expander(t_dlist **lexed_list, t_config *config)
 {
 	t_dlist	*tmp;
 	t_dlist	*tmp2;
-	// char	*token;
+	t_dlist	*newlist;
+	char	**files;
+	bool	breakloop;
 
-	if (!lexed_list)
+	if (!*lexed_list)
 		return (false);
-	tmp = lexed_list;
+	tmp = *lexed_list;
+	breakloop = false;
 	while (tmp)
 	{
-		// token = ptr_to_lexertoklist(tmp->content)->token;
+		files = NULL;
 		if (ft_strchr(ptr_to_lexertoklist(tmp->content)->token, '$') && ptr_to_lexertoklist(tmp->prev->content)->type != HEREDOC)
 		{
-			// expand_token(&ptr_to_lexertoklist(tmp->content)->token, config->environnement, config);
-			if (ft_strlen(ptr_to_lexertoklist(tmp->content)->token) == 0 && dll_size(&lexed_list) > 1)
+			if (ft_strlen(ptr_to_lexertoklist(tmp->content)->token) == 0 && dll_size(lexed_list) > 1)
 			{
 				tmp2 = tmp;
 				tmp->prev->next = tmp->next;
 				tmp2->next->prev = tmp2->prev;
 			}
 		}
-		expand_wildcards(&ptr_to_lexertoklist(tmp->content)->token);
+		files = expand_wildcards(&ptr_to_lexertoklist(tmp->content)->token);
+		if (files != NULL)
+		{
+			// connect new args to existing cmd
+			newlist = create_arg_list(files);
+			// retire *
+			suppress_element(&tmp);
+			if (dll_size(lexed_list) == 1)
+				breakloop = true;
+			dll_insert(tmp, newlist);
+			ft_free_double_ptr(&files);
+			if (breakloop)
+				break ;
+		}
 		tmp = tmp->next;
-		if (tmp == lexed_list)
+		if (tmp == *lexed_list)
 			break ;
 	}
 	return (true);

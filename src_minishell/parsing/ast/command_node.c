@@ -72,7 +72,6 @@ char	**extractcmd(t_dlist *start, t_dlist *end)
 			clean_quotes(&cmd[i]);
 			i++;
 		}
-		cmd[i] = NULL;
 		if (tmp == end)
 			break ;
 		tmp = tmp->next;

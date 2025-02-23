@@ -56,6 +56,7 @@ bool	check_quotes(char *cmd)
 bool	check_redir(char *cmd)
 {
 	int		cmdlen;
+	// bool	
 	
 	if (!cmd)
 		return (false);
@@ -78,6 +79,7 @@ bool	check_pipes(char *cmd) // peut etre pas 100%bon
 	int	i;
 	bool	pipe;
 	char	lastchar;
+	bool	dquoted;
 
 	if (!cmd)
 		return (false);
@@ -85,15 +87,18 @@ bool	check_pipes(char *cmd) // peut etre pas 100%bon
 	pipe = false;
 	cmdlen = ft_strlen(cmd) - 1;
 	lastchar = cmd[0];
+	dquoted = false;
 	if (cmd[cmdlen] == '|' || *cmd == '|')
 		return (true);
 	while (++i < cmdlen)
 	{
+		if (cmd[i] == '\"')
+			dquoted = !dquoted;
 		if (!ft_isspace(cmd[i]) && cmd[i] != '|')
 			lastchar = cmd[i];
 		if (cmd[i] == '|')
 		{
-			if (lastchar == '>' || lastchar == '<')
+			if ((lastchar == '>' || lastchar == '<') && dquoted == false)
 				return (true);
 			pipe = !pipe;
 			while (i < cmdlen && ft_isspace(cmd[++i]))

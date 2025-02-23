@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 11:25:54 by maecarva          #+#    #+#             */
-/*   Updated: 2025/02/18 16:19:58 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/23 18:30:00 by maecarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ t_btree	*parse_cmd2(char *cmd, t_config *config)
 		return (free(trimmed), NULL);
 	}
 	// 4 : expand $
-	if (!expander(lexed, config))
+	if (!expander(&lexed, config))
 	{
 		config->last_error_code = 2;
 		return (free(trimmed), free_token_list(&lexed), NULL);

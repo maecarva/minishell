@@ -50,21 +50,38 @@ void	clean_env_vars(t_config *minishell)
 
 void	execute_cd(char **cmd, t_config *minishell)
 {
+	char	*tmp;
+
 	if (!cmd || !minishell)
 		return ;
+	tmp = NULL;
 	if (tab_size(cmd) >= 3)
 	{
 		minishell->last_error_code = 1;
-		ft_putstr_fd(" too many arguments\n", 2);
+		error_message(SHELL_NAME, "cd:", " too many arguments");
 		return ;
 	}
-	else if (tab_size(cmd) == 1)
+	else if (tab_size(cmd) == 1 || cmd[1][0] == '~')
 	{
-		if (chdir(get_value_by_name(minishell->environnement, "HOME")) == -1)
+		tmp = get_value_by_name(minishell->environnement, "HOME");
+		if (chdir(tmp) == -1)
 		{
-			ft_putstr_fd("bash: cd: HOME not set", 2);
+			ft_putstr_fd("bash: cd: HOME not set\n", 2);
 			minishell->last_error_code = 1;
 			return ;
+		}
+	}
+	else if (cmd[1][0] == '-')
+	{
+		tmp = get_value_by_name(minishell->environnement, "OLDPWD");
+		if (chdir(tmp) == -1)
+		{
+			ft_putstr_fd("bash: cd: OLDPWD not set\n", 2);
+			minishell->last_error_code = 1;
+			return ;
+		}
+		else {
+			printf("%s\n", tmp);
 		}
 	}
 	else if (tab_size(cmd) > 1 && chdir(cmd[1]) == -1)
@@ -80,4 +97,5 @@ void	execute_cd(char **cmd, t_config *minishell)
 		minishell->last_error_code = 0;
 		clean_env_vars(minishell);
 	}
+	free(tmp);
 }
