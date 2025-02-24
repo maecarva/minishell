@@ -107,3 +107,40 @@
                                      ❌ 161   
                                      ✅ 2638
 ```
+
+## 24/2 14:42
+```
+🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁
+🏁                                    RESULT                                    🏁
+🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁
+             TOTAL TEST COUNT: 933  TESTS PASSED: 838  LEAKING: 0 
+                     STD_OUT: 45  STD_ERR: 26  EXIT_CODE: 52  
+                         TOTAL FAILED AND PASSED CASES:
+                                     ❌ 123   
+                                     ✅ 2676
+```
+
+## 24/2 14:42 
+```
+🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁
+🏁                                    RESULT                                    🏁
+🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁
+             TOTAL TEST COUNT: 933  TESTS PASSED: 874  LEAKING: 0 
+                     STD_OUT: 36  STD_ERR: 21  EXIT_CODE: 20  
+                         TOTAL FAILED AND PASSED CASES:
+                                     ❌ 77   
+                                     ✅ 2722
+```
+
+# ALL tests
+## 24/2 14:42
+```
+🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁
+🏁                                    RESULT                                    🏁
+🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁
+             TOTAL TEST COUNT: 997  TESTS PASSED: 888  LEAKING: 0 
+                     STD_OUT: 57  STD_ERR: 32  EXIT_CODE: 58  
+                         TOTAL FAILED AND PASSED CASES:
+                                     ❌ 147   
+                                     ✅ 2844
+```

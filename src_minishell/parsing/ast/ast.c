@@ -279,7 +279,14 @@ void	construct(t_btree **ast, t_dlist *start, t_dlist *end, bool split3, int ind
 			construct(&(*ast)->left, start, tmp->prev, false, index);
 			construct(&(*ast)->right, tmp->next, end, false, index);
 		}
-		// printf("no valid operator\n");
+		else {
+		get_last_and_or(start, end, &tmp);
+		*ast = create_operator_node(ptr_to_lexertoklist(tmp->content)->type);
+		if (!*ast)
+			return ;
+		construct(&(*ast)->left, start, tmp->prev, true, index + 1);
+		construct(&(*ast)->right, tmp->next, end, false, index + 1);
+		}
 	}
 	else if (list_contain_operator(start, end))
 	{
@@ -335,7 +342,7 @@ void	construct(t_btree **ast, t_dlist *start, t_dlist *end, bool split3, int ind
 	}
 }
 
-void	finalise_ast(t_btree **ast)
+void	finalise_ast(t_btree **ast, t_config *config)
 {
 	t_node2	*n;
 
@@ -348,7 +355,7 @@ void	finalise_ast(t_btree **ast)
 			n->type = ECHO;
 		else if (ft_strnstr(n->command[0], "cd", ft_strlen("cd")) == n->command[0])
 			n->type = CD;
-		else if (ft_strnstr(n->command[0], "pwd", ft_strlen("pwd")) == n->command[0])
+		else if ((ft_strnstr(n->command[0], "pwd", ft_strlen("pwd")) == n->command[0]) && (n->command[0][3] == '\0'))
 			n->type = PWD;
 		else if (ft_strnstr(n->command[0], "export", ft_strlen("export")) == n->command[0])
 			n->type = EXPORT;
@@ -358,9 +365,9 @@ void	finalise_ast(t_btree **ast)
 			n->type = ENV;
 		else if (ft_strnstr(n->command[0], "exit", ft_strlen("exit")) == n->command[0])
 			n->type = EXIT;
-	} 
-	finalise_ast(&(*ast)->left);
-	finalise_ast(&(*ast)->right);
+	}
+	finalise_ast(&(*ast)->left, config);
+	finalise_ast(&(*ast)->right, config);
 }
 
 bool	create_ast(t_btree **ast, t_dlist *tokenlist, t_config *config)
@@ -368,6 +375,6 @@ bool	create_ast(t_btree **ast, t_dlist *tokenlist, t_config *config)
 	if (!tokenlist || !config)
 		return (false);
 	construct(ast, tokenlist, tokenlist->prev, false, 0);
-	finalise_ast(ast);
+	finalise_ast(ast, config);
 	return (true);
 }
