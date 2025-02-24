@@ -279,7 +279,7 @@ void	construct(t_btree **ast, t_dlist *start, t_dlist *end, bool split3, int ind
 			construct(&(*ast)->left, start, tmp->prev, false, index);
 			construct(&(*ast)->right, tmp->next, end, false, index);
 		}
-		printf("no valid operator\n");
+		// printf("no valid operator\n");
 	}
 	else if (list_contain_operator(start, end))
 	{
