@@ -130,7 +130,7 @@ void	extract_quoted(char *cmd, int *i, int *start, int *end)
 			squote = !squote;
 		if (cmd[*end] == '\"' && cquote == cmd[*end])
 			dquotes = !dquotes;
-		if (squote == false && dquotes == false && ft_isspace(cmd[*end]))
+		if (squote == false && dquotes == false && (ft_isspace(cmd[*end]) || ft_is_in_charset(cmd[*end], SPECIALS_TOKEN)))
 		{
 			*end -= 1;
 			break ;
@@ -144,59 +144,6 @@ void	extract_quoted(char *cmd, int *i, int *start, int *end)
 	}
 	*end += 1;
 	*i = *end;
-}
-
-t_dlist	*spliter2(char *cmd)
-{
-	t_dlist	*splited;
-	int		start;
-	int		end;
-	int		i;
-
-	if (!cmd)
-		return (NULL);
-	splited = NULL;
-	start = 0;
-	end = 0;
-	i = 0;
-	while (cmd[i] != '\0')
-	{
-		if (ft_strchr(SPECIALS_TOKEN, cmd[i]))
-		{
-			start = i;
-			if (cmd[i] == cmd[i + 1])
-			{
-				end = 2;
-				add_to_token_list(&splited, cmd, start, end);
-				i += 2;
-			}
-			else 
-			{
-				end = 1;
-				add_to_token_list(&splited, cmd, start, end);
-				i += 1;
-			}
-		}
-		else if (cmd[i] == '\"' || cmd[i] == '\'')
-		{
-			start = 0;
-			end = 0;
-			extract_quoted(cmd, &i, &start, &end);
-			add_to_token_list(&splited, cmd, start, end - start);
-		}
-		else {
-			while (cmd[i] && ft_isspace(cmd[i]))
-				i++;
-			start = i;
-			while (cmd[i] && !ft_isspace(cmd[i]) && !ft_strchr(SPECIALS_TOKEN, cmd[i]))/* && !ft_is_in_charset(cmd[i], "\'\"")*/ // add quoted condition ?
-				i++;
-			end = i - start;
-			add_to_token_list(&splited, cmd, start, end);
-		}
-		while (cmd[i] && ft_isspace(cmd[i]))
-			i++;
-	}
-	return (splited);
 }
 
 t_dlist	*spliter(char *cmd)
