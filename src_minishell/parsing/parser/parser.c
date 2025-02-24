@@ -61,6 +61,9 @@ t_btree	*parse_cmd2(char *cmd, t_config *config)
 		config->last_error_code = 2;
 		return (free(trimmed), NULL);
 	}
+	#ifdef DEBUG
+	print_token_list(&lexed);
+	#endif
 	// 4 : expand $
 	if (!expander(&lexed, config))
 	{

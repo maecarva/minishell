@@ -186,6 +186,7 @@ char	**expand_wildcards(char	**cmd)
 	clean_quotes(cmd);
 	i = 0;
 	start = 0;
+	files = NULL;
 	end = 0;
 	quotes[0] = false;
 	quotes[1] = false;
