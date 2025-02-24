@@ -49,7 +49,7 @@ t_btree	*parse_cmd2(char *cmd, t_config *config)
 		return (free(trimmed), NULL);
 	}
 
-	expand_token(&trimmed, config->environnement, config);
+	expand_token(&trimmed, config->environnement, config, false);
 	if (ft_strlen(trimmed) == 0)
 	{
 		config->last_error_code = 0;

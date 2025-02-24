@@ -11,30 +11,46 @@
 /* ************************************************************************** */
 
 #include "../../../include_minishell/minishell.h"
-#include <readline/chardefs.h>
 
 bool	is_quoted(bool *quotes)
 {
 	return (quotes[0] == true || quotes[1] == true);
 }
 
-void	expand_pls(char **str, char **env, t_config *config, int *index)
+bool	is_special_var(char *s)
+{
+	if (!s)
+		return (false);
+	if (ft_strlen(s) == 1)
+	{
+		if (ft_is_in_charset(s[0], "|<>"))
+			return (true);
+	}
+	else if (ft_strlen(s) == 2)
+	{
+		if ((s[0] == '<' && s[1] == '<') || (s[0] == '>' && s[1] == '>'))
+			return (true);
+	}
+	return (false);
+}
+
+int	expand_pls(char **str, char **env, t_config *config, int *index, bool expand_specials)
 {
 	char	*ptrs[4];// 0: varname, 1: value, 2: beforevar, 3: aftervar
 	int		j;
 	char	*s;
 
 	if (!str || !index || !env)
-		return ;
+		return (0);
 	ft_bzero(ptrs, sizeof(char *) * 4);
 	s = *str;
 	if (s[*index + 1] == '\0')
-		return ;
+		return (0);
 	j = *index + 1;
 	if (ft_isdigit(s[j]))
-		return ((void)ft_memmove(&s[*index], &s[j + 1], ft_strlen(&s[j]) + 1));
+		return ((void)ft_memmove(&s[*index], &s[j + 1], ft_strlen(&s[j]) + 1), 0);
 	else if (s[j] == '\"' || s[j] == '\'')
-		return ((void)ft_memmove(&s[*index], &s[j], ft_strlen(&s[j]) + 1));
+		return ((void)ft_memmove(&s[*index], &s[j], ft_strlen(&s[j]) + 1), 0);
 	else if (s[j] == '?')
 	{
 		ptrs[1] = ft_itoa(config->last_error_code);
@@ -47,7 +63,7 @@ void	expand_pls(char **str, char **env, t_config *config, int *index)
 		free(ptrs[2]);
 		free(ptrs[3]);
 		*str = ptrs[0];
-		return ;
+		return (0);
 	}
 	else if (s[j] == '$')
 	{
@@ -59,17 +75,25 @@ void	expand_pls(char **str, char **env, t_config *config, int *index)
 		free(ptrs[2]);
 		free(ptrs[3]);
 		*str = ptrs[0];
-		return ;
+		return (0);
 	}
 	while (s[j] && ((ft_isalnum(s[j]) || s[j] == '_') && (ft_isalnum(s[j + 1]) || s[j + 1] == '_')))
 		j++;
 	ptrs[0] = ft_substr(s, *index + 1 , j - *index);
 	if (!ptrs[0])
-		return ;
+		return (0);
 	ptrs[1] = get_value_by_name(env, ptrs[0]);
 	free(ptrs[0]);
 	if (!ptrs[1]) // no valid name
 		ft_memmove(&s[*index], &s[j + 1], ft_strlen(&s[j]) + 1);
+	else if (expand_specials == false && is_special_var(ptrs[1]))
+	{
+		*index += ft_strlen(ptrs[1]);
+		free(ptrs[1]);
+		free(ptrs[2]);
+		free(ptrs[3]);
+		return (1);
+	}
 	else
 	{
 		ptrs[2] = ft_substr(s, 0, *index);
@@ -82,9 +106,10 @@ void	expand_pls(char **str, char **env, t_config *config, int *index)
 		free(ptrs[3]);
 		*str = ptrs[0];
 	}
+	return (0);
 }
 
-void expand_token(char **tokenstr, char **envp, t_config *config)
+void expand_token(char **tokenstr, char **envp, t_config *config, bool expand_specials)
 {
 	int		i;
 	int		state; // 0: no quotes, 1: ', 2: "
@@ -125,10 +150,12 @@ void expand_token(char **tokenstr, char **envp, t_config *config)
 				expand = false;
 				continue ;
 			}
-			expand_pls(tokenstr, envp, config, &i);
+			if (expand_pls(tokenstr, envp, config, &i, expand_specials) == 0)
+			{
+				i = 0;
+				s = *tokenstr;
+			}
 			expand = false;
-			s = *tokenstr;
-			i = 0;
 			state = 0;
 			continue ;
 		}
@@ -216,6 +243,7 @@ bool	expander(t_dlist **lexed_list, t_config *config)
 		files = NULL;
 		if (ft_strchr(ptr_to_lexertoklist(tmp->content)->token, '$') && ptr_to_lexertoklist(tmp->prev->content)->type != HEREDOC)
 		{
+			expand_token(&ptr_to_lexertoklist(tmp->content)->token, config->environnement, config, true);
 			if (ft_strlen(ptr_to_lexertoklist(tmp->content)->token) == 0 && dll_size(lexed_list) > 1)
 			{
 				tmp2 = tmp;

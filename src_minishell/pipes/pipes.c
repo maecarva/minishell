@@ -61,7 +61,11 @@ void	check_children(t_pipes *p_data)
 		if (pid == p_data->pid_last_parent)
 		{
 			if (p_data->ms_data->last_error_code != ERROR_CODE)
+			{
 				p_data->ms_data->last_error_code = exit_code;
+				if (exit_code == 214)
+					p_data->ms_data->last_error_code = 1;
+			}
 		}
 	}
 }
