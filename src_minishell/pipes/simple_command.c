@@ -106,20 +106,20 @@ void	simple_parent(t_pipes *p_data)
 	ft_close(&p_data->fd_outfile);
 	p_data->cmds = ((t_node2 *)(p_data->ms_data->ast->item))->command;
 	p_data->type = ((t_node2 *)(p_data->ms_data->ast->item))->type;
-// if (p_data->type == ECHO)
-// 	execute_echo(((t_node2 *)(p_data->ms_data->ast->item))->command, p_data->ms_data);
-// else if (((t_node2 *)(p_data->ms_data->ast->item))->type == PWD)
-// 	execute_pwd(((t_node2 *)(p_data->ms_data->ast->item))->command, p_data->ms_data);
-// else if (((t_node2 *)(p_data->ms_data->ast->item))->type == ENV)
-// 	execute_env(((t_node2 *)(p_data->ms_data->ast->item))->command, p_data->ms_data);
-// else if (((t_node2 *)(p_data->ms_data->ast->item))->type == EXIT)
-// 	execute_exit(((t_node2 *)(p_data->ms_data->ast->item))->command, p_data->ms_data);
-// else if (((t_node2 *)(p_data->ms_data->ast->item))->type == CD)
-// 	execute_cd(((t_node2 *)(p_data->ms_data->ast->item))->command, p_data->ms_data);
-// else if (((t_node2 *)(p_data->ms_data->ast->item))->type == UNSET)
-// 	execute_unset(((t_node2 *)(p_data->ms_data->ast->item))->command, p_data->ms_data);
-// else if (((t_node2 *)(p_data->ms_data->ast->item))->type == EXPORT)
-// 	execute_export(((t_node2 *)(p_data->ms_data->ast->item))->command, p_data->ms_data);
+	if (p_data->type == ECHO)
+		execute_echo(((t_node2 *)(p_data->ms_data->ast->item))->command, p_data->ms_data);
+	else if (((t_node2 *)(p_data->ms_data->ast->item))->type == PWD)
+		execute_pwd(((t_node2 *)(p_data->ms_data->ast->item))->command, p_data->ms_data);
+	else if (((t_node2 *)(p_data->ms_data->ast->item))->type == ENV)
+		execute_env(((t_node2 *)(p_data->ms_data->ast->item))->command, p_data->ms_data);
+	else if (((t_node2 *)(p_data->ms_data->ast->item))->type == EXIT)
+		execute_exit(((t_node2 *)(p_data->ms_data->ast->item))->command, p_data->ms_data);
+	else if (((t_node2 *)(p_data->ms_data->ast->item))->type == CD)
+		execute_cd(((t_node2 *)(p_data->ms_data->ast->item))->command, p_data->ms_data);
+	else if (((t_node2 *)(p_data->ms_data->ast->item))->type == UNSET)
+		execute_unset(((t_node2 *)(p_data->ms_data->ast->item))->command, p_data->ms_data);
+	else if (((t_node2 *)(p_data->ms_data->ast->item))->type == EXPORT)
+		execute_export(((t_node2 *)(p_data->ms_data->ast->item))->command, p_data->ms_data);
 }
 
 void	simple_command(t_pipes *p_data)

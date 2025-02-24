@@ -88,7 +88,7 @@ static void	check_access(char **path_cmd, t_pipes *p_data)
 		{
 			error_message(SHELL_NAME, *path_cmd, ": Is a directory");
 			ft_free_simple_ptr(path_cmd);
-			p_data->ms_data->last_error_code = ERROR_COMMAND;
+			p_data->ms_data->last_error_code = IS_A_DIRECTORY;
 			clear_minishell(p_data->ms_data);
 		}
 	}

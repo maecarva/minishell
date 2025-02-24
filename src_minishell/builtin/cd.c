@@ -11,16 +11,15 @@
 /* ************************************************************************** */
 
 #include "../../include_minishell/minishell.h"
-#include <unistd.h>
 
-int	tab_size(char **splited)
+int	tab_size(char **cmd)
 {
 	int	i;
 
-	if (!splited || !*splited)
+	if (!cmd || !*cmd)
 		return (0);
 	i = 0;
-	while (splited[i])
+	while (cmd[i])
 		i++;
 	return (i);
 }
@@ -29,52 +28,66 @@ void	clean_env_vars(t_config *minishell)
 {
 	char	*oldpwd;
 	char	pwd[MAX_PATH];
-	char	*cmd;
+	char	**cmd;
 
+	cmd = ft_calloc(sizeof(char *), 3);
 	if (!minishell)
 		return ;
 	ft_bzero(pwd, MAX_PATH);
+	cmd[0] = ft_strdup("export");
 	if (getcwd(pwd, MAX_PATH) == pwd)
 	{
 		oldpwd = get_value_by_name(minishell->environnement, "PWD");
-		cmd = ft_strjoin("export OLDPWD=", oldpwd);
+		cmd[1] = ft_strjoin("OLDPWD=", oldpwd);
 		execute_export(cmd, minishell);
 		ft_free_simple_ptr(&oldpwd);
-		ft_free_simple_ptr(&cmd);
-		cmd = ft_strjoin("export PWD=", pwd);
+		ft_free_simple_ptr(&cmd[1]);
+		cmd[1] = ft_strjoin("PWD=", pwd);
 		execute_export(cmd, minishell);
-		ft_free_simple_ptr(&cmd);
+		ft_free_double_ptr(&cmd);
 	}
 }
 
-void	execute_cd(char *cmd, t_config *minishell)
+void	execute_cd(char **cmd, t_config *minishell)
 {
-	char	**splited;
+	char	*tmp;
 
 	if (!cmd || !minishell)
 		return ;
-	splited = ft_split_charset(cmd, WHITESPACES);
-	if (!splited)
-		return ;
-	if (tab_size(splited) >= 3)
+	tmp = NULL;
+	if (tab_size(cmd) >= 3)
 	{
 		minishell->last_error_code = 1;
-		ft_putstr_fd(" too many arguments\n", 2);
+		error_message(SHELL_NAME, "cd:", " too many arguments");
 		return ;
 	}
-	else if (tab_size(splited) == 1)
+	else if (tab_size(cmd) == 1 || cmd[1][0] == '~')
 	{
-		if (chdir(get_value_by_name(minishell->environnement, "HOME")) == -1)
+		tmp = get_value_by_name(minishell->environnement, "HOME");
+		if (chdir(tmp) == -1)
 		{
-			ft_putstr_fd("bash: cd: HOME not set", 2);
+			ft_putstr_fd("bash: cd: HOME not set\n", 2);
 			minishell->last_error_code = 1;
 			return ;
 		}
 	}
-	else if (tab_size(splited) > 1 && chdir(splited[1]) == -1)
+	else if (cmd[1][0] == '-')
+	{
+		tmp = get_value_by_name(minishell->environnement, "OLDPWD");
+		if (chdir(tmp) == -1)
+		{
+			ft_putstr_fd("bash: cd: OLDPWD not set\n", 2);
+			minishell->last_error_code = 1;
+			return ;
+		}
+		else {
+			printf("%s\n", tmp);
+		}
+	}
+	else if (tab_size(cmd) > 1 && chdir(cmd[1]) == -1)
 	{
 		ft_putstr_fd("bash: cd: ", 2);
-		ft_putstr_fd(splited[1], 2);
+		ft_putstr_fd(cmd[1], 2);
 		ft_putstr_fd(": No such file or directory\n", 2);
 		minishell->last_error_code = 1;
 		return ;
@@ -84,4 +97,5 @@ void	execute_cd(char *cmd, t_config *minishell)
 		minishell->last_error_code = 0;
 		clean_env_vars(minishell);
 	}
+	free(tmp);
 }

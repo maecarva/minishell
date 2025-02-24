@@ -79,6 +79,25 @@ char	**init_no_env()
 	return (env);
 }
 
+void	init_shlvl(t_config *minishell)
+{
+	char	**exp;
+	char	*tmp;
+	int		value;
+
+	exp = ft_calloc(sizeof(char *), 3);
+	exp[0] = ft_strdup("export");
+	tmp = get_value_by_name(minishell->environnement, "SHLVL");
+	value = ft_atoi(tmp) + 1;
+	free(tmp);
+	tmp = ft_itoa(value);
+	exp[1] = ft_strjoin("SHLVL=", tmp);
+	free(tmp);
+	exp[2] = NULL;
+	execute_export(exp, minishell);
+	ft_free_double_ptr(&exp);
+}
+
 t_config	*init(int ac, char **av, char **env)
 {
 	t_config	*minishell;
@@ -97,5 +116,6 @@ t_config	*init(int ac, char **av, char **env)
 	if (init_config(ac, av,minishell) == INIT_ERROR)
 		return (clear_minishell(minishell), NULL);
 	// signals_interactive_mode();
+	init_shlvl(minishell);
 	return (minishell);
 }

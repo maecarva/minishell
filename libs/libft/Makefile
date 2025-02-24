@@ -6,7 +6,7 @@
 #    By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/08 14:24:44 by ebonutto          #+#    #+#              #
-#    Updated: 2025/02/21 13:42:27 by ebonutto         ###   ########.fr        #
+#    Updated: 2025/02/23 18:37:34 by maecarva         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -100,7 +100,8 @@ SRC_DOUBLE_LINKED_LIST = dll_add_back.c \
 						 dll_new.c \
 						 dll_clear.c \
 						 dll_size.c \
-						 dll_size_between.c
+						 dll_size_between.c \
+						 dll_insert.c
 
 SRC_BINARY_TREE = ft_btree_create_node.c \
 					ft_btree_apply_prefix.c \
