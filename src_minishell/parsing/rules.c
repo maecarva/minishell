@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "../../include_minishell/minishell.h"
-#include <unistd.h>
 
 bool	is_only_whitespaces(char *cmd)
 {
@@ -64,12 +63,12 @@ bool	check_redir(char *cmd)
 	if (cmd[cmdlen] == '>' && cmd[cmdlen - 1] == '>')
 	{
 		if (cmdlen == 2)
-			return (ft_putstr_fd(" syntax error near unexpected token `>'\n", STDERR_FILENO), true);
+			return (ft_putstr_fd("bash: syntax error near unexpected token `>'\n", STDERR_FILENO), true);
 		else if (ft_count_char_in_str(cmd, '>') > 2)
-			return (ft_putstr_fd(" syntax error near unexpected token `>>'\n", STDERR_FILENO), true);
+			return (ft_putstr_fd("bash: syntax error near unexpected token `>>'\n", STDERR_FILENO), true);
 	}
 	if (cmd[cmdlen] == '<' || cmd[cmdlen] == '>')
-		return (ft_putstr_fd(" syntax error near unexpected token `newline'\n", STDERR_FILENO), true);
+		return (ft_putstr_fd("bash: syntax error near unexpected token `newline'\n", STDERR_FILENO), true);
 	return (false);
 }
 

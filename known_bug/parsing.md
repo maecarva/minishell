@@ -11,8 +11,8 @@ parenthesis parsing commands
  - ((echo a || echo aa) && echo b) OK
  - (((echo a || echo aa) && echo b) && echo c) OK
  - (((echo a || echo aa) && echo b) && echo c || echo d) OK
- - (echo a && echo b && (echo c && (echo d || echo dd)))
- - (echo a && echo b && (echo c )) && (echo d | echo dd)
+ - (echo a && echo b && (echo c && (echo d || echo dd))) OK
+ - (echo a && echo b && (echo c )) && (echo d || echo dd)
  - (echo a && echo b && (echo c )) && (echo d || echo dd)
  - (echo a && echo b && echo c) && (echo d || echo dd)
 
