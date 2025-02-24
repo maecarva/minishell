@@ -6,28 +6,11 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 14:29:27 by maecarva          #+#    #+#             */
-/*   Updated: 2025/02/18 11:10:29 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/21 15:45:50 by maecarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include_minishell/minishell.h"
-
-// bool	valid_name(char *name)
-// {
-// 	int	i;
-//
-// 	if (!name)
-// 		return (false);
-// 	i = -1;
-// 	while (name[++i])
-// 	{
-// 		if (!ft_isalpha(name[i]) && (size_t)i < ft_strlen(name) - 1 && name[i] != '_')
-// 			return (false);
-// 	}
-// 	if (name[ft_strlen(name) - 1] != '+' && !ft_isalpha(name[ft_strlen(name) - 1]))
-// 		return (false);
-// 	return (true);
-// }
 
 void	print_err(char *cmd, t_config *minishell)
 {
@@ -123,82 +106,42 @@ bool	is_valid_env_name(char *name)
 	return (true);
 }
 
-void	execute_export(char *cmd, t_config *minishell)
+void	execute_export(char **cmd, t_config *minishell)
 {
 	int		i;
-	char	*name;
 	int		j;
-	int		quotestatus;
+	char	*tmp;
+	char	*name;
 	char	*value;
 
-	if (!cmd || !minishell)
+	if (!cmd || !cmd[0] || !minishell)
 		return ;
-	i = 0;
-	j = 0;
-	quotestatus = 0;
-	name = NULL;
-	value = NULL;
-	// p("%s\n", cmd);
-	while (!ft_isspace(cmd[i]))
-		i++;
-	while (ft_isspace(cmd[i]))
-		i++;
+	i = 1;
 	while (cmd[i])
 	{
-		j = i;
-		if (cmd[j] == '=')
-		{	
-			print_err("=", minishell);
+		tmp = ft_strchr(cmd[i], '=');
+		if (!tmp)
+		{
 			i++;
 			continue ;
 		}
-			
-		while (cmd[j] && cmd[j] != '=')
-			j++;
-		name = ft_substr(cmd, i, j - i);
-		if (!name)
-			break ;
-
-		// p("name : [%s]\n", name);
-		i = j;
-		while (cmd[i] && cmd[i] != '=')
-			i++;
-		if (cmd[i] == '=')
-			i++;
-		j = i;
-		while (cmd[j])
-		{
-			if (cmd[j] == '\'' && quotestatus == 0)
-				quotestatus = 1;
-			else if (cmd[j] == '\'' && quotestatus == 1)
-				quotestatus = 0;
-			else if (cmd[j] == '\"' && quotestatus == 0)
-				quotestatus = 2;
-			else if (cmd[j] == '\"' && quotestatus == 2)
-				quotestatus = 0;
-			if (ft_isspace(cmd[j]) && quotestatus == 0)
-				break ;
-			j++;
-		}
-		clean_quotes(name);
+		j =  tmp - cmd[i];
+		name = ft_substr(cmd[i], 0, j);
 		if (!is_valid_env_name(name))
 		{
 			print_err(name, minishell);
 			ft_free_simple_ptr(&name);
-			i += j - i;
+			i++;
 			continue ;
 		}
-		value = ft_substr(cmd, i, j - i);
-		// p("value : [%s]\n", value);
-		clean_quotes(value);	
-		// p("value : [%s]\n", value);
-		add_to_env(name, value, minishell);
-		if (name)
-			ft_free_simple_ptr(&name);
+		value = ft_substr(cmd[i], j + 1, ft_strlen(&cmd[i][j + 1]));
 		if (value)
-			ft_free_simple_ptr(&value);
-		i += j - i;
-		while (cmd[i] && ft_isspace(cmd[i]))
-			i++;
+		{
+			clean_quotes(&value);
+			add_to_env(name, value, minishell);
+		}
+		ft_free_simple_ptr(&name);
+		ft_free_simple_ptr(&value);
+		i++;
 	}
 }

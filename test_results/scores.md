@@ -36,28 +36,6 @@
                                      ✅ 2437
 ```
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ## 22/2 18:07
 ```
 🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁
@@ -92,28 +70,4 @@
                          TOTAL FAILED AND PASSED CASES:
                                      ❌ 218   
                                      ✅ 2605
-```
-
-## 23/2 20:21
-```
-🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁
-🏁                                    RESULT                                    🏁
-🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁
-             TOTAL TEST COUNT: 941  TESTS PASSED: 797  LEAKING: 0 
-                     STD_OUT: 58  STD_ERR: 69  EXIT_CODE: 89  
-                         TOTAL FAILED AND PASSED CASES:
-                                     ❌ 216   
-                                     ✅ 2607
-```
-
-## 23/2 21:17
-```
-🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁
-🏁                                    RESULT                                    🏁
-🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁
-             TOTAL TEST COUNT: 941  TESTS PASSED: 820  LEAKING: 0 
-                     STD_OUT: 52  STD_ERR: 45  EXIT_CODE: 70  
-                         TOTAL FAILED AND PASSED CASES:
-                                     ❌ 167   
-                                     ✅ 2656
 ```

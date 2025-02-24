@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../include_minishell/minishell.h"
+#include <unistd.h>
 
 char	**duplicate_env_without_var(char *varname, t_config *minishell)
 {
@@ -23,7 +24,6 @@ char	**duplicate_env_without_var(char *varname, t_config *minishell)
 	if (!varname || !minishell)
 		return (NULL);
 	len = ft_strlen(varname);
-	// Calculer le nombre de variables restantes (en excluant celle à supprimer)
 	i = 0;
 	new_size = 0;
 	while (minishell->environnement[i])
@@ -54,28 +54,40 @@ char	**duplicate_env_without_var(char *varname, t_config *minishell)
 	return (env);
 }
 
-void	execute_unset(char *cmd, t_config *minishell)
+void	print_invalid_option(char *s)
+{
+	int	i;
+
+	i = -1;
+	ft_putstr_fd("unset: ", STDERR_FILENO);
+	while (++i < 2)
+		ft_putchar_fd(s[i], STDERR_FILENO);
+	ft_putstr_fd(" : invalid option\n", STDERR_FILENO);
+}
+
+void	execute_unset(char **cmd, t_config *minishell)
 {
 	int		i;
-	char	**splited;
 	char	**envdup;
 
-	if (!cmd || !minishell)
-		return ;
-	splited = ft_split_charset(cmd, WHITESPACES);
-	if (!splited || !*splited)
+	if (!cmd  || !cmd[0] || !minishell)
 		return ;
 	i = 1;
-	while (splited[i])
+	while (cmd[i])
 	{
-		envdup = duplicate_env_without_var(splited[i], minishell);
+		if (cmd[i][0] == '-')
+		{
+			print_invalid_option(cmd[i]);
+			minishell->last_error_code = 2;
+			return ;
+		}
+		envdup = duplicate_env_without_var(cmd[i], minishell);
 		if (!envdup)
 			break ;
 		ft_free_double_ptr(&minishell->environnement);
 		minishell->environnement = envdup;
 		i++;
 	}
-	ft_free_double_ptr(&splited);
 	minishell->last_error_code = 0;
 }
 

@@ -5,7 +5,7 @@ echo a && )(
 # TODO
 change PWD and OLDPWD when cd *OK*
 leaks wildcards *OK*
-wildcards ""*""
+wildcards **
 parenthesis parsing commands
  - echo a || echo b && echo != echo a || (echo b && echo c) OK
  - ((echo a || echo aa) && echo b) OK

@@ -12,13 +12,13 @@
 
 #include "../../include_minishell/minishell.h"
 
-void	execute_env(char *cmd, t_config *minishell)
+void	execute_env(char **cmd, t_config *minishell)
 {
 	int	i;
 
-	if (!minishell)
+	if (!cmd || !cmd[0] || !minishell)
 		return ;
-	if (ft_strlen(cmd) > 3)
+	if (tab_size(cmd) > 1)
 		return (ft_putstr_fd("env: no arguments required.\n", STDERR_FILENO));
 	i = 0;
 	while (minishell->environnement[i])

@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 14:41:06 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/19 14:29:13 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/23 18:29:41 by maecarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,9 @@
 
 /* Command found but not executable */
 #define CFBNE 126
+
+/* Is a directory */
+#define IS_A_DIRECTORY 126
 
 /* ? */
 # define ENV_PARSING_ERROR 1
@@ -253,10 +256,10 @@ t_lexertoklist	*ptr_to_lexertoklist(void *token);
 void	print_token_list(t_dlist **dlist);
 void	handle_redirections(t_btree **node, t_dlist *start, t_dlist *end);
 // expander
-bool	expander(t_dlist *lexed_list, t_config *config);
-void	expand_wildcards(char **cmd);
+bool	expander(t_dlist **lexed_list, t_config *config);
+char	**expand_wildcards(char **cmd);
 void	expand_token(char **tokenstr, char **envp, t_config *config);
-void	clean_quotes(char *s);
+void	clean_quotes(char **s);
 // ast
 bool	create_ast(t_btree **ast, t_dlist *tokenlist, t_config *config);
 t_btree	*create_operator_node(t_lexertok type);
@@ -273,14 +276,15 @@ int	tab_size(char **splited);
 /* Builtin functions */
 
 /* echo */
-void	execute_pwd(char *cmd, t_config *minishell);
-void	execute_env(char *cmd, t_config *minishell);
-void	execute_exit(char *cmd, t_config *minishell);
-void	execute_cd(char *cmd, t_config *minishell);
-void	execute_unset(char *cmd, t_config *minishell);
+void	execute_pwd(char **cmd, t_config *minishell);
+void	execute_env(char **cmd, t_config *minishell);
+// void	execute_exit(char *cmd, t_config *minishell);
+void	execute_exit(char **cmd, t_config *minishell);
+void	execute_cd(char **cmd, t_config *minishell);
+void	execute_unset(char **cmd, t_config *minishell);
 char	**duplicate_env_without_var(char *varname, t_config *minishell);
-void	execute_export(char *cmd, t_config *minishell);
-void	execute_echo(char *cmd, t_config *minishell);
+void	execute_export(char **cmd, t_config *minishell);
+void	execute_echo(char **cmd, t_config *minishell);
 
 /* Free */
 // void	free_minishell(t_config **ms_data);

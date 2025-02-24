@@ -15,6 +15,7 @@
 void	free_ast(t_btree **ast)
 {
 	t_node2	*n;
+	int		i;
 
 	if (!(*ast))
 		return ;
@@ -29,7 +30,12 @@ void	free_ast(t_btree **ast)
 	if (n->file)
 		free(n->file);
 	if (n->command)
+	{
+		i = -1;
+		while (n->command[++i])
+			free(n->command[i]);
 		free(n->command);
+	}
 	free(n);
 	free(*ast);
 	*ast = NULL;

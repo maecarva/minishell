@@ -1,34 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   dll_insert.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: maecarva <maecarva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/11 16:31:41 by maecarva          #+#    #+#             */
-/*   Updated: 2025/02/11 17:23:04 by maecarva         ###   ########.fr       */
+/*   Created: 2025/02/23 18:30:17 by maecarva          #+#    #+#             */
+/*   Updated: 2025/02/23 18:49:05 by maecarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include_minishell/minishell.h"
+#include "../include_libft/libft.h"
 
-void	execute_pwd(char **cmd, t_config *minishell)
+void	dll_insert(t_dlist *l1, t_dlist *l2)
 {
-	char	path[MAX_PATH];
-	char	*pathbis;
+	t_dlist	*tail1;
+	t_dlist	*tail2;
 
-	ft_bzero(path, MAX_PATH);
-	if (!cmd)
+	if (!l1 || !l2)
 		return ;
-	if (getcwd(path, MAX_PATH) == path)
-		printf("%s\n", path);
-	else
-	{
-		pathbis = get_value_by_name(minishell->environnement, "PWD");
-		if (pathbis)
-			printf("%s\n", pathbis);
-		free(pathbis);
-	}
-	minishell->last_error_code = 0;
-}
+	tail1 = l1->prev;
+	tail2 = l2->prev;
 
+	tail1->next = l2;
+	l2->prev = tail1;
+
+	tail2->next = l1;
+	l1->prev = tail2;
+}

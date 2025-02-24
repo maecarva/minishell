@@ -88,7 +88,7 @@ static void	check_access(char **path_cmd, t_pipes *p_data)
 		{
 			error_message(SHELL_NAME, *path_cmd, ": Is a directory");
 			ft_free_simple_ptr(path_cmd);
-			p_data->ms_data->last_error_code = ERROR_COMMAND;
+			p_data->ms_data->last_error_code = IS_A_DIRECTORY;
 			clear_minishell(p_data->ms_data);
 		}
 	}
@@ -195,7 +195,7 @@ void	execute_command(t_pipes *p_data)
 		handle_path(&path_cmd, p_data);
 	else
 		handle_no_path(&path_cmd, p_data, i);
-	printf("cmds:%s\n", p_data->cmds[1]);
+	// printf("cmds:%s\n", p_data->cmds[1]);
 	if (execve(path_cmd, p_data->cmds, p_data->ms_data->environnement) == -1)
 	{
 		perror("execve");
