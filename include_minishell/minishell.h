@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 14:41:06 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/23 18:29:41 by maecarva         ###   ########.fr       */
+/*   Updated: 2025/02/24 15:53:22 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,6 +232,8 @@ typedef	struct	s_node2
 // init
 t_config	*init(int ac, char **av, char **env);
 int		clear_minishell(t_config *minishell);
+void	clear_here_doc(t_btree *root);
+
 // // env
 char		**init_environnement(char **env);
 char	*get_value_by_name(char **envp, char *name);

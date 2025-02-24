@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 16:40:51 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/24 14:01:32 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/24 15:49:27 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,18 @@ static void	create_hd(t_config *ms_data, t_btree *cmd, char *limiter)
 void	get_name_here_doc(t_config *minishell, t_btree *cmd, int *i)
 {
 	char	*name;
-	
-	name = ft_strjoin("/tmp/here_doc_", ft_itoa(*i));
+	char	*number;
+
+	number = ft_itoa(*i);
+	if (!number)
+	{
+		minishell->last_error_code = ERROR_CODE;
+		clear_minishell(minishell);
+	}
+	name = ft_strjoin("/tmp/here_doc_", number);
 	if (!name)
 	{
+		free(number);
 		minishell->last_error_code = ERROR_CODE;
 		clear_minishell(minishell);
 	}

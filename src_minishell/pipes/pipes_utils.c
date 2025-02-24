@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 09:42:12 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/24 12:27:04 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/24 15:45:09 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,9 +90,3 @@ void	free_fd(int ***fd, int len)
 	free(*fd);
 	*fd = 0;
 }
-
-// void	unlink_hd(t_pipes *p_data, )
-// {
-// 	if (unlink("here_doc.tmp") == -1)
-// 		perror("unlink");
-// }
