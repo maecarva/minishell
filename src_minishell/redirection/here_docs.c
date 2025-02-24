@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 16:40:51 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/24 15:49:27 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/24 18:05:03 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ static void	create_hd(t_config *ms_data, t_btree *cmd, char *limiter)
 			ft_close(&fd_infile);
 			return ;
 		}
+		expand_token(&line, ms_data->environnement, ms_data, true);
 		ft_putstr_fd(line, fd_infile);
 	}
 }
@@ -63,6 +64,7 @@ void	get_name_here_doc(t_config *minishell, t_btree *cmd, int *i)
 		minishell->last_error_code = ERROR_CODE;
 		clear_minishell(minishell);
 	}
+	free(number);
 	((t_node2 *)(cmd->item))->file = name;
 	(*i)++;
 }
