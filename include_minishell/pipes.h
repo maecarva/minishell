@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 14:09:58 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/21 13:16:31 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/24 12:26:08 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ typedef struct s_pipes
 	int		fd_outfile;
 	int		to_close_one;
 	int		to_close_two;
-	bool	is_hd;
 	char	**cmds;
 	t_lexertok	type;
 	int		flags;
@@ -61,5 +60,6 @@ void	unlink_hd(t_pipes *p_data);
 void	get_infile(t_pipes *p_data, t_btree *cmd);
 void	get_outfile(t_pipes *p_data, t_btree *cmd);
 void	get_redirections(t_pipes *p_data);
+void	get_here_docs(t_config *ms_data);
 
 #endif

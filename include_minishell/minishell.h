@@ -190,6 +190,7 @@ typedef	struct s_config {
 	t_btree	*dont_fucking_touch_me;
 	int		last_error_code;
 	char	*pidstr;
+	t_list	*here_docs;
 }	t_config;
 
 /* Char constants */

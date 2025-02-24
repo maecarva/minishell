@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 10:28:34 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/21 15:09:31 by maecarva         ###   ########.fr       */
+/*   Updated: 2025/02/24 14:04:46 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ static void	simple_child(t_pipes *p_data)
 		if (p_data->fd_infile == -1)
 		{
 			perror("open");
-			unlink_hd(p_data);
 			p_data->ms_data->last_error_code = ERROR_CODE;
 			clear_minishell(p_data->ms_data);
 		}
@@ -36,7 +35,6 @@ static void	simple_child(t_pipes *p_data)
 		{
 			perror("open");
 			ft_close(&p_data->fd_infile);
-			unlink_hd(p_data);
 			p_data->ms_data->last_error_code = ERROR_CODE;
 			clear_minishell(p_data->ms_data);
 		}
@@ -46,12 +44,10 @@ static void	simple_child(t_pipes *p_data)
 		perror("dup2");
 		ft_close(&p_data->fd_infile);
 		ft_close(&p_data->fd_outfile);
-		unlink_hd(p_data);
 		p_data->ms_data->last_error_code = ERROR_CODE;
 		clear_minishell(p_data->ms_data);
 	}
 	ft_close(&p_data->fd_infile);
-	unlink_hd(p_data);
 	if (dup2(p_data->fd_outfile, STDOUT_FILENO) == -1)
 	{
 		perror("dup2");
@@ -74,7 +70,6 @@ void	simple_parent(t_pipes *p_data)
 		if (p_data->fd_infile == -1)
 		{
 			perror("open");
-			unlink_hd(p_data);
 			p_data->ms_data->last_error_code = ERROR_CODE;
 			clear_minishell(p_data->ms_data);
 		}
@@ -88,7 +83,6 @@ void	simple_parent(t_pipes *p_data)
 		{
 			perror("open");
 			ft_close(&p_data->fd_infile);
-			unlink_hd(p_data);
 			p_data->ms_data->last_error_code = ERROR_CODE;
 			clear_minishell(p_data->ms_data);
 		}
@@ -98,12 +92,10 @@ void	simple_parent(t_pipes *p_data)
 		perror("dup2");
 		ft_close(&p_data->fd_infile);
 		ft_close(&p_data->fd_outfile);
-		unlink_hd(p_data);
 		p_data->ms_data->last_error_code = ERROR_CODE;
 		clear_minishell(p_data->ms_data);
 	}
 	ft_close(&p_data->fd_infile);
-	unlink_hd(p_data);
 	if (dup2(p_data->fd_outfile, STDOUT_FILENO) == -1)
 	{
 		perror("dup2");

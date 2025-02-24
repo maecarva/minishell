@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 17:05:52 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/21 13:17:06 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/24 12:25:41 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ static void	mid_child(t_pipes *p_data, int i)
 			perror("open");
 			ft_close(&p_data->fd[i - 1][0]);
 			ft_close(&p_data->fd[i][1]);
-			unlink_hd(p_data);
 			free_fd(&(p_data->fd), p_data->nb_pipes);
 			p_data->ms_data->last_error_code = ERROR_CODE;
 			clear_minishell(p_data->ms_data);
@@ -41,7 +40,6 @@ static void	mid_child(t_pipes *p_data, int i)
 			ft_close(&p_data->fd_infile);
 			ft_close(&p_data->fd[i - 1][0]);
 			ft_close(&p_data->fd[i][1]);
-			unlink_hd(p_data);
 			free_fd(&(p_data->fd), p_data->nb_pipes);
 			p_data->ms_data->last_error_code = ERROR_CODE;
 			clear_minishell(p_data->ms_data);
@@ -60,7 +58,6 @@ static void	mid_child(t_pipes *p_data, int i)
 	}
 	ft_close(&p_data->fd[i - 1][0]);
 	ft_close(&p_data->fd_infile);
-	unlink_hd(p_data);
 	if (dup2(p_data->fd_outfile, STDOUT_FILENO) == -1)
 	{
 		perror("dup2");
