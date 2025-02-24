@@ -191,6 +191,31 @@ void	get_last_valid_operator(t_dlist *start, t_dlist *end, t_dlist **operator)
 	}
 }
 
+bool	same_parenthesis(t_dlist *start, t_dlist *end)
+{
+	t_dlist	*tmp;
+	int		parenthesis;
+
+	if (!start || !end)
+		return (false);
+	tmp = start;
+	parenthesis = 0;
+	while (tmp)
+	{
+		if (ptr_to_lexertoklist(tmp->content)->type == PARENTHESIS_R && tmp == end && parenthesis == 0)
+			return (true);
+		if (ptr_to_lexertoklist(tmp->content)->type == PARENTHESIS_R)
+			parenthesis--;
+		else if (ptr_to_lexertoklist(tmp->content)->type == PARENTHESIS_L)
+			parenthesis++;
+		
+		if (tmp == end)
+			break ;
+		tmp = tmp->next;
+	}
+	return (false);
+}
+
 // premiere boucle a chier surement
 void	get_first_valid_operator(t_dlist **start, t_dlist **end, t_dlist **operator)
 {
@@ -205,11 +230,13 @@ void	get_first_valid_operator(t_dlist **start, t_dlist **end, t_dlist **operator
 	{
 		if (*start == *end && (ptr_to_lexertoklist((*start)->content)->type == OR || ptr_to_lexertoklist((*start)->content)->type == AND))
 			return ;
-		if (ptr_to_lexertoklist((*start)->content)->type == PARENTHESIS_L && ptr_to_lexertoklist((*end)->content)->type == PARENTHESIS_R)
+		if (ptr_to_lexertoklist((*start)->content)->type == PARENTHESIS_L && ptr_to_lexertoklist((*end)->content)->type == PARENTHESIS_R && same_parenthesis(*start, *end))
 		{
 			*start = (*start)->next;
 			*end = (*end)->prev;
 		}
+		else 
+			break ;
 	}
 	tmp = *start;
 	while (tmp)
@@ -252,7 +279,7 @@ void	construct(t_btree **ast, t_dlist *start, t_dlist *end, bool split3, int ind
 			construct(&(*ast)->left, start, tmp->prev, false, index);
 			construct(&(*ast)->right, tmp->next, end, false, index);
 		}
-
+		// printf("no valid operator\n");
 	}
 	else if (list_contain_operator(start, end))
 	{
