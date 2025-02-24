@@ -6,7 +6,7 @@
 #    By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/08 14:19:08 by ebonutto          #+#    #+#              #
-#    Updated: 2025/02/21 13:50:32 by ebonutto         ###   ########.fr        #
+#    Updated: 2025/02/24 12:10:20 by ebonutto         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -76,7 +76,8 @@ SRC = src_minishell/main.c \
 	  src_minishell/pipes/pipes.c \
 	  src_minishell/pipes/simple_command.c \
 	  src_minishell/free/free_minishell.c \
-	  src_minishell/move_in_ast.c
+	  src_minishell/move_in_ast.c \
+	  src_minishell/redirection/here_docs.c
 
 SRC += $(SRC_PIPES)
 # Conversion des .c en .o dans le dossier obj

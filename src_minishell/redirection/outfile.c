@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 13:46:49 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/21 11:38:41 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/24 12:28:13 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ static void	check_outfile_access(t_pipes *p_data, t_btree *cmdn)
 			error_message(SHELL_NAME, p_data->name_outfile, ": Permission denied");
 			ft_close(&p_data->to_close_one);
 			ft_close(&p_data->to_close_two);
-			unlink_hd(p_data);
 			free_fd(&p_data->fd, p_data->nb_pipes);
 			p_data->ms_data->last_error_code = EXIT_FAILURE;
 			clear_minishell(p_data->ms_data);
@@ -54,7 +53,6 @@ static void	check_outfile_access(t_pipes *p_data, t_btree *cmdn)
 		perror(((t_node2 *)(cmdn->item))->file);
 		ft_close(&p_data->to_close_one);
 		ft_close(&p_data->to_close_two);
-		unlink_hd(p_data);
 		free_fd(&(p_data->fd), p_data->nb_pipes);
 		p_data->ms_data->last_error_code = ERROR_CODE;
 		clear_minishell(p_data->ms_data);

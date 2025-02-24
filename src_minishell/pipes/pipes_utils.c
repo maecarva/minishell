@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 09:42:12 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/21 14:59:59 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/24 12:27:04 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ void	init_p_data(t_pipes *p_data, t_config *ms_data)
 	p_data->do_not_wait = false;
 	p_data->to_close_one = -1;
 	p_data->to_close_two = -1;
-	p_data->is_hd = false;
 	p_data->name_infile = NULL;
 	p_data->name_outfile = NULL;
 	p_data->pid_last_parent = -1;
@@ -92,12 +91,8 @@ void	free_fd(int ***fd, int len)
 	*fd = 0;
 }
 
-void	unlink_hd(t_pipes *p_data)
-{
-	if (p_data->is_hd == true)
-	{
-		if (unlink("here_doc.tmp") == -1)
-			perror("unlink");
-		p_data->is_hd = false;
-	}
-}
+// void	unlink_hd(t_pipes *p_data, )
+// {
+// 	if (unlink("here_doc.tmp") == -1)
+// 		perror("unlink");
+// }

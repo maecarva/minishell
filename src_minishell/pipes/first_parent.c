@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:17:02 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/21 15:56:03 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/24 12:53:46 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ static void	first_child(t_pipes *p_data)
 		{
 			perror("open");
 			ft_close(&p_data->fd[0][1]);
-			unlink_hd(p_data);
 			free_fd(&(p_data->fd), p_data->nb_pipes);
 			p_data->ms_data->last_error_code = ERROR_CODE;
 			clear_minishell(p_data->ms_data);
@@ -39,7 +38,6 @@ static void	first_child(t_pipes *p_data)
 			perror("open");
 			ft_close(&p_data->fd_infile);
 			ft_close(&p_data->fd[0][1]);
-			unlink_hd(p_data);
 			free_fd(&(p_data->fd), p_data->nb_pipes);
 			p_data->ms_data->last_error_code = ERROR_CODE;
 			clear_minishell(p_data->ms_data);
@@ -51,13 +49,11 @@ static void	first_child(t_pipes *p_data)
 		ft_close(&p_data->fd[0][1]);
 		ft_close(&p_data->fd_infile);
 		ft_close(&p_data->fd_outfile);
-		unlink_hd(p_data);
 		free_fd(&(p_data->fd), p_data->nb_pipes);
 		p_data->ms_data->last_error_code = ERROR_CODE;
 		clear_minishell(p_data->ms_data);
 	}
 	ft_close(&p_data->fd_infile);
-	unlink_hd(p_data);
 	if (dup2(p_data->fd_outfile, STDOUT_FILENO) == -1)
 	{
 		perror("dup2");
@@ -103,5 +99,4 @@ void	first_parent(t_pipes *p_data)
 		get_redirections(p_data);
 		first_child(p_data);
 	}
-	printf("%d\n", pid);
 }

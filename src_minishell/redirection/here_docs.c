@@ -6,70 +6,86 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 16:40:51 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/21 17:18:13 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/24 14:01:32 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "pipes.h"
 
-static void	create_hd(t_list **list_hd, char *limiter)
+static void	create_hd(t_config *ms_data, t_btree *cmd, char *limiter)
 {
 	char	*line;
-	char	*name_here_doc;
+	int		fd_infile;
 
-	name_here_doc = get_random_name_here_doc;
-	p_data->fd_infile = open("here_doc.tmp", O_WRONLY | O_CREAT, 0644);
-	if (p_data->fd_infile == -1)
+	fd_infile = open(((t_node2 *)(cmd->item))->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (fd_infile == -1)
 	{
-		perror("here_doc.tmp");
-		ft_close(&p_data->to_close_one);
-		ft_close(&p_data->to_close_two);
-		free_fd(&(p_data->fd), p_data->nb_pipes);
-		p_data->ms_data->last_error_code = ERROR_CODE;
-		clear_minishell(p_data->ms_data);
+		perror(((t_node2 *)(cmd->item))->file);
+		ms_data->last_error_code = ERROR_CODE;
+		clear_minishell(ms_data);
 	}
-	p_data->is_hd = true;
 	line = NULL;
 	while (1)
 	{
 		if (get_next_line(0, &line) == -1)
 		{
 			perror("malloc");
-			unlink_hd(p_data);
-			ft_close(&p_data->to_close_one);
-			ft_close(&p_data->to_close_two);
-			free_fd(&(p_data->fd), p_data->nb_pipes);
-			p_data->ms_data->last_error_code = ERROR_CODE;
-			clear_minishell(p_data->ms_data);
+			ft_close(&fd_infile);
+			ms_data->last_error_code = ERROR_CODE;
+			clear_minishell(ms_data);
 		}
 		if (ft_strncmp(line, limiter,
 				ft_max(ft_strlen(limiter), ft_strlen(line))) == '\n')
 		{
 			free(line);
-			ft_close(&p_data->fd_infile);
+			ft_close(&fd_infile);
 			return ;
 		}
-		ft_putstr_fd(line, p_data->fd_infile);
+		ft_putstr_fd(line, fd_infile);
 	}
 }
 
-t_list	*get_here_docs(t_config *ms_data)
+void	get_name_here_doc(t_config *minishell, t_btree *cmd, int *i)
 {
-	t_list	*hd;
-
-	ft_btree_apply_infix(t_btree *root, void fill_t_list);
-	return (hd);
-}
-
-void	fill_list_hd(t_btree *actual_cmd)
-{
-	t_btree	*cmd;
-
-	cmd = actual_cmd;
-	while (cmd->left)
+	char	*name;
+	
+	name = ft_strjoin("/tmp/here_doc_", ft_itoa(*i));
+	if (!name)
 	{
-		cmd = cmd->left;
-		if (((t_node2 *)(cmd->item))->type == HEREDOC)
-			
+		minishell->last_error_code = ERROR_CODE;
+		clear_minishell(minishell);
 	}
+	((t_node2 *)(cmd->item))->file = name;
+	(*i)++;
+}
+
+void	find_here_doc(t_config *minishell, t_btree *cmd, int *i)
+{
+	char	*limiter;
+	if (((t_node2 *)(cmd->item))->type == HEREDOC)
+	{
+		limiter = ((t_node2 *)(cmd->item))->file;
+		get_name_here_doc(minishell, cmd, i);
+		create_hd(minishell, cmd, limiter);
+	}
+}
+
+void	btree_apply_prefix(t_config *ms_data, t_btree *root, int *i, void (*applyf)(t_config *minishell, t_btree *cmd, int *i))
+{
+	if (root == NULL)
+		return ;
+	applyf(ms_data, root, i);
+	if (root->left)
+		btree_apply_prefix(ms_data, root->left, i, applyf);
+	if (root->right)
+		btree_apply_prefix(ms_data, root->right, i, applyf);
+}
+
+void	get_here_docs(t_config *ms_data)
+{
+	int		i;
+
+	i = 0;
+	btree_apply_prefix(ms_data, ms_data->ast, &i, find_here_doc);
+	ms_data->ast = ms_data->dont_fucking_touch_me;
 }

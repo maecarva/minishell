@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 10:05:52 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/19 15:55:27 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/24 12:33:43 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,12 +79,13 @@ int	main(int ac, char **av, char **env)
 				}
 				minishell->dont_fucking_touch_me = ast;
 				free(cmd);
-
+				get_here_docs(minishell);
                 execute_ast(minishell->ast, minishell);
-
 				free_ast(&(minishell->dont_fucking_touch_me));
 			}
 		}
 	}
 	return (clear_minishell(minishell));
 }
+
+// raouter clear all hd dans clear minishell
