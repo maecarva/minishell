@@ -19,7 +19,10 @@ void	execute_env(char **cmd, t_config *minishell)
 	if (!cmd || !cmd[0] || !minishell)
 		return ;
 	if (tab_size(cmd) > 1)
+	{
+		minishell->last_error_code = 127;
 		return (ft_putstr_fd("env: no arguments required.\n", STDERR_FILENO));
+	}
 	i = 0;
 	while (minishell->environnement[i])
 	{

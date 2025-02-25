@@ -54,12 +54,12 @@ char	**duplicate_env_without_var(char *varname, t_config *minishell)
 	return (env);
 }
 
-void	print_invalid_option(char *s)
+void	print_invalid_option(char *name, char *s)
 {
 	int	i;
 
 	i = -1;
-	ft_putstr_fd("unset: ", STDERR_FILENO);
+	ft_putstr_fd(name, STDERR_FILENO);
 	while (++i < 2)
 		ft_putchar_fd(s[i], STDERR_FILENO);
 	ft_putstr_fd(" : invalid option\n", STDERR_FILENO);
@@ -77,7 +77,7 @@ void	execute_unset(char **cmd, t_config *minishell)
 	{
 		if (cmd[i][0] == '-')
 		{
-			print_invalid_option(cmd[i]);
+			print_invalid_option("unset: ", cmd[i]);
 			minishell->last_error_code = 2;
 			return ;
 		}
