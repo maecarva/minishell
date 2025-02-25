@@ -6,7 +6,7 @@
 /*   By: maecarva <maecarva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 17:14:38 by maecarva          #+#    #+#             */
-/*   Updated: 2025/02/23 19:13:33 by maecarva         ###   ########.fr       */
+/*   Updated: 2025/02/25 20:06:54 by maecarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -264,10 +264,8 @@ bool	expander(t_dlist **lexed_list, t_config *config)
 		expand_tilde(&ptr_to_lexertoklist(tmp->content)->token, config);
 		if (files != NULL)
 		{
-			// connect new args to existing cmd
 			newlist = create_arg_list(files, tmp);
 			ft_free_double_ptr(&files);
-			// retire *
 			if (dll_size(lexed_list) == 1)
 			{
 				dll_clear(lexed_list);

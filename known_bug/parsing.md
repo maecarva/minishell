@@ -1,5 +1,8 @@
 /bin/env | grep "_=" ???
 
+realloc tab double free
+verif si toutes les allocs sont proteges
+
 # TODO
 leaks expand limiter
 

@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 14:41:06 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/25 17:41:47 by maecarva         ###   ########.fr       */
+/*   Updated: 2025/02/25 19:45:53 by maecarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -265,6 +265,10 @@ bool			check_invalid_input(char *cmd, t_config *minishell);
 t_btree			*parse_cmd(char *cmd, t_config *config);
 // lexer
 bool			lexer(char *cmd, t_dlist **lexed_list);
+void			extract_quoted(char *cmd, int *i, int *start, int *end);
+bool			no_quotes(bool *quotes);
+t_lexertok		get_token_type(char *token, t_dlist **dlist);
+bool			add_to_token_list(t_dlist **dlist, char *cmd, int start, int end);
 void			free_token_list(t_dlist **dlist);
 t_dlist			*spliter(char *cmd);
 t_lexertoklist	*ptr_to_lexertoklist(void *token);
@@ -274,6 +278,8 @@ void			handle_redirections(t_btree **node,
 // expander
 bool			expander(t_dlist **lexed_list, t_config *config);
 char			**expand_wildcards(char **cmd);
+char			**realloc_tab(char ***prev, int *size);
+char			**get_all_files(bool hidden);
 void			expand_tilde(char **s, t_config *minishell);
 void			expand_token(char **tokenstr, char **envp,
 					t_config *config, bool expand_specials);

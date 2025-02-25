@@ -6,7 +6,7 @@
 #    By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/08 14:19:08 by ebonutto          #+#    #+#              #
-#    Updated: 2025/02/25 17:31:53 by maecarva         ###   ########.fr        #
+#    Updated: 2025/02/25 20:07:22 by maecarva         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,11 +51,14 @@ SRC = src_minishell/main.c \
 	  src_minishell/parsing/rules/rules2.c \
 	  src_minishell/parsing/parser/parser.c \
 	  src_minishell/parsing/lexer/lexer.c \
-	  src_minishell/parsing/lexer/spliter.c \
+	  src_minishell/parsing/lexer/spliter/spliter.c \
+	  src_minishell/parsing/lexer/spliter/spliter_utils.c \
+	  src_minishell/parsing/lexer/spliter/spliter_utils_quotes.c \
 	  src_minishell/parsing/lexer/lexer_utils.c \
 	  src_minishell/parsing/expander/expander.c \
-	  src_minishell/parsing/expander/wildcards.c \
-	  src_minishell/parsing/expander/tilde.c \
+	  src_minishell/parsing/expander/wildcards/wildcards.c \
+	  src_minishell/parsing/expander/wildcards/wildcards_utils.c \
+	  src_minishell/parsing/expander/tilde/tilde.c \
 	  src_minishell/parsing/ast/ast.c \
 	  src_minishell/parsing/ast/command_node.c \
 	  src_minishell/parsing/ast/pipe_node.c \

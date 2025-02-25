@@ -6,12 +6,13 @@
 /*   By: maecarva <maecarva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 15:59:51 by maecarva          #+#    #+#             */
-/*   Updated: 2025/02/13 20:59:49 by maecarva         ###   ########.fr       */
+/*   Updated: 2025/02/25 19:22:56 by maecarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../include_minishell/minishell.h"
 
+/*
 void	print_token_list(t_dlist **dlist)
 {
 	t_dlist	*list;
@@ -23,7 +24,8 @@ void	print_token_list(t_dlist **dlist)
 	tmp = list;
 	while (tmp)
 	{
-		printf("token: str = [%s], type = [", ptr_to_lexertoklist(tmp->content)->token);
+		printf("token: str = [%s], 
+		type = [", ptr_to_lexertoklist(tmp->content)->token);
 		switch (ptr_to_lexertoklist(tmp->content)->type) {
 			case PIPE_TOKEN:
 				printf("%s]\n", "PIPE_TOKEN");
@@ -70,6 +72,7 @@ void	print_token_list(t_dlist **dlist)
 			break ;
 	}
 }
+*/
 
 t_lexertoklist	*ptr_to_lexertoklist(void *token)
 {
@@ -88,7 +91,6 @@ void	free_token_list(t_dlist **dlist)
 	while (size > 0)
 	{
 		tmp = tmp->next;
-		
 		free(ptr_to_lexertoklist((*dlist)->content)->token);
 		free((*dlist)->content);
 		free(*dlist);
