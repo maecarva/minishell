@@ -39,8 +39,6 @@ int	clear_minishell(t_config *minishell)
 	if (!minishell)
 		return (0);
 	rl_clear_history();
-	// minishell->ast = minishell->dont_fucking_touch_me;
-	// clear_here_doc(minishell->ast);
 	free_ast(&(minishell->dont_fucking_touch_me));
 	errorcode = minishell->last_error_code;
 	if (minishell->prompt)
@@ -50,6 +48,5 @@ int	clear_minishell(t_config *minishell)
 	ft_free_double_ptr(&minishell->environnement);
 	free(minishell->pidstr);
 	free(minishell);
-	// p("error code : %d\n", errorcode);
 	exit(errorcode);
 }

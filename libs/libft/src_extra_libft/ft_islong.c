@@ -15,7 +15,7 @@
 bool	ft_islong(char *str)
 {
 	__int128_t	nb;
-	int 		count;
+	int			count;
 	int			sign;
 
 	nb = 0;

@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 10:05:52 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/24 15:59:23 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/25 17:23:15 by maecarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	main(int ac, char **av, char **env)
 		i = 0;
 		while (arg_input[i])
 		{
-			ast = parse_cmd2(arg_input[i], minishell);
+			ast = parse_cmd(arg_input[i], minishell);
 			minishell->ast = ast;
 			if (!minishell->ast)
 			{
@@ -70,7 +70,7 @@ int	main(int ac, char **av, char **env)
 			add_history(cmd);
 			if (cmd[0] != '\0')
 			{
-				ast = parse_cmd2(cmd, minishell);
+				ast = parse_cmd(cmd, minishell);
 				minishell->ast = ast;
 				if (!minishell->ast)
 				{

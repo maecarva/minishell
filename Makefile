@@ -6,7 +6,7 @@
 #    By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/08 14:19:08 by ebonutto          #+#    #+#              #
-#    Updated: 2025/02/23 19:22:05 by maecarva         ###   ########.fr        #
+#    Updated: 2025/02/25 17:31:53 by maecarva         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,7 +47,8 @@ SRC = src_minishell/main.c \
 	  src_minishell/clear/clear.c \
 	  src_minishell/signals/signals.c \
 	  src_minishell/parsing/parsing_utils.c \
-	  src_minishell/parsing/rules.c \
+	  src_minishell/parsing/rules/rules1.c \
+	  src_minishell/parsing/rules/rules2.c \
 	  src_minishell/parsing/parser/parser.c \
 	  src_minishell/parsing/lexer/lexer.c \
 	  src_minishell/parsing/lexer/spliter.c \
@@ -77,7 +78,6 @@ SRC = src_minishell/main.c \
 	  src_minishell/pipes/pipes_utils.c \
 	  src_minishell/pipes/pipes.c \
 	  src_minishell/pipes/simple_command.c \
-	  src_minishell/free/free_minishell.c \
 	  src_minishell/move_in_ast.c \
 	  src_minishell/redirection/here_docs.c
 

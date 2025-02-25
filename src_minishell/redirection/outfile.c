@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipes.h"
+#include "minishell.h"
 
 static int	check_outfile_access(t_pipes *p_data, t_btree *cmdn)
 {

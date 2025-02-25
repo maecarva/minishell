@@ -22,7 +22,6 @@ void	dll_clear(t_dlist **dlist)
 	while (size > 0)
 	{
 		tmp = tmp->next;
-		
 		free(*dlist);
 		*dlist = tmp;
 		size--;

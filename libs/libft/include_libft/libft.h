@@ -22,7 +22,6 @@
 # include <limits.h>
 # include "../src_binary_tree_libft/ft_btree.h"
 
-
 // lists
 typedef struct s_list
 {
@@ -32,7 +31,7 @@ typedef struct s_list
 
 typedef struct s_dlist
 {
-	void		*content;
+	void			*content;
 	struct s_dlist	*prev;
 	struct s_dlist	*next;
 }	t_dlist;

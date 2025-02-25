@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipes.h"
+#include "minishell.h"
 
 static void	create_hd(t_config *ms_data, t_btree *cmd, char *limiter)
 {

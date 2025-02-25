@@ -1,8 +1,4 @@
-# rules
-- check parenthesis (quoted parenthesis, equal ( and ))
-echo a && )(
-bug cat << lim -> valgrind
-
+/bin/env | grep "_=" ???
 
 # TODO
 leaks expand limiter

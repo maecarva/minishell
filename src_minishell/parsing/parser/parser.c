@@ -6,81 +6,92 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 11:25:54 by maecarva          #+#    #+#             */
-/*   Updated: 2025/02/23 18:30:00 by maecarva         ###   ########.fr       */
+/*   Updated: 2025/02/25 17:48:16 by maecarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../include_minishell/minishell.h"
 
-// <Makefile cat| echo "$PWD 'hola'" ~/src | 'tr' -d / >outfile
-
-void	delete_doubles_quotes_end_str(char *cmd)
+t_btree	*error_parsing(char *message, t_parser **parser, int code)
 {
-	if (!cmd)
-		return ;
-	if ((cmd[ft_strlen(cmd) - 1] == '\'' && cmd[ft_strlen(cmd) - 2] == '\'')
-		|| (cmd[ft_strlen(cmd) - 1] == '\"' && cmd[ft_strlen(cmd) - 2] == '\"'))
-	{
-		ft_bzero(&cmd[ft_strlen(cmd) - 2], 2);
-	}
+	if (message)
+		ft_putendl_fd(message, STDERR_FILENO);
+	(*parser)->config->last_error_code = code;
+	if ((*parser)->lexed)
+		free_token_list(&(*parser)->lexed);
+	if ((*parser)->trimmed)
+		ft_free_simple_ptr(&(*parser)->trimmed);
+	return (NULL);
 }
 
-t_btree	*parse_cmd2(char *cmd, t_config *config)
+void	debug_parsing(t_dlist *lexed, t_btree *arbre)
+{
+	#ifdef DEBUG
+	if (lexed && arbre == NULL)
+		print_token_list(&lexed);
+	if (arbre)
+		print_arbre(arbre, 0);
+	#else
+		(void)lexed;
+		(void)arbre;
+	#endif
+}
+
+t_parser	*init_parser(t_config *config)
+{
+	t_parser	*parser;
+
+	if (!config)
+		return (NULL);
+	parser = ft_calloc(1, sizeof(t_parser));
+	if (!parser)
+		return (NULL);
+	parser->trimmed = NULL;
+	parser->lexed = NULL;
+	parser->ast = NULL;
+	parser->config = config;
+	return (parser);
+}
+
+t_btree	*clean_parser(t_parser *parser)
 {
 	t_btree	*ast;
-	char	*trimmed;
-	t_dlist	*lexed;
+
+	if (!parser)
+		return (NULL);
+	ast = parser->ast;
+	ft_free_simple_ptr(&parser->trimmed);
+	free_token_list(&parser->lexed);
+	free(parser);
+	return (ast);
+}
+
+t_btree	*parse_cmd(char *cmd, t_config *config)
+{
+	t_parser	*parser;
 
 	if (!cmd)
 		return (NULL);
-	ast = NULL;
-	trimmed = NULL;
-	// 1 : trim cmd
-	trimmed = ft_strtrim(cmd, WHITESPACES);
-	if (!trimmed)
+	parser = init_parser(config);
+	if (!parser)
+		return (error_parsing("Failed to initialize parser.", &parser, 2));
+	parser->trimmed = ft_strtrim(cmd, WHITESPACES);
+	if (!parser->trimmed)
 		return (NULL);
-	if (ft_strlen(trimmed) == 0)
-		return (free(trimmed), NULL);
-
-	// 2 : check invalid quotes + redir/pipes at end of string
-	if (check_invalid_input(trimmed, config))
-	{
-		config->last_error_code = 2;
-		return (free(trimmed), NULL);
-	}
-
-	expand_token(&trimmed, config->environnement, config, false);
-	if (ft_strlen(trimmed) == 0)
-	{
-		config->last_error_code = 0;
-		return (free(trimmed), NULL);
-	}
-	// 3 : lexer string and check invalid redirections
-	if (!lexer(trimmed, &lexed))
-	{
-		config->last_error_code = 2;
-		return (free(trimmed), NULL);
-	}
-	#ifdef DEBUG
-	print_token_list(&lexed);
-	#endif
-	// 4 : expand $
-	if (!expander(&lexed, config))
-	{
-		config->last_error_code = 2;
-		return (free(trimmed), free_token_list(&lexed), NULL);
-	}
-	// create ast
-	if (!create_ast(&ast, lexed, config))
-	{
-		printf("failed to create ast\n");
-		config->last_error_code = 2;
-		return (free(trimmed), free_token_list(&lexed), NULL);
-	}
-	#ifdef DEBUG
-	print_arbre(ast, 0);
-	#endif
-	free_token_list(&lexed);
-	free(trimmed);
-	return (ast);
+	if (ft_strlen(parser->trimmed) == 0)
+		return (error_parsing(NULL, &parser, 2));
+	if (check_invalid_input(parser->trimmed, config))
+		return (error_parsing(NULL, &parser, 2));
+	expand_token(&parser->trimmed, config->environnement, config, false);
+	if (ft_strlen(parser->trimmed) == 0)
+		return (error_parsing(NULL, &parser, 0));
+	if (!lexer(parser->trimmed, &parser->lexed))
+		return (error_parsing(NULL, &parser, 2));
+	debug_parsing(parser->lexed, parser->ast);
+	if (!expander(&parser->lexed, config))
+		return (error_parsing(NULL, &parser, 2));
+	if (!create_ast(&parser->ast, parser->lexed, config))
+		return (error_parsing("Failed to create AST.", &parser, 2));
+	debug_parsing(parser->lexed, parser->ast);
+	return (clean_parser(parser));
 }

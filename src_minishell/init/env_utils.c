@@ -26,6 +26,34 @@ void	get_name(char *name, char *var)
 	}
 }
 
+char	*search_var(char *n, char **envp, int i, char *name)
+{
+	char	*tmp;
+	char	*value;
+
+	while (envp[i])
+	{
+		ft_bzero(n, MAX_PATH);
+		get_name(n, envp[i]);
+		if (n[0] != '\0')
+		{
+			if (ft_strncmp(n, name, ft_strlen(name)) == 0
+				&& envp[i][ft_strlen(name)] == '=')
+			{
+				tmp = ft_strchr(envp[i], '=') + 1;
+				if (!tmp)
+					return (NULL);
+				value = ft_strdup(tmp);
+				if (!value)
+					return (NULL);
+				return (value);
+			}
+		}
+		i++;
+	}
+	return (NULL);
+}
+
 char	*get_value_by_name(char **envp, char *name)
 {
 	int		i;
@@ -40,26 +68,7 @@ char	*get_value_by_name(char **envp, char *name)
 		return (NULL);
 	if (ft_strlen(name) == 0)
 		return (NULL);
-	while (envp[i])
-	{
-		ft_bzero(n, MAX_PATH);
-		get_name(n, envp[i]);
-		if (n[0] != '\0')
-		{
-			if (ft_strncmp(n, name, ft_strlen(name)) == 0 && envp[i][ft_strlen(name)] == '=')
-			{
-				tmp = ft_strchr(envp[i], '=') + 1;
-				if (!tmp)
-					return (NULL);
-				value = ft_strdup(tmp);
-				if (!value)
-					return (NULL);
-				return (value);
-			}
-		}
-		i++;
-	}
-	return (NULL);
+	return (search_var(n, envp, i, name));
 }
 
 char	*get_var_ptr(char **envp, char *name)

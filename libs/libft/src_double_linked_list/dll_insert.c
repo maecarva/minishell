@@ -21,10 +21,8 @@ void	dll_insert(t_dlist *l1, t_dlist *l2)
 		return ;
 	tail1 = l1->prev;
 	tail2 = l2->prev;
-
 	tail1->next = l2;
 	l2->prev = tail1;
-
 	tail2->next = l1;
 	l1->prev = tail2;
 }

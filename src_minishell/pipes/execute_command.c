@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipes.h"
+#include "minishell.h"
 
 static char	*find_path_cmd(char **paths, t_pipes *p_data)
 {

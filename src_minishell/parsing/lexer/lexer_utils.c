@@ -26,43 +26,43 @@ void	print_token_list(t_dlist **dlist)
 		printf("token: str = [%s], type = [", ptr_to_lexertoklist(tmp->content)->token);
 		switch (ptr_to_lexertoklist(tmp->content)->type) {
 			case PIPE_TOKEN:
-				p("%s]\n", "PIPE_TOKEN");
+				printf("%s]\n", "PIPE_TOKEN");
 				break ;
 			case TRUNCATE:
-				p("%s]\n", "TRUNCATE");
+				printf("%s]\n", "TRUNCATE");
 				break ;
 			case APPEND:
-				p("%s]\n", "APPEND");
+				printf("%s]\n", "APPEND");
 				break ;
 			case REDIRECT_INPUT:
-				p("%s]\n", "REDIRECT_INPUT");
+				printf("%s]\n", "REDIRECT_INPUT");
 				break ;
 			case HEREDOC:
-				p("%s]\n", "HERE_DOC");
+				printf("%s]\n", "HERE_DOC");
 				break ;
 			case CMD:
-				p("%s]\n", "CMD");
+				printf("%s]\n", "CMD");
 				break ;
 			case ARGS:
-				p("%s]\n", "ARGS");
+				printf("%s]\n", "ARGS");
 				break ;
 			case FILE_ARG:
-				p("%s]\n", "FILE_ARG");
+				printf("%s]\n", "FILE_ARG");
 				break ;
 			case AND:
-				p("%s]\n", "AND");
+				printf("%s]\n", "AND");
 				break ;
 			case OR:
-				p("%s]\n", "OR");
+				printf("%s]\n", "OR");
 				break ;
 			case PARENTHESIS_L:
-				p("%s]\n", "PARENTHESIS_L");
+				printf("%s]\n", "PARENTHESIS_L");
 				break ;
 			case PARENTHESIS_R:
-				p("%s]\n", "PARENTHESIS_R");
+				printf("%s]\n", "PARENTHESIS_R");
 				break ;
 			default:
-				p("%s]\n", "ERROR");
+				printf("%s]\n", "ERROR");
 				break ;
 		}
 		tmp = tmp->next;

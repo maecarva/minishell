@@ -12,7 +12,7 @@
 
 #include "ft_btree.h"
 
-int ft_btree_level_count(t_btree *root)
+int	ft_btree_level_count(t_btree *root)
 {
 	int	level_left;
 	int	level_right;
