@@ -43,7 +43,7 @@ t_btree	*parse_cmd2(char *cmd, t_config *config)
 		return (free(trimmed), NULL);
 
 	// 2 : check invalid quotes + redir/pipes at end of string
-	if (check_invalid_input(trimmed))
+	if (check_invalid_input(trimmed, config))
 	{
 		config->last_error_code = 2;
 		return (free(trimmed), NULL);
