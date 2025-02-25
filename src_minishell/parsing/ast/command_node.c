@@ -98,15 +98,18 @@ void	add_right(t_btree *node, t_btree *new)
 		tmp = tmp->right;
 	tmp->right = new;
 }
+
 void	handle_redirections(t_btree **node, t_dlist *start, t_dlist *end)
 {
 	t_btree	*tmpleft;
 	t_dlist	*tmp;
 	t_node2	*nodec;
+	char	*tmpc;
 
 	if (!(*node))
 		return ;
 	tmp = start;
+	tmpc = NULL;
 	while (tmp)
 	{
 		nodec = NULL;
@@ -115,7 +118,6 @@ void	handle_redirections(t_btree **node, t_dlist *start, t_dlist *end)
 			nodec = ft_calloc(sizeof(t_node2), 1);
 			nodec->type = ptr_to_lexertoklist(tmp->content)->type;
 			nodec->file = ft_strdup(ptr_to_lexertoklist(tmp->next->content)->token);
-			// clean quotes !!!
 			clean_quotes(&nodec->file);
 			tmpleft = ft_btree_create_node(nodec);
 			add_left(*node, tmpleft);

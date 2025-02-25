@@ -1,22 +1,11 @@
 # rules
 - check parenthesis (quoted parenthesis, equal ( and ))
 echo a && )(
+bug cat << lim -> valgrind
+
 
 # TODO
-change PWD and OLDPWD when cd *OK*
-leaks wildcards *OK*
-wildcards **
-parenthesis parsing commands
- - echo a || echo b && echo != echo a || (echo b && echo c) OK
- - ((echo a || echo aa) && echo b) OK
- - (((echo a || echo aa) && echo b) && echo c) OK
- - (((echo a || echo aa) && echo b) && echo c || echo d) OK
- - (echo a && echo b && (echo c && (echo d || echo dd))) OK
- - (echo a && echo b && (echo c )) && (echo d || echo dd)
- - (echo a && echo b && (echo c )) && (echo d || echo dd)
- - (echo a && echo b && echo c) && (echo d || echo dd)
-
-line 188 spliter edited, add end of condition if " or ' maybe this can fuck everithing ? without this 377 test pass and with 382
+leaks expand limiter
 
 # elio
 ls && ls | ls -la = fonctionne

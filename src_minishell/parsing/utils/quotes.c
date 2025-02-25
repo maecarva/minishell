@@ -49,9 +49,7 @@ void	clean_quotes(char **s)
 {
 	char	*removed;
 
-
 	removed = remove_quotes(*s);
-	// printf("first: [%s]\n removed: [%s]\n", *s, removed);
 	free(*s);
 	*s = removed;
 }
