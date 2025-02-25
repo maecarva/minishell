@@ -84,6 +84,7 @@ void	find_here_doc(t_config *minishell, t_btree *cmd, int *i)
 		limiter = ((t_node2 *)(cmd->item))->file;
 		get_name_here_doc(minishell, cmd, i);
 		create_hd(minishell, cmd, limiter);
+		free(limiter);
 	}
 }
 

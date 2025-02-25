@@ -132,6 +132,62 @@
                                      ✅ 2722
 ```
 
+## 24/2 14:42 
+```
+🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁
+🏁                                    RESULT                                    🏁
+🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁
+             TOTAL TEST COUNT: 934  TESTS PASSED: 877  LEAKING: 0 
+                     STD_OUT: 36  STD_ERR: 19  EXIT_CODE: 18  
+                         TOTAL FAILED AND PASSED CASES:
+                                     ❌ 73   
+                                     ✅ 2729
+```
+
+## 25/2 10:20
+```
+🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁
+🏁                                    RESULT                                    🏁
+🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁
+             TOTAL TEST COUNT: 934  TESTS PASSED: 874  LEAKING: 0 
+                     STD_OUT: 39  STD_ERR: 23  EXIT_CODE: 22  
+                         TOTAL FAILED AND PASSED CASES:
+                                     ❌ 84   
+                                     ✅ 2718
+```
+
+## 25/2 10:48
+```
+🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁
+🏁                                    RESULT                                    🏁
+🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁
+             TOTAL TEST COUNT: 934  TESTS PASSED: 877  LEAKING: 0 
+                     STD_OUT: 39  STD_ERR: 20  EXIT_CODE: 19  
+                         TOTAL FAILED AND PASSED CASES:
+                                     ❌ 78   
+                                     ✅ 2724
+```
+
+
+## 25/2 10:55
+```
+🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁
+🏁                                    RESULT                                    🏁
+🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁
+             TOTAL TEST COUNT: 934  TESTS PASSED: 880  LEAKING: 0 
+                     STD_OUT: 36  STD_ERR: 20  EXIT_CODE: 19  
+                         TOTAL FAILED AND PASSED CASES:
+                                     ❌ 75   
+                                     ✅ 2727
+```
+
+## 25/3 11:25 
+```
+❌ 72
+✅ 2730
+```
+
+
 # ALL tests
 ## 24/2 14:42
 ```

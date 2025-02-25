@@ -163,9 +163,15 @@ void	execute_command(t_pipes *p_data)
 	int		i;
 
 	i = 0;
-	if (p_data->cmds[0] == NULL || p_data->cmds[0][0] == '\0')
+	if (p_data->cmds[0] == NULL/* || p_data->cmds[0][0] == '\0'*/)
 	{
 		p_data->ms_data->last_error_code = EXIT_SUCCESS;
+		clear_minishell(p_data->ms_data);
+	}
+	if (p_data->cmds[0][0] == '\0')
+	{
+		error_message(SHELL_NAME, p_data->cmds[0], ": command not found");
+		p_data->ms_data->last_error_code = ERROR_COMMAND;
 		clear_minishell(p_data->ms_data);
 	}
 	if (ft_str_is_only_charset(p_data->cmds[0], ".") == true)

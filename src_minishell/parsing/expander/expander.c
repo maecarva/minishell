@@ -77,7 +77,16 @@ int	expand_pls(char **str, char **env, t_config *config, int *index, bool expand
 		*str = ptrs[0];
 		return (0);
 	}
-	while (s[j] && ((ft_isalnum(s[j]) || s[j] == '_') && (ft_isalnum(s[j + 1]) || s[j + 1] == '_')))
+	else if (s[j] == '/')
+	{
+		*index += j;
+		free(ptrs[1]);
+		free(ptrs[2]);
+		free(ptrs[3]);
+
+		return (1);
+	}
+	while (s[j] && ((ft_isalnum(s[j]) || s[j] == '_') && (ft_isalnum(s[j + 1]) || s[j + 1] == '_')) && s[j + 1] != '/')
 		j++;
 	ptrs[0] = ft_substr(s, *index + 1 , j - *index);
 	if (!ptrs[0])
@@ -252,6 +261,7 @@ bool	expander(t_dlist **lexed_list, t_config *config)
 			}
 		}
 		files = expand_wildcards(&ptr_to_lexertoklist(tmp->content)->token);
+		expand_tilde(&ptr_to_lexertoklist(tmp->content)->token, config);
 		if (files != NULL)
 		{
 			// connect new args to existing cmd

@@ -119,9 +119,17 @@ void	execute_export(char **cmd, t_config *minishell)
 	i = 1;
 	while (cmd[i])
 	{
+		if (cmd[i][0] == '-')
+		{
+			print_invalid_option("export: ", cmd[i]);
+			minishell->last_error_code = 2;
+			return ;
+		}
 		tmp = ft_strchr(cmd[i], '=');
 		if (!tmp)
 		{
+			if (ft_isdigit(cmd[i][0]))
+				return (print_err(cmd[i], minishell));
 			i++;
 			continue ;
 		}
@@ -129,7 +137,7 @@ void	execute_export(char **cmd, t_config *minishell)
 		name = ft_substr(cmd[i], 0, j);
 		if (!is_valid_env_name(name))
 		{
-			print_err(name, minishell);
+			print_err(cmd[i], minishell);
 			ft_free_simple_ptr(&name);
 			i++;
 			continue ;

@@ -61,7 +61,7 @@ void	execute_cd(char **cmd, t_config *minishell)
 		error_message(SHELL_NAME, "cd:", " too many arguments");
 		return ;
 	}
-	else if (tab_size(cmd) == 1 || cmd[1][0] == '~')
+	else if (tab_size(cmd) == 1 || cmd[1][0] == '~' || (cmd[1][0] == '-' && cmd[1][1] == '-'))
 	{
 		tmp = get_value_by_name(minishell->environnement, "HOME");
 		if (chdir(tmp) == -1)
