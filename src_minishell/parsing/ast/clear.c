@@ -23,7 +23,6 @@ void	free_ast(t_btree **ast)
 		free_ast(&(*ast)->left);
 	if ((*ast)->right)
 		free_ast(&(*ast)->right);
-
 	n = (t_node2 *)(*ast)->item;
 	if (n == NULL)
 		return ;

@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 14:41:06 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/24 15:53:22 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/25 11:01:50 by maecarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -261,6 +261,7 @@ void	handle_redirections(t_btree **node, t_dlist *start, t_dlist *end);
 // expander
 bool	expander(t_dlist **lexed_list, t_config *config);
 char	**expand_wildcards(char **cmd);
+void	expand_tilde(char **s, t_config *minishell);
 void	expand_token(char **tokenstr, char **envp, t_config *config, bool expand_specials);
 void	clean_quotes(char **s);
 // ast

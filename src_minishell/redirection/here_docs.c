@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 16:40:51 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/24 15:49:27 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/25 11:03:44 by maecarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ void	find_here_doc(t_config *minishell, t_btree *cmd, int *i)
 		limiter = ((t_node2 *)(cmd->item))->file;
 		get_name_here_doc(minishell, cmd, i);
 		create_hd(minishell, cmd, limiter);
+		free(limiter);
 	}
 }
 
