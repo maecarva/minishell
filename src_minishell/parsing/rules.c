@@ -52,7 +52,7 @@ bool	check_quotes(char *cmd)
 	return (false);
 }
 
-bool	check_redir(char *cmd)
+bool	check_redir(char *cmd, t_config *minishell)
 {
 	int		cmdlen;
 	// bool	
@@ -63,12 +63,21 @@ bool	check_redir(char *cmd)
 	if (cmd[cmdlen] == '>' && cmd[cmdlen - 1] == '>')
 	{
 		if (cmdlen == 2)
+		{
+			minishell->last_error_code = 2;
 			return (ft_putstr_fd("bash: syntax error near unexpected token `>'\n", STDERR_FILENO), true);
+		}
 		else if (ft_count_char_in_str(cmd, '>') > 2)
+		{
+			minishell->last_error_code = 2;
 			return (ft_putstr_fd("bash: syntax error near unexpected token `>>'\n", STDERR_FILENO), true);
+		}
 	}
 	if (cmd[cmdlen] == '<' || cmd[cmdlen] == '>')
+	{
+		minishell->last_error_code = 2;
 		return (ft_putstr_fd("bash: syntax error near unexpected token `newline'\n", STDERR_FILENO), true);
+	}
 	return (false);
 }
 
@@ -178,7 +187,7 @@ bool	check_parenthesis(char *cmd)
 
 }
 // return true if invalid input
-bool	check_invalid_input(char *cmd)
+bool	check_invalid_input(char *cmd, t_config *minishell)
 {
 	if (!cmd)
 		return (false);
@@ -192,7 +201,7 @@ bool	check_invalid_input(char *cmd)
 	if (check_pipes(cmd))
 		return (ft_putstr_fd(" syntax error near unexpected token `|'\n", STDERR_FILENO), true);
 	// check redir
-	if (check_redir(cmd))
+	if (check_redir(cmd, minishell))
 		return (true);
 	if (check_and(cmd))
 		return (ft_putstr_fd(" syntax error near unexpected token `&'\n", STDERR_FILENO), true);

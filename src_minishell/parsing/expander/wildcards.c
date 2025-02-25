@@ -33,7 +33,7 @@ char	**realloc_tab(char ***prev, int size)
 	return (new);
 }
 
-char	**get_all_files()
+char	**get_all_files(bool hidden)
 {
 	char			pwd[MAX_PATH];
 	DIR				*dir;
@@ -63,7 +63,7 @@ char	**get_all_files()
 				return (NULL);
 			tabsize += 25;
 		}
-		if (entry->d_name[0] != '.')
+		if (entry->d_name[0] != '.' || hidden == true)
 		{
 			joined[i] = ft_strdup(entry->d_name);
 			if (!joined[i])
@@ -91,7 +91,7 @@ void	get_files(char **cmd, int *index)
 		return ;
 	i = 0;
 	joined = ft_strdup("");
-	files = get_all_files();
+	files = get_all_files(false);
 	if (!files)
 		return ((void)((*index)++));
 	while (files[i])
@@ -151,7 +151,10 @@ char	**search_for_matching_files(char **cmd, char *pattern)
 
 	if (!cmd || !*cmd || !pattern)
 		return (free(pattern), NULL);
-	files = get_all_files();
+	if (pattern[0] == '.')
+		files = get_all_files(true);
+	else
+		files = get_all_files(false);
 	if (!files)
 		return (free(pattern), NULL);
 	validfiles = ft_calloc(sizeof(char *), tab_size(files) + 1);
@@ -206,7 +209,7 @@ char	**expand_wildcards(char	**cmd)
 				end++;
 			// get_files
 			if (end - start == 1)
-				files = get_all_files();
+				files = get_all_files(false);
 			else
 				files = search_for_matching_files(cmd, ft_substr(*cmd, start, end - start));
 			i = end;

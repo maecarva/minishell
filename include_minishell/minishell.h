@@ -249,7 +249,7 @@ void	signals_non_interactive_mode(void);
 t_btree	*arbre_bidon();
 
 /*		PARSING		*/
-bool	check_invalid_input(char *cmd);
+bool	check_invalid_input(char *cmd, t_config *minishell);
 t_btree	*parse_cmd2(char *cmd, t_config *config);
 // lexer
 bool	lexer(char *cmd, t_dlist **lexed_list);
@@ -264,6 +264,7 @@ char	**expand_wildcards(char **cmd);
 void	expand_tilde(char **s, t_config *minishell);
 void	expand_token(char **tokenstr, char **envp, t_config *config, bool expand_specials);
 void	clean_quotes(char **s);
+void	delete_end_quotes(char *s);
 // ast
 bool	create_ast(t_btree **ast, t_dlist *tokenlist, t_config *config);
 t_btree	*create_operator_node(t_lexertok type);

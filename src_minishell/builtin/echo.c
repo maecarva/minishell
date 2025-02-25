@@ -30,7 +30,7 @@ void	execute_echo(char **cmd, t_config *minishell)
 	}
 	if (tab_size(cmd) == 2 && flag == false && ft_strncmp(cmd[i], "-n", ft_strlen("-n")) == 0)
 	{
-		tmp = &cmd[i][2];
+		tmp = &cmd[i][0];
 		if (ft_isspace(*tmp))
 		{
 			while (*tmp && ft_isspace(*tmp))

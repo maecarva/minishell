@@ -23,7 +23,7 @@ bool	valid_token_list(t_dlist **splited)
 {
 	t_dlist		*tmp;
 	t_lexertok	type;
-	// t_lexertok	next_type;
+	t_lexertok	next_type;
 
 	if (!(*splited))
 		return (false);
@@ -31,10 +31,10 @@ bool	valid_token_list(t_dlist **splited)
 	while (tmp)
 	{
 		type = ptr_to_lexertoklist(tmp->content)->type;
-		// next_type = ptr_to_lexertoklist(tmp->next->content)->type;
+		next_type = ptr_to_lexertoklist(tmp->next->content)->type;
 		if (type >= TRUNCATE && type <= HEREDOC)
 		{
-			if (ptr_to_lexertoklist(tmp->next->content)->type != FILE_ARG)
+			if (next_type != FILE_ARG)
 			{
 				ft_putstr_fd("syntax error near unexpected token '", 2);
 				ft_putchar_fd(ptr_to_lexertoklist(tmp->content)->token[0], 2);
@@ -42,22 +42,33 @@ bool	valid_token_list(t_dlist **splited)
 				return (false);
 			}
 		}
-		if (is_special_token(type) && is_special_token(ptr_to_lexertoklist(tmp->next->content)->type))
+		if (is_special_token(type) && (is_special_token(next_type) || tmp->next == *splited))
 		{
 				ft_putstr_fd("syntax error near unexpected token `", 2);
 				ft_putchar_fd(ptr_to_lexertoklist(tmp->content)->token[0], 2);
 				ft_putendl_fd("\'", 2);
 				return (false);
 		}
-		// if (type == PARENTHESIS_L && tmp != *splited && (ptr_to_lexertoklist(tmp->prev->content)->type != OR && ptr_to_lexertoklist(tmp->prev->content)->type != AND && ptr_to_lexertoklist(tmp->prev->content)->type != PARENTHESIS_L))
-		// 	return (ft_putendl_fd("Invalid token near : '('", 2), false);
-		// if (type == PARENTHESIS_L && (ptr_to_lexertoklist(tmp->next->content)->type == OR || ptr_to_lexertoklist(tmp->next->content)->type == AND))
-		// 	return (ft_putendl_fd("Invalid token near : '('", 2), false);
-		//
-		// if (type == PARENTHESIS_R && tmp != (*splited)->prev && (ptr_to_lexertoklist(tmp->next->content)->type != OR && ptr_to_lexertoklist(tmp->next->content)->type != AND && ptr_to_lexertoklist(tmp->next->content)->type != PARENTHESIS_R))
-		// 	return (ft_putendl_fd("Invalid token near : ')'", 2), false);
-		// if (type == PARENTHESIS_R && (ptr_to_lexertoklist(tmp->prev->content)->type == OR || ptr_to_lexertoklist(tmp->prev->content)->type == AND))
-		// 	return (ft_putendl_fd("Invalid token near : ')'", 2), false);
+		if (type == PARENTHESIS_L && (type == PARENTHESIS_R || is_special_token(type)))
+		{
+			ft_putstr_fd("syntax error near unexpected token `('\n", 2);
+			return (false);
+		}
+		if (type == PARENTHESIS_R && next_type == PARENTHESIS_L && tmp->next != *splited)
+		{
+			ft_putstr_fd("syntax error near unexpected token `('\n", 2);
+			return (false);
+		}
+		if (type == PARENTHESIS_L && next_type == PARENTHESIS_R)
+		{
+			ft_putstr_fd("syntax error near unexpected token `)'\n", 2);
+			return (false);
+		}
+		if (type == PARENTHESIS_R && tmp->next != *splited && next_type == CMD)
+		{
+			ft_putstr_fd("syntax error near unexpected token `)'\n", 2);
+			return (false);
+		}
 		tmp = tmp->next;
 		if (tmp == *splited)
 			break ;

@@ -29,6 +29,12 @@ char *remove_quotes(const char *s) {
 	if (!res)
 		return (NULL);
     while (s[i]) {
+		if (ft_is_in_charset(s[i], "\'\"") && s[i + 1] == '*' && ft_is_in_charset(s[i + 2], "\'\"") && s[i] == s[i + 2])
+		{
+            res[j++] = s[i];
+            res[j++] = s[i++];
+            res[j++] = s[i++];
+		}
         if (s[i] == '\'' && !in_double_quote) {
             in_single_quote = !in_single_quote;
         }
@@ -44,11 +50,23 @@ char *remove_quotes(const char *s) {
     return res;
 }
 
+void	delete_end_quotes(char *s)
+{
+	int	len;
+
+	if (!s)
+		return ;
+	len = ft_strlen(s);
+	if (ft_is_in_charset(s[len - 1], "\'\"") && ft_is_in_charset(s[len - 2], "\'\""))
+		s[len - 2] = '\0';
+}
 
 void	clean_quotes(char **s)
 {
 	char	*removed;
 
+	if (!s || !*s)
+		return ;
 	removed = remove_quotes(*s);
 	free(*s);
 	*s = removed;
