@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 16:40:51 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/25 11:31:01 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/25 14:32:03 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ static void	create_hd(t_config *ms_data, t_btree *cmd, char *limiter)
 		clear_minishell(ms_data);
 	}
 	line = NULL;
+	// printf("The limiter is %s\n", limiter);
 	while (1)
 	{
 		if (get_next_line(0, &line) == -1)
@@ -51,22 +52,28 @@ void	get_name_here_doc(t_config *minishell, t_btree *cmd, int *i)
 	char	*name;
 	char	*number;
 
-	number = ft_itoa(*i);
-	if (!number)
+	while (1)
 	{
-		minishell->last_error_code = ERROR_CODE;
-		clear_minishell(minishell);
-	}
-	name = ft_strjoin("/tmp/here_doc_", number);
-	if (!name)
-	{
+		number = ft_itoa(*i);
+		if (!number)
+		{
+			minishell->last_error_code = ERROR_CODE;
+			clear_minishell(minishell);
+		}
+		name = ft_strjoin("/tmp/here_doc_", number);
+		if (!name)
+		{
+			free(number);
+			minishell->last_error_code = ERROR_CODE;
+			clear_minishell(minishell);
+		}
+		(*i)++;
 		free(number);
-		minishell->last_error_code = ERROR_CODE;
-		clear_minishell(minishell);
+		if (access(name, F_OK) != 0)
+			break;
+		free(name);
 	}
-	free(number);
 	((t_node2 *)(cmd->item))->file = name;
-	(*i)++;
 }
 
 void	find_here_doc(t_config *minishell, t_btree *cmd, int *i)
