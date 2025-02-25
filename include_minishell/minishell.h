@@ -282,13 +282,13 @@ int	tab_size(char **splited);
 /* echo */
 void	execute_pwd(char **cmd, t_config *minishell);
 void	execute_env(char **cmd, t_config *minishell);
-// void	execute_exit(char *cmd, t_config *minishell);
 void	execute_exit(char **cmd, t_config *minishell);
 void	execute_cd(char **cmd, t_config *minishell);
 void	execute_unset(char **cmd, t_config *minishell);
 char	**duplicate_env_without_var(char *varname, t_config *minishell);
 void	execute_export(char **cmd, t_config *minishell);
 void	execute_echo(char **cmd, t_config *minishell);
+void	print_invalid_option(char *name, char *s);
 
 /* Free */
 // void	free_minishell(t_config **ms_data);
