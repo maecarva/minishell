@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 10:28:34 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/24 14:04:46 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/25 11:20:23 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,8 @@ void	simple_command(t_pipes *p_data)
 	if (((t_node2 *)(p_data->ms_data->ast->item))->type != CMD)
 	{
 		p_data->do_not_wait = true;
-		get_redirections(p_data);
+		if (get_redirections(p_data) == 1)
+			return ;
 		simple_parent(p_data);
 		return ;
 	}
@@ -142,7 +143,8 @@ void	simple_command(t_pipes *p_data)
 	}
 	if (pid == 0)
 	{
-		get_redirections(p_data);
+		if (get_redirections(p_data) == 1)
+			clear_minishell(p_data->ms_data);
 		simple_child(p_data);
 	}
 	p_data->pid_last_parent = pid;

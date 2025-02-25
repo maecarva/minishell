@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 17:05:52 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/24 12:25:41 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/25 11:19:39 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,8 @@ void	infinite_parent(t_pipes *p_data)
 			p_data->to_close_one = (p_data->fd)[i - 1][0];
 			p_data->to_close_two = (p_data->fd)[i][1];
 			p_data->ms_data->ast = p_data->ms_data->ast->left;
-			get_redirections(p_data);
+			if (get_redirections(p_data) == 1)
+				clear_minishell(p_data->ms_data);
 			mid_child(p_data, i);
 		}
 		ft_close(&(p_data->fd)[i - 1][0]);

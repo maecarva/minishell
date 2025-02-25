@@ -6,16 +6,16 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 11:10:11 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/18 10:57:12 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/25 11:17:09 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipes.h"
 
-void	get_redirections(t_pipes *p_data)
+int	get_redirections(t_pipes *p_data)
 {
 	t_lexertok	type;
-	t_btree *cmd;
+	t_btree		*cmd;
 
 	cmd = p_data->ms_data->ast;
 	while (cmd->left != NULL)
@@ -23,8 +23,15 @@ void	get_redirections(t_pipes *p_data)
 		cmd = cmd->left;
 		type = ((t_node2 *)(cmd->item))->type;
 		if (type == REDIRECT_INPUT || type == HEREDOC)
-			get_infile(p_data, cmd);
+		{	
+			if (get_infile(p_data, cmd) == 1)
+				return (1);
+		}
 		else
-			get_outfile(p_data, cmd);
+		{
+			if (get_outfile(p_data, cmd) == 1)
+				return (1);
+		}
 	}
+	return (0);
 }
