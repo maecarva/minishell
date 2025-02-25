@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 14:29:27 by maecarva          #+#    #+#             */
-/*   Updated: 2025/02/21 15:45:50 by maecarva         ###   ########.fr       */
+/*   Updated: 2025/02/25 17:13:47 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	print_err(char *cmd, t_config *minishell)
 	if (!cmd || !minishell)
 		return ;
 	i = -1;
-	ft_putstr_fd("bash: export: `", STDERR_FILENO);
+	ft_putstr_fd("export: `", STDERR_FILENO);
 	while (cmd[++i] )
 		ft_putchar_fd(cmd[i], STDERR_FILENO);
 	ft_putstr_fd("': not a valid identifier\n", STDERR_FILENO);
@@ -103,7 +103,93 @@ bool	is_valid_env_name(char *name)
 		}
 		i++;
 	}
+	i = 0;
+	while (name[i])
+	{
+		if (ft_isalnum(name[i]) == 0 && name[i] != '_')
+		{
+			if (name[i] == '=')
+				break;
+			return (false);
+		}
+		i++;
+	}
 	return (true);
+}
+
+int find_min_index(char **env, int start)
+{
+    int min_index = start;
+    int i = start;
+    
+    while (env[i])
+    {
+        if (ft_strcmp(env[min_index], env[i]) > 0)
+            min_index = i;
+        i++;
+    }
+    return (min_index);
+}
+
+void	print_sorted_env(char **env)
+{
+	int	n;
+	int	i;
+	int	j;
+	bool	passed;
+
+	n = tab_size(env) - 1;
+	i = 0;
+	while (i < n)
+	{
+		passed = false;
+		printf("declare -x ");
+		j = 0;
+		while (env[i][j])
+		{
+			printf("%c", env[i][j]);
+			if (env[i][j] == '=' && passed == false)
+			{
+				passed = true;
+				printf("\"");
+			}
+			j++;
+		}
+		i++;
+		printf("\"\n");
+	}
+}
+
+void export_sort(t_config *minishell)
+{
+    int i;
+    int min_index;
+    char **env;
+    char *tmp;
+	int	n;
+
+	n = tab_size(minishell->environnement);
+    env = duplicate_env_without_var("", minishell);
+	if (!env)
+	{
+		minishell->last_error_code = ERROR_CODE;
+		clear_minishell(minishell);
+	}
+    i = 0;
+    while (env[i])
+    {
+        min_index = find_min_index(env, i);
+        if (min_index != i)
+        {
+            tmp = env[i];
+            env[i] = env[min_index];
+            env[min_index] = tmp;
+        }
+        i++;
+    }
+	print_sorted_env(env);
+	ft_free_double_ptr(&env);
+	minishell->last_error_code = 0;
 }
 
 void	execute_export(char **cmd, t_config *minishell)
@@ -116,9 +202,12 @@ void	execute_export(char **cmd, t_config *minishell)
 
 	if (!cmd || !cmd[0] || !minishell)
 		return ;
+	if (cmd[1] == NULL)
+		return (export_sort(minishell));
 	i = 1;
 	while (cmd[i])
 	{
+		j = 0;
 		if (cmd[i][0] == '-')
 		{
 			print_invalid_option("export: ", cmd[i]);
