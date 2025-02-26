@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 17:16:59 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/24 14:12:27 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/26 21:55:21 by maecarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,35 @@ void	clean_env_vars(t_config *minishell)
 		execute_export(cmd, minishell);
 		ft_free_double_ptr(&cmd);
 	}
+	minishell->last_error_code = 0;
+}
+
+void	cd(char **cmd, t_config *minishell, char *tmp)
+{
+	if (tab_size(cmd) >= 3)
+		return (print_cd_errs(SHELL_NAME,
+				"cd:", " too many arguments", minishell));
+	else if (tab_size(cmd) == 1 || cmd[1][0] == '~'
+			|| (cmd[1][0] == '-' && cmd[1][1] == '-'))
+	{
+		tmp = get_value_by_name(minishell->environnement, "HOME");
+		if (chdir(tmp) == -1)
+			return (print_cd_err("bash: cd: HOME not set\n",
+					minishell), free(tmp));
+	}
+	else if (cmd[1][0] == '-')
+	{
+		tmp = get_value_by_name(minishell->environnement, "OLDPWD");
+		if (chdir(tmp) == -1)
+			return (print_cd_err("bash: cd: OLDPWD not set\n",
+					minishell), free(tmp));
+		else
+			printf("%s\n", tmp);
+	}
+	else if (tab_size(cmd) > 1 && chdir(cmd[1]) == -1)
+		return (print_cd_errs("bash: cd: ", cmd[1],
+				": No such file or directory\n", minishell));
+	return (clean_env_vars(minishell), free(tmp));
 }
 
 void	execute_cd(char **cmd, t_config *minishell)
@@ -55,47 +84,5 @@ void	execute_cd(char **cmd, t_config *minishell)
 	if (!cmd || !minishell)
 		return ;
 	tmp = NULL;
-	if (tab_size(cmd) >= 3)
-	{
-		minishell->last_error_code = 1;
-		error_message(SHELL_NAME, "cd:", " too many arguments");
-		return ;
-	}
-	else if (tab_size(cmd) == 1 || cmd[1][0] == '~' || (cmd[1][0] == '-' && cmd[1][1] == '-'))
-	{
-		tmp = get_value_by_name(minishell->environnement, "HOME");
-		if (chdir(tmp) == -1)
-		{
-			ft_putstr_fd("bash: cd: HOME not set\n", 2);
-			minishell->last_error_code = 1;
-			return ;
-		}
-	}
-	else if (cmd[1][0] == '-')
-	{
-		tmp = get_value_by_name(minishell->environnement, "OLDPWD");
-		if (chdir(tmp) == -1)
-		{
-			ft_putstr_fd("bash: cd: OLDPWD not set\n", 2);
-			minishell->last_error_code = 1;
-			return ;
-		}
-		else {
-			printf("%s\n", tmp);
-		}
-	}
-	else if (tab_size(cmd) > 1 && chdir(cmd[1]) == -1)
-	{
-		ft_putstr_fd("bash: cd: ", 2);
-		ft_putstr_fd(cmd[1], 2);
-		ft_putstr_fd(": No such file or directory\n", 2);
-		minishell->last_error_code = 1;
-		return ;
-	}
-	else
-	{
-		minishell->last_error_code = 0;
-		clean_env_vars(minishell);
-	}
-	free(tmp);
+	cd(cmd, minishell, tmp);
 }

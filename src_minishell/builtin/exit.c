@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 13:54:27 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/24 15:36:01 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/26 21:58:12 by maecarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,19 @@ bool	is_valid_number(char *s)
 	return (true);
 }
 
+void	exit_too_many_args(char **cmd, t_config *minishell)
+{
+	if (!is_valid_number(cmd[1]))
+	{
+		error_message("exit: ", cmd[1], ": numeric argument required");
+		minishell->last_error_code = 2;
+		clear_minishell(minishell);
+	}
+	error_message(SHELL_NAME, cmd[0], ": too many arguments");
+	minishell->last_error_code = 1;
+	clear_minishell(minishell);
+}
+
 void	execute_exit(char **cmd, t_config *minishell)
 {
 	long	error_code;
@@ -50,17 +63,7 @@ void	execute_exit(char **cmd, t_config *minishell)
 		clear_minishell(minishell);
 	}
 	else if (tab_size(cmd) > 2)
-	{
-		if (!is_valid_number(cmd[1]))
-		{
-			error_message("exit: ", cmd[1], ": numeric argument required");
-			minishell->last_error_code = 2;
-			clear_minishell(minishell);
-		}
-		error_message(SHELL_NAME, cmd[0], ": too many arguments");
-		minishell->last_error_code = 1;
-		clear_minishell(minishell);
-	}
+		exit_too_many_args(cmd, minishell);
 	else if (is_valid_number(cmd[1]) == false)
 	{
 		error_message("exit: ", cmd[1], ": numeric argument required");

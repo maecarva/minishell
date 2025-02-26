@@ -57,13 +57,9 @@ char	*search_var(char *n, char **envp, int i, char *name)
 char	*get_value_by_name(char **envp, char *name)
 {
 	int		i;
-	char	*value;
-	char	*tmp;
 	char	n[MAX_PATH];
 
 	i = 0;
-	value = NULL;
-	tmp = NULL;
 	if (!envp)
 		return (NULL);
 	if (ft_strlen(name) == 0)

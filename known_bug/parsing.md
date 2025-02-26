@@ -4,7 +4,7 @@ realloc tab double free
 verif si toutes les allocs sont proteges
 
 # TODO
-leaks expand limiter
+leaks expand limiter, change get_file to return a linked_list
 
 # elio
 ls && ls | ls -la = fonctionne

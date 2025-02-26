@@ -6,7 +6,7 @@
 /*   By: maecarva <maecarva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 12:38:01 by maecarva          #+#    #+#             */
-/*   Updated: 2025/02/07 12:38:41 by maecarva         ###   ########.fr       */
+/*   Updated: 2025/02/26 21:40:09 by maecarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	ft_count_words(char *str, char *charset)
 		{
 			words++;
 			while (!ft_is_char_in_charset(str[i], charset) && str[i] != '\0')
-			i++;
+				i++;
 		}
 	}
 	return (words);

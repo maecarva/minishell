@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 11:38:51 by maecarva          #+#    #+#             */
-/*   Updated: 2025/02/18 13:22:00 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/26 20:40:11 by maecarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,8 @@ void	init_shlvl(t_config *minishell)
 	int		value;
 
 	exp = ft_calloc(sizeof(char *), 3);
+	if (!exp)
+		return ((void)clear_minishell(minishell));
 	exp[0] = ft_strdup("export");
 	tmp = get_value_by_name(minishell->environnement, "SHLVL");
 	value = ft_atoi(tmp) + 1;

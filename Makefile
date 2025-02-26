@@ -6,7 +6,7 @@
 #    By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/08 14:19:08 by ebonutto          #+#    #+#              #
-#    Updated: 2025/02/25 20:07:22 by maecarva         ###   ########.fr        #
+#    Updated: 2025/02/26 21:42:15 by maecarva         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,12 +55,19 @@ SRC = src_minishell/main.c \
 	  src_minishell/parsing/lexer/spliter/spliter_utils.c \
 	  src_minishell/parsing/lexer/spliter/spliter_utils_quotes.c \
 	  src_minishell/parsing/lexer/lexer_utils.c \
-	  src_minishell/parsing/expander/expander.c \
+	  src_minishell/parsing/expander/dollard/expander.c \
+	  src_minishell/parsing/expander/dollard/expander_list_manipulation.c \
+	  src_minishell/parsing/expander/dollard/expander_utils.c \
+	  src_minishell/parsing/expander/dollard/expand_vars.c \
 	  src_minishell/parsing/expander/wildcards/wildcards.c \
 	  src_minishell/parsing/expander/wildcards/wildcards_utils.c \
 	  src_minishell/parsing/expander/tilde/tilde.c \
-	  src_minishell/parsing/ast/ast.c \
-	  src_minishell/parsing/ast/command_node.c \
+	  src_minishell/parsing/ast/ast_constructor/ast.c \
+	  src_minishell/parsing/ast/ast_constructor/ast_utils.c \
+	  src_minishell/parsing/ast/ast_constructor/ast_utils2.c \
+	  src_minishell/parsing/ast/ast_constructor/operators.c \
+	  src_minishell/parsing/ast/command_node/command_node.c \
+	  src_minishell/parsing/ast/command_node/command_node_utils.c \
 	  src_minishell/parsing/ast/pipe_node.c \
 	  src_minishell/parsing/ast/clear.c \
 	  src_minishell/parsing/utils/quotes.c \
@@ -71,6 +78,7 @@ SRC = src_minishell/main.c \
 	  src_minishell/builtin/cd.c \
 	  src_minishell/builtin/unset.c \
 	  src_minishell/builtin/export.c \
+	  src_minishell/builtin/builtins_utils/cd_utils.c \
 	  src_minishell/pipes/execute_command.c \
 	  src_minishell/redirection/infile.c \
 	  src_minishell/redirection/outfile.c \

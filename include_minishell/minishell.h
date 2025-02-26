@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 14:41:06 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/25 19:45:53 by maecarva         ###   ########.fr       */
+/*   Updated: 2025/02/26 22:24:04 by maecarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,8 +96,7 @@
 
 # define NO_ENV_DEFAULT_SIZE 6
 
-# define SHELL_NAME NULL
-//"bash: "
+# define SHELL_NAME ""
 
 /* Colors */
 
@@ -268,7 +267,8 @@ bool			lexer(char *cmd, t_dlist **lexed_list);
 void			extract_quoted(char *cmd, int *i, int *start, int *end);
 bool			no_quotes(bool *quotes);
 t_lexertok		get_token_type(char *token, t_dlist **dlist);
-bool			add_to_token_list(t_dlist **dlist, char *cmd, int start, int end);
+bool			add_to_token_list(t_dlist **dlist,
+					char *cmd, int start, int end);
 void			free_token_list(t_dlist **dlist);
 t_dlist			*spliter(char *cmd);
 t_lexertoklist	*ptr_to_lexertoklist(void *token);
@@ -283,11 +283,42 @@ char			**get_all_files(bool hidden);
 void			expand_tilde(char **s, t_config *minishell);
 void			expand_token(char **tokenstr, char **envp,
 					t_config *config, bool expand_specials);
+bool			is_special_var(char *s);
+void			suppress_element(t_dlist **lst);
+t_dlist			*create_arg_list(char	**files, t_dlist *before);
+void			free_array(char **a, int size, int dont_free_idx);
+int				expand_last_error(char **str, t_config *config, int *index);
+int				expand_pid(char **str, t_config *config, int *index);
+int				expand_classic(char **str, t_config *config,
+					int *index, bool expand_specials);
+void			free_array(char **a, int size, int dont_free_idx);
+void			delete_token_invalid_var(t_dlist **tmp, t_dlist **tmp2);
+void			expander_quote_brain(char *s, int *i, int *state, bool *expand);
+
 void			clean_quotes(char **s);
 // ast
 bool			create_ast(t_btree **ast, t_dlist *tokenlist, t_config *config);
+void			construct(t_btree **ast, t_dlist *start,
+					t_dlist *end, bool split3);
+bool			multiple_and_or(t_dlist *start, t_dlist *end);
+void			handle_and_or_ast(t_btree **ast, t_dlist *start,
+					t_dlist *end, bool split3);
+void			handle_parenthesis_ast(t_btree **ast, t_dlist *start,
+					t_dlist *end, bool split3);
+bool			list_contain_pipe(t_dlist *start, t_dlist *end,
+					t_dlist **pipeelem);
+bool			list_contain_operator(t_dlist *start, t_dlist *end);
+bool			get_last_and_or(t_dlist *start, t_dlist *end, t_dlist **op);
+bool			get_first_and_or(t_dlist *start, t_dlist *end, t_dlist **op);
+void			get_first_valid_operator(t_dlist **start, t_dlist **end,
+					t_dlist **op);
+bool			list_contain_parenthesis(t_dlist *start, t_dlist *end);
+bool			same_parenthesis(t_dlist *start, t_dlist *end);
 t_btree			*create_operator_node(t_lexertok type);
 t_btree			*create_cmd_node(t_dlist *start, t_dlist *end);
+int				count_token_type(t_dlist *start, t_dlist *end,
+					int	*redirtokcount);
+char			**extractcmd(t_dlist *start, t_dlist *end);
 void			free_ast(t_btree **ast);
 
 // wildcards
@@ -301,6 +332,9 @@ void			execute_pwd(char **cmd, t_config *minishell);
 void			execute_env(char **cmd, t_config *minishell);
 void			execute_exit(char **cmd, t_config *minishell);
 void			execute_cd(char **cmd, t_config *minishell);
+void			print_cd_err(char *message, t_config *minishell);
+void			print_cd_errs(char *msg1, char *msg2, char *msg3,
+					t_config *minishell);
 void			execute_unset(char **cmd, t_config *minishell);
 char			**duplicate_env_without_var(char *varname, t_config *minishell);
 void			execute_export(char **cmd, t_config *minishell);

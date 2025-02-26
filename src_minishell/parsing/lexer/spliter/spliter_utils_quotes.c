@@ -12,11 +12,19 @@
 
 #include "../../../../include_minishell/minishell.h"
 
-void	quote_brain(char *cmd, int *end, bool *quotes, char cquote)
+// void	quote_brain(char *cmd, int *end, bool *quotes, char cquote)
+// {
+// 	if (cmd[*end] == '\'' && cquote == cmd[*end])
+// 		quotes[0] = !quotes[0];
+// 	if (cmd[*end] == '\"' && cquote == cmd[*end])
+// 		quotes[1] = !quotes[1];
+// }
+
+void	quote_brain(char *cmd, int *end, bool *quotes)
 {
-	if (cmd[*end] == '\'' && cquote == cmd[*end])
+	if (cmd[*end] == '\'')
 		quotes[0] = !quotes[0];
-	if (cmd[*end] == '\"' && cquote == cmd[*end])
+	if (cmd[*end] == '\"')
 		quotes[1] = !quotes[1];
 }
 
@@ -50,7 +58,7 @@ void	extract_quoted(char *cmd, int *i, int *start, int *end)
 	*end = *start + 1;
 	while (cmd[*end])
 	{
-		quote_brain(cmd, end, quotes, cmd[*i]);
+		quote_brain(cmd, end, quotes);
 		if (check_end(quotes, cmd, end))
 			break ;
 		if (cmd[*end] == cmd[*i] && no_quotes(quotes)

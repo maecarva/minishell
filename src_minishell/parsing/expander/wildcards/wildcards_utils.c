@@ -64,13 +64,9 @@ void	get_files(char **joined, int *num, bool hidden, char *pwd)
 char	**get_all_files(bool hidden)
 {
 	char			pwd[MAX_PATH];
-	DIR				*dir;
-	struct dirent	*entry;
 	char			**joined;
 	int				num[2];
 
-	entry = NULL;
-	dir = NULL;
 	num[0] = 0;
 	num[1] = 25;
 	joined = ft_calloc(sizeof(char *), num[1]);

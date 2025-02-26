@@ -42,9 +42,9 @@ t_lexertok	get_type_special(char	*token)
 	if (token[0] == '|' && token[1] == '\0')
 		type = PIPE_TOKEN;
 	else if (token[0] == '|' && token[1] == '|')
-			type = OR;
+		type = OR;
 	else if (token[0] == '&' && token[1] == '&')
-			type = AND;
+		type = AND;
 	else if (token[0] == '<' && token[1] == '\0')
 		type = REDIRECT_INPUT;
 	else if (token[0] == '>' && token[1] == '\0')

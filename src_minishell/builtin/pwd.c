@@ -6,7 +6,7 @@
 /*   By: maecarva <maecarva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 16:31:41 by maecarva          #+#    #+#             */
-/*   Updated: 2025/02/11 17:23:04 by maecarva         ###   ########.fr       */
+/*   Updated: 2025/02/26 21:58:44 by maecarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,4 +31,3 @@ void	execute_pwd(char **cmd, t_config *minishell)
 	}
 	minishell->last_error_code = 0;
 }
-
