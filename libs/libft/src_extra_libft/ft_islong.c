@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 14:53:18 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/24 14:55:40 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/26 12:20:12 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 bool	ft_islong(char *str)
 {
 	__int128_t	nb;
-	int 		count;
+	int			count;
 	int			sign;
 
 	nb = 0;

@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 11:16:18 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/23 18:37:25 by maecarva         ###   ########.fr       */
+/*   Updated: 2025/02/26 12:17:40 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@
 # include <limits.h>
 # include "../src_binary_tree_libft/ft_btree.h"
 
-
 // lists
 typedef struct s_list
 {
@@ -32,7 +31,7 @@ typedef struct s_list
 
 typedef struct s_dlist
 {
-	void		*content;
+	void			*content;
 	struct s_dlist	*prev;
 	struct s_dlist	*next;
 }	t_dlist;

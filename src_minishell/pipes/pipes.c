@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:10:04 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/21 10:36:54 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/26 12:38:42 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@
 // 		if (pid == p_data->pid_last_parent)
 // 		{
 // 			if (exit_code == ERROR_COMMAND || exit_code == ERROR_CODE
-// 				|| exit_code == EXIT_FAILURE || exit_code == CFBNE || exit_code == 2)
+// 				|| exit_code == EXIT_FAILURE || exit_code == CFBNE
+// 				|| exit_code == 2)
 // 			{
 // 				if (p_data->ms_data->last_error_code != ERROR_CODE)	
 // 				p_data->ms_data->last_error_code = exit_code;

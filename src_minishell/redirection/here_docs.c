@@ -6,26 +6,14 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 16:40:51 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/25 14:32:03 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/26 12:35:29 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipes.h"
 
-static void	create_hd(t_config *ms_data, t_btree *cmd, char *limiter)
+static void	loop_hd(t_config *ms_data, char *line, char *limiter, int fd_infile)
 {
-	char	*line;
-	int		fd_infile;
-
-	fd_infile = open(((t_node2 *)(cmd->item))->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (fd_infile == -1)
-	{
-		perror(((t_node2 *)(cmd->item))->file);
-		ms_data->last_error_code = ERROR_CODE;
-		clear_minishell(ms_data);
-	}
-	line = NULL;
-	// printf("The limiter is %s\n", limiter);
 	while (1)
 	{
 		if (get_next_line(0, &line) == -1)
@@ -47,38 +35,27 @@ static void	create_hd(t_config *ms_data, t_btree *cmd, char *limiter)
 	}
 }
 
-void	get_name_here_doc(t_config *minishell, t_btree *cmd, int *i)
+static void	create_hd(t_config *ms_data, t_btree *cmd, char *limiter)
 {
-	char	*name;
-	char	*number;
+	char	*line;
+	int		fd_infile;
 
-	while (1)
+	fd_infile = open(((t_node2 *)(cmd->item))->file,
+			O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (fd_infile == -1)
 	{
-		number = ft_itoa(*i);
-		if (!number)
-		{
-			minishell->last_error_code = ERROR_CODE;
-			clear_minishell(minishell);
-		}
-		name = ft_strjoin("/tmp/here_doc_", number);
-		if (!name)
-		{
-			free(number);
-			minishell->last_error_code = ERROR_CODE;
-			clear_minishell(minishell);
-		}
-		(*i)++;
-		free(number);
-		if (access(name, F_OK) != 0)
-			break;
-		free(name);
+		perror(((t_node2 *)(cmd->item))->file);
+		ms_data->last_error_code = ERROR_CODE;
+		clear_minishell(ms_data);
 	}
-	((t_node2 *)(cmd->item))->file = name;
+	line = NULL;
+	loop_hd(ms_data, line, limiter, fd_infile);
 }
 
-void	find_here_doc(t_config *minishell, t_btree *cmd, int *i)
+static void	find_here_doc(t_config *minishell, t_btree *cmd, int *i)
 {
 	char	*limiter;
+
 	if (((t_node2 *)(cmd->item))->type == HEREDOC)
 	{
 		limiter = ((t_node2 *)(cmd->item))->file;
@@ -88,7 +65,8 @@ void	find_here_doc(t_config *minishell, t_btree *cmd, int *i)
 	}
 }
 
-void	btree_apply_prefix(t_config *ms_data, t_btree *root, int *i, void (*applyf)(t_config *minishell, t_btree *cmd, int *i))
+static void	btree_apply_prefix(t_config *ms_data, t_btree *root, int *i,
+			void (*applyf)(t_config *minishell, t_btree *cmd, int *i))
 {
 	if (root == NULL)
 		return ;

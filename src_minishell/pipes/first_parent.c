@@ -6,11 +6,21 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:17:02 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/25 11:19:07 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/26 14:40:14 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipes.h"
+
+static void	clean_exit(t_pipes *p_data, int	c_one, int c_two, char *message)
+{
+	perror(message);
+	ft_close(c_one);
+	ft_close(c_two);
+	free_fd(&(p_data->fd), p_data->nb_pipes);
+	p_data->ms_data->last_error_code = ERROR_CODE;
+	clear_minishell(p_data->ms_data);
+}
 
 static void	first_child(t_pipes *p_data)
 {

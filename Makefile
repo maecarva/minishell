@@ -6,7 +6,7 @@
 #    By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/08 14:19:08 by ebonutto          #+#    #+#              #
-#    Updated: 2025/02/23 19:22:05 by maecarva         ###   ########.fr        #
+#    Updated: 2025/02/26 12:57:27 by ebonutto         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -67,10 +67,13 @@ SRC = src_minishell/main.c \
 	  src_minishell/builtin/cd.c \
 	  src_minishell/builtin/unset.c \
 	  src_minishell/builtin/export.c \
-	  src_minishell/pipes/execute_command.c \
 	  src_minishell/redirection/infile.c \
 	  src_minishell/redirection/outfile.c \
 	  src_minishell/redirection/redirections.c \
+	  src_minishell/pipes/execute_command.c \
+	  src_minishell/pipes/execute_path.c \
+	  src_minishell/pipes/execute_no_path.c \
+	  src_minishell/pipes/execute_command_utils1.c \
 	  src_minishell/pipes/first_parent.c \
 	  src_minishell/pipes/infinite_parent.c \
 	  src_minishell/pipes/last_parent.c \
@@ -79,7 +82,8 @@ SRC = src_minishell/main.c \
 	  src_minishell/pipes/simple_command.c \
 	  src_minishell/free/free_minishell.c \
 	  src_minishell/move_in_ast.c \
-	  src_minishell/redirection/here_docs.c
+	  src_minishell/redirection/here_docs.c \
+	  src_minishell/redirection/here_docs_utils.c
 
 SRC += $(SRC_PIPES)
 # Conversion des .c en .o dans le dossier obj
