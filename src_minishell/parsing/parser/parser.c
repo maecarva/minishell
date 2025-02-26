@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 11:25:54 by maecarva          #+#    #+#             */
-/*   Updated: 2025/02/25 19:23:23 by maecarva         ###   ########.fr       */
+/*   Updated: 2025/02/26 22:33:09 by maecarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,6 @@ t_btree	*error_parsing(char *message, t_parser **parser, int code)
 		ft_free_simple_ptr(&(*parser)->trimmed);
 	return (NULL);
 }
-
-// void	debug_parsing(t_dlist *lexed, t_btree *arbre)
-// {
-// 	if (lexed && arbre == NULL)
-// 		print_token_list(&lexed);
-// 	if (arbre)
-// 		print_arbre(arbre, 0);
-// }
 
 t_parser	*init_parser(t_config *config)
 {
@@ -60,16 +52,6 @@ t_btree	*clean_parser(t_parser *parser)
 	free(parser);
 	return (ast);
 }
-
-/*void	delete_quotes_end_str(char *s)
-{
-	if (!s)
-		return ;
-	if (s[ft_strlen(s) - 1] == '\"' && s[ft_strlen(s) - 2] == '\"')
-		s[ft_strlen(s) - 2] = '\0';
-}
-delete_quotes_end_str(parser->trimmed);
-*/
 
 t_btree	*parse_cmd(char *cmd, t_config *config)
 {

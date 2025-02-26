@@ -6,7 +6,7 @@
 /*   By: maecarva <maecarva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/09 14:35:38 by maecarva          #+#    #+#             */
-/*   Updated: 2025/02/26 21:37:55 by maecarva         ###   ########.fr       */
+/*   Updated: 2025/02/26 22:29:16 by maecarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	construct(t_btree **ast, t_dlist *start, t_dlist *end, bool split3)
 	else if (list_contain_pipe(start, end, &tmp))
 	{
 		*ast = create_operator_node(ptr_to_lexertoklist(tmp->content)->type);
-		if (!ast)
+		if (!*ast)
 			return ;
 		construct(&(*ast)->left, start, tmp->prev, false);
 		construct(&(*ast)->right, tmp->next, end, false);
