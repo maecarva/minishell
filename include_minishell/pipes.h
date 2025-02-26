@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 14:09:58 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/26 12:56:44 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/26 15:20:59 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ void	execute_command(t_pipes *p_data);
 /* Utilisation */
 void	init_p_data(t_pipes *p_data, t_config *ms_data);
 void	free_fd(int ***fd, int len);
+void	clean_exit(char *message, t_pipes *p_data, int c_one, int c_two);
 
 /* Redirection */
 int		get_infile(t_pipes *p_data, t_btree *cmd);
