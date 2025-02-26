@@ -6,7 +6,7 @@
 #    By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/08 14:19:08 by ebonutto          #+#    #+#              #
-#    Updated: 2025/02/26 12:57:27 by ebonutto         ###   ########.fr        #
+#    Updated: 2025/02/26 16:49:55 by ebonutto         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -67,6 +67,8 @@ SRC = src_minishell/main.c \
 	  src_minishell/builtin/cd.c \
 	  src_minishell/builtin/unset.c \
 	  src_minishell/builtin/export.c \
+	  src_minishell/builtin/export_sort.c \
+	  src_minishell/builtin/export_utils.c \
 	  src_minishell/redirection/infile.c \
 	  src_minishell/redirection/outfile.c \
 	  src_minishell/redirection/redirections.c \

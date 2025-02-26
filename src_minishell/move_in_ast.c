@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 18:11:12 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/26 12:43:32 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/26 15:52:13 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ void	execute_ast(t_btree *actual_ast, t_config *ms_data)
 		pipes(ms_data);
 		return ;
 	}
-	// print_arbre(actual_ast, 0);
 	execute_ast(actual_ast->left, ms_data);
-	if ((type == OR && ms_data->last_error_code != 0) || (type == AND && ms_data->last_error_code == 0))
+	if ((type == OR && ms_data->last_error_code != 0)
+		|| (type == AND && ms_data->last_error_code == 0))
 		execute_ast(actual_ast->right, ms_data);
 }
