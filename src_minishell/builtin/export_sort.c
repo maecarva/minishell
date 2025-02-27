@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:36:57 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/26 17:13:38 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/27 14:31:02 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void	print_sorted_env(char **env)
 	int		j;
 	bool	passed;
 
-	n = tab_size(env) - 1;
+	n = tab_size(env);
 	i = 0;
 	while (i < n)
 	{
@@ -74,14 +74,14 @@ void	export_sort(t_config *minishell)
 	int		n;
 
 	n = tab_size(minishell->environnement);
-	env = duplicate_env_without_var("", minishell);
+	env = ft_tabdup(minishell->environnement);
 	if (!env)
 	{
 		minishell->last_error_code = ERROR_CODE;
 		clear_minishell(minishell);
 	}
 	i = 0;
-	while (env[i])
+	while (i < n)
 	{
 		min_index = find_min_index(env, i);
 		if (min_index != i)

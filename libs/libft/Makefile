@@ -6,7 +6,7 @@
 #    By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/08 14:24:44 by ebonutto          #+#    #+#              #
-#    Updated: 2025/02/23 18:37:34 by maecarva         ###   ########.fr        #
+#    Updated: 2025/02/27 14:26:55 by ebonutto         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -93,7 +93,8 @@ SRC_EXTRA = ft_abs.c \
 			ft_atol.c \
 			ft_strisnumber.c \
 			ft_islong.c \
-			ft_strcpy.c
+			ft_strcpy.c \
+			ft_tabdup.c
 
 
 SRC_DOUBLE_LINKED_LIST = dll_add_back.c \

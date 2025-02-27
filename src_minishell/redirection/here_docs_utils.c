@@ -6,11 +6,11 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 12:34:48 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/26 12:35:20 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/27 13:27:55 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipes.h"
+#include "minishell.h"
 
 void	get_name_here_doc(t_config *minishell, t_btree *cmd, int *i)
 {

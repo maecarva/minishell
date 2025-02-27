@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 14:11:09 by maecarva          #+#    #+#             */
-/*   Updated: 2025/02/24 16:00:29 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/27 15:02:19 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ int	clear_minishell(t_config *minishell)
 	if (!minishell)
 		return (0);
 	rl_clear_history();
+	minishell->ast = minishell->dont_fucking_touch_me;
+	clear_here_doc(minishell->ast);
 	free_ast(&(minishell->dont_fucking_touch_me));
 	errorcode = minishell->last_error_code;
 	if (minishell->prompt)
