@@ -23,6 +23,7 @@ t_btree	*error_parsing(char *message, t_parser **parser, int code)
 		free_token_list(&(*parser)->lexed);
 	if ((*parser)->trimmed)
 		ft_free_simple_ptr(&(*parser)->trimmed);
+	free(*parser);
 	return (NULL);
 }
 

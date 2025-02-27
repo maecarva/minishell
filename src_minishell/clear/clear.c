@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 14:11:09 by maecarva          #+#    #+#             */
-/*   Updated: 2025/02/27 15:02:19 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/27 15:32:48 by maecarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,10 @@ int	clear_minishell(t_config *minishell)
 		free(minishell->prompt);
 	if (minishell->current_path)
 		free(minishell->current_path);
-	ft_free_double_ptr(&minishell->environnement);
-	free(minishell->pidstr);
+	if (minishell->environnement)
+		ft_free_double_ptr(&minishell->environnement);
+	if (minishell->pidstr && ft_strcmp(minishell->pidstr, "-1") != 0)
+		free(minishell->pidstr);
 	free(minishell);
 	exit(errorcode);
 }

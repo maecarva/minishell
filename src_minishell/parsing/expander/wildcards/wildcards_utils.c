@@ -6,50 +6,29 @@
 /*   By: maecarva <maecarva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 19:48:04 by maecarva          #+#    #+#             */
-/*   Updated: 2025/02/25 19:48:05 by maecarva         ###   ########.fr       */
+/*   Updated: 2025/02/27 15:20:43 by maecarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../../include_minishell/minishell.h"
 
-char	**realloc_tab(char ***prev, int *size)
-{
-	char	**new;
-	int		i;
-
-	new = ft_calloc(sizeof(char *), *size + 25);
-	if (!new)
-		return (ft_free_double_ptr(prev), NULL);
-	i = -1;
-	while (++i < *size)
-		new[i] = (*prev)[i];
-	*size += 25;
-	new[i] = NULL;
-	free(*prev);
-	return (new);
-}
-
-void	get_files(char **joined, int *num, bool hidden, char *pwd)
+void	get_files(char ***joined, int *num, bool hidden, char *pwd)
 {
 	DIR				*dir;
 	struct dirent	*entry;
 
+	dir = NULL;
 	dir = opendir(pwd);
+	if (!dir)
+		return (ft_free_double_ptr(joined));
 	entry = readdir(dir);
-	while (entry != NULL)
+	while (entry != NULL && num[0] < 250)
 	{
-		if (num[0] == num[1] - 1)
-		{
-			joined = realloc_tab(&joined, &num[1]);
-			if (!joined)
-				return ;
-			num[1] += 25;
-		}
 		if (entry->d_name[0] != '.' || hidden == true)
 		{
-			joined[num[0]] = ft_strdup(entry->d_name);
-			if (!joined[num[0]])
-				return (ft_free_double_ptr(&joined));
+			(*joined)[num[0]] = ft_strdup(entry->d_name);
+			if ((*joined)[num[0]] == NULL)
+				return (closedir(dir), ft_free_double_ptr(joined));
 			num[0]++;
 		}
 		entry = readdir(dir);
@@ -68,13 +47,15 @@ char	**get_all_files(bool hidden)
 	int				num[2];
 
 	num[0] = 0;
-	num[1] = 25;
+	num[1] = 250;
 	joined = ft_calloc(sizeof(char *), num[1]);
 	if (!joined)
 		return (false);
 	ft_bzero(pwd, MAX_PATH);
 	if (getcwd(pwd, MAX_PATH) != pwd)
 		return (NULL);
-	get_files(joined, num, hidden, pwd);
+	get_files(&joined, num, hidden, pwd);
+	if (!joined)
+		return (NULL);
 	return (joined);
 }

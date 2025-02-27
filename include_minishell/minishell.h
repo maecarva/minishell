@@ -98,6 +98,11 @@
 
 # define SHELL_NAME ""
 
+// signals
+# define SIGQUIT_RECEIVED 131
+# define SIGINT_RECEVEID 130
+# define AWAITING_SIGNAL -2
+
 /* Colors */
 
 # define KNRM  "\x1B[0m"
@@ -253,6 +258,7 @@ char			*get_var_ptr(char **envp, char *name);
 /* Signals */
 void			signals_interactive_mode(void);
 void			signals_non_interactive_mode(void);
+void			refresh_signal(t_config *minishell);
 
 /*		PARSING		*/
 // rules
@@ -298,6 +304,7 @@ void			expander_quote_brain(char *s, int *i, int *state, bool *expand);
 void			clean_quotes(char **s);
 // ast
 bool			create_ast(t_btree **ast, t_dlist *tokenlist, t_config *config);
+int				count_groups(t_dlist *start, t_dlist *end);
 void			construct(t_btree **ast, t_dlist *start,
 					t_dlist *end, bool split3);
 bool			multiple_and_or(t_dlist *start, t_dlist *end);
@@ -366,12 +373,16 @@ void			first_parent(t_pipes *p_data);
 void			infinite_parent(t_pipes *p_data);
 void			last_parent(t_pipes *p_data);
 void			check_children(t_pipes *data);
+void			clean_exit(char *message, t_pipes *p_data, int c_one, int c_two);
 
 /* Execution */
 int				execute_builtin(t_pipes *p_data);
 void			handle_path(char **path_cmd, t_pipes *p_data);
 void			handle_no_path(char **path_cmd, t_pipes *p_data, int i);
 void			execute_command(t_pipes *p_data);
+int				execute_builtin(t_pipes *d);
+void			handle_no_path(char **path_cmd, t_pipes *p_data, int i);
+void			handle_path(char **path_cmd, t_pipes *p_data);
 
 /* Utilisation */
 void			init_p_data(t_pipes *p_data, t_config *ms_data);

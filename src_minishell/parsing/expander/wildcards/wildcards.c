@@ -6,7 +6,7 @@
 /*   By: maecarva <maecarva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 20:05:44 by maecarva          #+#    #+#             */
-/*   Updated: 2025/02/25 20:05:48 by maecarva         ###   ########.fr       */
+/*   Updated: 2025/02/27 15:18:07 by maecarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,16 +55,16 @@ char	**search_for_matching_files(char **cmd, char *pattern)
 	if (!files)
 		return (free(pattern), NULL);
 	validfiles = ft_calloc(sizeof(char *), tab_size(files) + 1);
+	if (!validfiles)
+		return (ft_free_double_ptr(&files), free(pattern), NULL);
 	i = -1;
 	j = -1;
 	while (files[++i])
 		if (match_pattern(files[i], pattern))
 			validfiles[++j] = ft_strdup(files[i]);
-	ft_free_double_ptr(&files);
-	free(pattern);
 	if (tab_size(validfiles) == 0)
 		ft_free_double_ptr(&validfiles);
-	return (validfiles);
+	return (ft_free_double_ptr(&files), free(pattern), validfiles);
 }
 
 char	**expand_wildcard_pls(char **cmd, int *i, bool *quotes)

@@ -6,7 +6,7 @@
 /*   By: maecarva <maecarva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 17:14:38 by maecarva          #+#    #+#             */
-/*   Updated: 2025/02/26 19:07:38 by maecarva         ###   ########.fr       */
+/*   Updated: 2025/02/27 15:24:47 by maecarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	expand_pls(char **str, t_config *config,
 		return (expand_last_error(str, config, index));
 	else if (s[j] == '$')
 		return (expand_pid(str, config, index));
-	else if (s[j] == '/')
+	else if (s[j] == '/' || s[j] == '=')
 	{
 		*index += j;
 		return (1);

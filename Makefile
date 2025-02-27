@@ -6,7 +6,7 @@
 #    By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/08 14:19:08 by ebonutto          #+#    #+#              #
-#    Updated: 2025/02/27 13:40:41 by ebonutto         ###   ########.fr        #
+#    Updated: 2025/02/27 14:26:38 by maecarva         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -65,6 +65,7 @@ SRC = src_minishell/main.c \
 	  src_minishell/parsing/ast/ast_constructor/ast.c \
 	  src_minishell/parsing/ast/ast_constructor/ast_utils.c \
 	  src_minishell/parsing/ast/ast_constructor/ast_utils2.c \
+	  src_minishell/parsing/ast/ast_constructor/ast_utils3.c \
 	  src_minishell/parsing/ast/ast_constructor/operators.c \
 	  src_minishell/parsing/ast/command_node/command_node.c \
 	  src_minishell/parsing/ast/command_node/command_node_utils.c \
