@@ -64,7 +64,7 @@ void	handle_and_or_ast(t_btree **ast, t_dlist *start,
 	{
 		get_first_and_or(start, end, &tmp);
 		*ast = create_operator_node(ptr_to_lexertoklist(tmp->content)->type);
-		if (!ast)
+		if (!*ast)
 			return ;
 		construct(&(*ast)->left, start, tmp->prev, false);
 		construct(&(*ast)->right, tmp->next, end, false);
@@ -83,7 +83,7 @@ void	handle_parenthesis_ast(t_btree **ast, t_dlist *start,
 	if (tmp != NULL)
 	{
 		*ast = create_operator_node(ptr_to_lexertoklist(tmp->content)->type);
-		if (!ast)
+		if (!*ast)
 			return ;
 		construct(&(*ast)->left, start, tmp->prev, false);
 		construct(&(*ast)->right, tmp->next, end, false);

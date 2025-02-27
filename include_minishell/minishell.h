@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 14:41:06 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/26 22:24:04 by maecarva         ###   ########.fr       */
+/*   Updated: 2025/02/27 14:25:11 by maecarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -304,6 +304,7 @@ void			expander_quote_brain(char *s, int *i, int *state, bool *expand);
 void			clean_quotes(char **s);
 // ast
 bool			create_ast(t_btree **ast, t_dlist *tokenlist, t_config *config);
+int				count_groups(t_dlist *start, t_dlist *end);
 void			construct(t_btree **ast, t_dlist *start,
 					t_dlist *end, bool split3);
 bool			multiple_and_or(t_dlist *start, t_dlist *end);

@@ -6,7 +6,7 @@
 /*   By: maecarva <maecarva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 15:01:26 by maecarva          #+#    #+#             */
-/*   Updated: 2025/02/25 17:17:11 by maecarva         ###   ########.fr       */
+/*   Updated: 2025/02/27 15:13:06 by maecarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ void	clean_quotes(char **s)
 	if (!s || !*s)
 		return ;
 	removed = remove_quotes(*s);
+	if (!removed)
+		return ;
 	free(*s);
 	*s = removed;
 }

@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 11:38:51 by maecarva          #+#    #+#             */
-/*   Updated: 2025/02/26 22:31:01 by maecarva         ###   ########.fr       */
+/*   Updated: 2025/02/27 15:30:54 by maecarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,19 +26,21 @@ char	*get_minishell_pid(void)
 	fline = NULL;
 	fd = open("/proc/self/stat", O_RDONLY);
 	if (fd == -1)
-		return (NULL);
+		return ("-1");
 	if (get_next_line(fd, &fline) != 0)
 	{
 		ft_close(&fd);
 		if (fline != NULL)
 			free(fline);
-		return (NULL);
+		return ("-1");
 	}
 	while (fline[i] && ft_isdigit(fline[i]))
 		i++;
 	pid = ft_substr(fline, 0, i);
 	free(fline);
 	ft_close(&fd);
+	if (!pid)
+		return ("-1");
 	return (pid);
 }
 
