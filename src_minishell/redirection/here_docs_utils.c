@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipes.h"
+#include "minishell.h"
 
 void	get_name_here_doc(t_config *minishell, t_btree *cmd, int *i)
 {

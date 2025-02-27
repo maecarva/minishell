@@ -362,9 +362,13 @@ void			first_parent(t_pipes *p_data);
 void			infinite_parent(t_pipes *p_data);
 void			last_parent(t_pipes *p_data);
 void			check_children(t_pipes *data);
+void			clean_exit(char *message, t_pipes *p_data, int c_one, int c_two);
 
 /* Execution */
 void			execute_command(t_pipes *p_data);
+int				execute_builtin(t_pipes *d);
+void			handle_no_path(char **path_cmd, t_pipes *p_data, int i);
+void			handle_path(char **path_cmd, t_pipes *p_data);
 
 /* Utilisation */
 void			init_p_data(t_pipes *p_data, t_config *ms_data);
@@ -376,5 +380,6 @@ int				get_infile(t_pipes *p_data, t_btree *cmd);
 int				get_outfile(t_pipes *p_data, t_btree *cmd);
 int				get_redirections(t_pipes *p_data);
 void			get_here_docs(t_config *ms_data);
+void			get_name_here_doc(t_config *minishell, t_btree *cmd, int *i);
 
 #endif /* MINISHELL_H */
