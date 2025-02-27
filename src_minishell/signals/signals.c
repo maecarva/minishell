@@ -12,14 +12,13 @@
 
 #include "../../include_minishell/minishell.h"
 
-
 /*
 *	init_minishell -> signals_interactive_mode
 *	when executing non_builtin command -> signals_non_interactive_mode
 *		-> call signals_interactive_mode after child_process finished
 */
 
-void	interactive_handler(int	signal)
+void	interactive_handler(int signal)
 {
 	if (signal == SIGINT)
 	{
@@ -32,7 +31,7 @@ void	interactive_handler(int	signal)
 
 void	signals_interactive_mode(void)
 {
-	struct sigaction        act;
+	struct sigaction	act;
 
 	ft_bzero(&act, sizeof(act));
 	act.sa_handler = &interactive_handler;
@@ -56,7 +55,7 @@ void	non_interactive_handler(int signal)
 
 void	signals_non_interactive_mode(void)
 {
-	struct sigaction        act;
+	struct sigaction	act;
 
 	ft_bzero(&act, sizeof(act));
 	act.sa_handler = non_interactive_handler;

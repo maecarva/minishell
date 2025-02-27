@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 17:59:56 by maecarva          #+#    #+#             */
-/*   Updated: 2025/02/17 17:00:02 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/25 19:27:40 by maecarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ t_node2	*ptr_to_node(void *node)
 	return ((t_node2 *)(node));
 }
 
+/*
 void padding ( char ch, int n ){
  
 	for (int i = 0; i <= n; i++ )
@@ -126,5 +127,4 @@ void	print_arbre(t_btree *root, int level)
 		print_node(root);
 		print_arbre( root->left, level + 1 );
 	}
-}
-
+} */

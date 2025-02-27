@@ -6,51 +6,69 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 16:47:45 by maecarva          #+#    #+#             */
-/*   Updated: 2025/02/18 11:15:03 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/26 22:10:09 by maecarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include_minishell/minishell.h"
-#include <unistd.h>
 
-char	**duplicate_env_without_var(char *varname, t_config *minishell)
+int	new_env_size(char *varname, t_config *minishell)
 {
-	char	**env;
 	int		i;
-	int		j;
 	int		new_size;
 	size_t	len;
 
-	if (!varname || !minishell)
-		return (NULL);
-	len = ft_strlen(varname);
 	i = 0;
 	new_size = 0;
+	len = ft_strlen(varname);
 	while (minishell->environnement[i])
 	{
 		if (!(ft_strncmp(minishell->environnement[i], varname, len) == 0
-			&& minishell->environnement[i][len] == '='))
+				&& minishell->environnement[i][len] == '='))
 			new_size++;
 		i++;
 	}
-	env = ft_calloc(new_size + 1, sizeof(char *));
-	if (!env)
-		return (NULL);
+	return (new_size);
+}
+
+void	populate_new_env(char *varname, t_config *minishell, char **env)
+{
+	int		i;
+	int		j;
+	size_t	len;
+
 	i = 0;
 	j = 0;
+	len = ft_strlen(varname);
 	while (minishell->environnement[i])
 	{
 		if (ft_strncmp(minishell->environnement[i], varname, len) == 0
 			&& minishell->environnement[i][len] == '=')
 		{
 			i++;
-			continue;
+			continue ;
 		}
 		env[j] = ft_strdup(minishell->environnement[i]);
+		if (!env[j])
+			return (ft_free_double_ptr(&env));
 		j++;
 		i++;
 	}
 	env[j] = NULL;
+}
+
+char	**duplicate_env_without_var(char *varname, t_config *minishell)
+{
+	char	**env;
+	int		new_size;
+
+	if (!varname || !minishell)
+		return (NULL);
+	new_size = new_env_size(varname, minishell);
+	env = ft_calloc(new_size + 1, sizeof(char *));
+	if (!env)
+		return (NULL);
+	populate_new_env(varname, minishell, env);
 	return (env);
 }
 
@@ -70,7 +88,7 @@ void	execute_unset(char **cmd, t_config *minishell)
 	int		i;
 	char	**envdup;
 
-	if (!cmd  || !cmd[0] || !minishell)
+	if (!cmd || !cmd[0] || !minishell)
 		return ;
 	i = 1;
 	while (cmd[i])
@@ -90,4 +108,3 @@ void	execute_unset(char **cmd, t_config *minishell)
 	}
 	minishell->last_error_code = 0;
 }
-

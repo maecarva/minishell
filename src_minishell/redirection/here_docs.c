@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipes.h"
+#include "minishell.h"
 
 static void	loop_hd(t_config *ms_data, char *line, char *limiter, int fd_infile)
 {

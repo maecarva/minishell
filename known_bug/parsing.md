@@ -1,11 +1,11 @@
-# rules
-- check parenthesis (quoted parenthesis, equal ( and ))
-echo a && )(
-bug cat << lim -> valgrind
+/bin/env | grep "_=" ???
 
+realloc tab double free
+verif si toutes les allocs sont proteges
 
 # TODO
-leaks expand limiter
+leaks expand limiter, change get_file to return a linked_list OR limit file count
+check every leak with funcheck
 
 # elio
 ls && ls | ls -la = fonctionne

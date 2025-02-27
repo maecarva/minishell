@@ -6,11 +6,12 @@
 /*   By: maecarva <maecarva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 11:00:41 by maecarva          #+#    #+#             */
-/*   Updated: 2025/02/25 11:02:59 by maecarva         ###   ########.fr       */
+/*   Updated: 2025/02/25 19:28:54 by maecarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../include_minishell/minishell.h"
+#include <stdbool.h>
 
 void	expand_tilde_pls(char **s, char *home, int index)
 {
@@ -47,14 +48,14 @@ void	expand_tilde(char **s, t_config *minishell)
 	i = 0;
 	sq = false;
 	dq = false;
-	
 	while ((*s)[i])
 	{
 		if ((*s)[i] == '\'')
 			sq = !sq;
 		else if ((*s)[i] == '\"')
 			dq = !dq;
-		if (sq == false && dq == false && (*s)[i] == '~' && (ft_isspace((*s)[i + 1]) || (*s)[i + 1] == '\0'))
+		if (sq == false && dq == false && (*s)[i] == '~'
+			&& (ft_isspace((*s)[i + 1]) || (*s)[i + 1] == '\0'))
 			expand_tilde_pls(s, home, i);
 		i++;
 	}

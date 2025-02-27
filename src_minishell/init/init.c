@@ -6,13 +6,13 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 11:38:51 by maecarva          #+#    #+#             */
-/*   Updated: 2025/02/27 11:51:36 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/26 22:31:01 by maecarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include_minishell/minishell.h"
 
-char	*get_minishell_pid()
+char	*get_minishell_pid(void)
 {
 	int		fd;
 	char	*fline;
@@ -43,9 +43,11 @@ char	*get_minishell_pid()
 int	init_config(int ac, char **av, t_config *minishell)
 {
 	char	*tmp;
+
 	minishell->ac = ac;
 	minishell->av = av;
-	minishell->current_path = get_value_by_name(minishell->environnement, "PWD");
+	minishell->current_path = get_value_by_name(minishell->environnement,
+			"PWD");
 	if (minishell->current_path == NULL)
 		return (INIT_ERROR);
 	tmp = get_value_by_name(minishell->environnement, "LOGNAME");
@@ -59,7 +61,7 @@ int	init_config(int ac, char **av, t_config *minishell)
 	return (INIT_OK);
 }
 
-char	**init_no_env()
+char	**init_no_env(void)
 {
 	char	**env;
 	char	pwd[MAX_PATH];
@@ -86,8 +88,12 @@ void	init_shlvl(t_config *minishell)
 	int		value;
 
 	exp = ft_calloc(sizeof(char *), 3);
+	if (!exp)
+		return ((void)clear_minishell(minishell));
 	exp[0] = ft_strdup("export");
 	tmp = get_value_by_name(minishell->environnement, "SHLVL");
+	if (!tmp)
+		return (ft_free_double_ptr(&exp));
 	value = ft_atoi(tmp) + 1;
 	free(tmp);
 	tmp = ft_itoa(value);
@@ -102,7 +108,9 @@ t_config	*init(int ac, char **av, char **env)
 {
 	t_config	*minishell;
 
-	// if (isatty(STDIN_FILENO) == 0 ||isatty(STDOUT_FILENO) == 0 || isatty(STDERR_FILENO) == 0)
+	// if (isatty(STDIN_FILENO) == 0
+	// 	|| isatty(STDOUT_FILENO) == 0
+	// 	|| isatty(STDERR_FILENO) == 0)
 	// 	return (NULL);
 	minishell = ft_calloc(sizeof(t_config), 1);
 	if (!minishell)
@@ -113,7 +121,7 @@ t_config	*init(int ac, char **av, char **env)
 		minishell->environnement = init_environnement(env);
 	if (!minishell->environnement)
 		return (clear_minishell(minishell), NULL);
-	if (init_config(ac, av,minishell) == INIT_ERROR)
+	if (init_config(ac, av, minishell) == INIT_ERROR)
 		return (clear_minishell(minishell), NULL);
 	signals_interactive_mode();
 	init_shlvl(minishell);
