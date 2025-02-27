@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 09:42:12 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/24 15:45:09 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/26 15:21:07 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,4 +89,14 @@ void	free_fd(int ***fd, int len)
 	}
 	free(*fd);
 	*fd = 0;
+}
+
+void	clean_exit(char *message, t_pipes *p_data, int c_one, int c_two)
+{
+	perror(message);
+	ft_close(&c_one);
+	ft_close(&c_two);
+	free_fd(&(p_data->fd), p_data->nb_pipes);
+	p_data->ms_data->last_error_code = ERROR_CODE;
+	clear_minishell(p_data->ms_data);
 }

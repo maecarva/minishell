@@ -340,6 +340,9 @@ char			**duplicate_env_without_var(char *varname, t_config *minishell);
 void			execute_export(char **cmd, t_config *minishell);
 void			execute_echo(char **cmd, t_config *minishell);
 void			print_invalid_option(char *name, char *s);
+void			export_sort(t_config *minishell);
+void			copy_add_env(t_config *ms_data, char **env, char *name, char *value);
+void			add_to_env(char *name, char *value, t_config *ms_data, int is_plus);
 
 /* Debuging */
 void			print_arbre(t_btree *root, int level);

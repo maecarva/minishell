@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 17:02:25 by maecarva          #+#    #+#             */
-/*   Updated: 2025/02/13 20:53:11 by maecarva         ###   ########.fr       */
+/*   Updated: 2025/02/27 12:04:44 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,16 @@ void	signals_interactive_mode(void)
 
 void	non_interactive_handler(int signal)
 {
-	if (signal == SIGINT || signal == SIGQUIT)
+	if (signal == SIGINT)
+	{
 		rl_on_new_line();
+		printf("\n");
+	}
+	else if (signal == SIGQUIT)
+	{
+		rl_on_new_line();
+		printf("Quit (core dumped)\n");
+	}
 }
 
 void	signals_non_interactive_mode(void)

@@ -6,13 +6,13 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:16:59 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/25 11:19:56 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/26 15:50:17 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	last_child(t_pipes *p_data)
+static void	get_io_last(t_pipes *p_data)
 {
 	if (!p_data->name_infile)
 		p_data->fd_infile = p_data->fd[p_data->nb_pipes - 1][0];
@@ -20,13 +20,8 @@ static void	last_child(t_pipes *p_data)
 	{
 		p_data->fd_infile = open(p_data->name_infile, O_RDONLY, 0644);
 		if (p_data->fd_infile == -1)
-		{
-			perror("open");
-			ft_close(&p_data->fd[p_data->nb_pipes - 1][0]);
-			free_fd(&(p_data->fd), p_data->nb_pipes);
-			p_data->ms_data->last_error_code = ERROR_CODE;
-			clear_minishell(p_data->ms_data);
-		}
+			clean_exit("open", p_data,
+				p_data->fd[p_data->nb_pipes - 1][0], -1);
 	}
 	if (!p_data->name_outfile)
 		p_data->fd_outfile = 1;
@@ -34,35 +29,23 @@ static void	last_child(t_pipes *p_data)
 	{
 		p_data->fd_outfile = open(p_data->name_outfile, p_data->flags, 0644);
 		if (p_data->fd_outfile == -1)
-		{
-			perror("open");
-			ft_close(&p_data->fd_infile);
-			ft_close(&p_data->fd[p_data->nb_pipes - 1][0]);
-			free_fd(&(p_data->fd), p_data->nb_pipes);
-			p_data->ms_data->last_error_code = ERROR_CODE;
-			clear_minishell(p_data->ms_data);
-		}
+			clean_exit("open", p_data, p_data->fd_infile,
+				p_data->fd[p_data->nb_pipes - 1][0]);
 	}
+}
+
+static void	last_child(t_pipes *p_data)
+{
+	get_io_last(p_data);
 	if (dup2(p_data->fd_infile, STDIN_FILENO) == -1)
 	{
-		perror("dup2");
 		ft_close(&p_data->fd[p_data->nb_pipes - 1][0]);
-		ft_close(&p_data->fd_infile);
-		ft_close(&p_data->fd_outfile);
-		free_fd(&(p_data->fd), p_data->nb_pipes);
-		p_data->ms_data->last_error_code = ERROR_CODE;
-		clear_minishell(p_data->ms_data);
+		clean_exit("dup2", p_data, p_data->fd_infile, p_data->fd_outfile);
 	}
 	ft_close(&p_data->fd[p_data->nb_pipes - 1][0]);
 	ft_close(&p_data->fd_infile);
 	if (dup2(p_data->fd_outfile, STDOUT_FILENO) == -1)
-	{
-		perror("dup2");
-		ft_close(&p_data->fd_outfile);
-		free_fd(&(p_data->fd), p_data->nb_pipes);
-		p_data->ms_data->last_error_code = ERROR_CODE;
-		clear_minishell(p_data->ms_data);
-	}
+		clean_exit("dup2", p_data, p_data->fd_outfile, -1);
 	ft_close(&p_data->fd_outfile);
 	free_fd(&(p_data->fd), p_data->nb_pipes);
 	p_data->cmds = ((t_node2 *)(p_data->ms_data->ast->item))->command;
@@ -85,7 +68,7 @@ void	last_parent(t_pipes *p_data)
 	}
 	if (pid == 0)
 	{
-		p_data->ms_data->ast =  p_data->ms_data->ast->right;
+		p_data->ms_data->ast = p_data->ms_data->ast->right;
 		p_data->to_close_one = p_data->fd[p_data->nb_pipes - 1][0];
 		if (get_redirections(p_data) == 1)
 			clear_minishell(p_data->ms_data);
