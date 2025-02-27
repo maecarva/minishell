@@ -16,6 +16,8 @@
 	// char		*cmd = "ls -la | wc -c | grep README.md > outfile.txt";
 	// char		*cmd = "<Makefile cat| echo \"$PWD '\"hola\"'\" ~/src | 'tr' -d / >outfile";
 
+int	last_signal_received;
+
 int	main(int ac, char **av, char **env)
 {
 	t_config	*minishell;
@@ -64,9 +66,9 @@ int	main(int ac, char **av, char **env)
 				cmd = ft_strtrim(line, "\n");
 				free(line);
 			}
-			// cmd = readline(minishell->prompt);
 			if (!cmd)
 				return (printf("exit\n"), clear_minishell(minishell));
+			refresh_signal(minishell);
 			add_history(cmd);
 			if (cmd[0] != '\0')
 			{

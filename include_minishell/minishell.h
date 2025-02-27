@@ -98,6 +98,11 @@
 
 # define SHELL_NAME ""
 
+// signals
+# define SIGQUIT_RECEIVED 131
+# define SIGINT_RECEVEID 130
+# define AWAITING_SIGNAL -2
+
 /* Colors */
 
 # define KNRM  "\x1B[0m"
@@ -253,6 +258,7 @@ char			*get_var_ptr(char **envp, char *name);
 /* Signals */
 void			signals_interactive_mode(void);
 void			signals_non_interactive_mode(void);
+void			refresh_signal(t_config *minishell);
 
 /*		PARSING		*/
 // rules

@@ -10,8 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../include_minishell/minishell.h"
-#include <stdbool.h>
+#include "../../../../include_minishell/minishell.h"
 
 void	expand_tilde_pls(char **s, char *home, int index)
 {
@@ -31,6 +30,8 @@ void	expand_tilde_pls(char **s, char *home, int index)
 		return (free(after), free(before));
 	free(*s);
 	*s = final;
+	free(after);
+	free(before);
 }
 
 void	expand_tilde(char **s, t_config *minishell)

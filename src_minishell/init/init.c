@@ -12,6 +12,8 @@
 
 #include "../../include_minishell/minishell.h"
 
+extern int last_signal_received;
+
 char	*get_minishell_pid(void)
 {
 	int		fd;
@@ -123,6 +125,7 @@ t_config	*init(int ac, char **av, char **env)
 		return (clear_minishell(minishell), NULL);
 	if (init_config(ac, av, minishell) == INIT_ERROR)
 		return (clear_minishell(minishell), NULL);
+	last_signal_received = AWAITING_SIGNAL;
 	signals_interactive_mode();
 	init_shlvl(minishell);
 	return (minishell);
