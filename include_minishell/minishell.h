@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 14:41:06 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/26 22:24:04 by maecarva         ###   ########.fr       */
+/*   Updated: 2025/02/27 14:14:56 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -327,7 +327,6 @@ int				tab_size(char **splited);
 
 /* Builtin functions */
 
-/* echo */
 void			execute_pwd(char **cmd, t_config *minishell);
 void			execute_env(char **cmd, t_config *minishell);
 void			execute_exit(char **cmd, t_config *minishell);
@@ -341,8 +340,12 @@ void			execute_export(char **cmd, t_config *minishell);
 void			execute_echo(char **cmd, t_config *minishell);
 void			print_invalid_option(char *name, char *s);
 void			export_sort(t_config *minishell);
-void			copy_add_env(t_config *ms_data, char **env, char *name, char *value);
-void			add_to_env(char *name, char *value, t_config *ms_data, int is_plus);
+void			copy_add_env(t_config *ms_data, char **env, char *name,
+					char *value);
+void			add_to_env(char *name, char *value, t_config *ms_data,
+					int is_plus);
+void			clean_export(char *str1, char *str2, char *str3,
+					t_config *ms_data);
 
 /* Debuging */
 void			print_arbre(t_btree *root, int level);
@@ -352,6 +355,7 @@ void			execute_ast(t_btree *original_ast, t_config *ms_data);
 // void	move_in_ast(t_config **ms_data);
 void			check_type_execute(t_config *ms_data);
 
+/* EXEC */
 /* Errors */
 void			error_message(char *s1, char *s2, char *s3);
 
@@ -364,17 +368,22 @@ void			last_parent(t_pipes *p_data);
 void			check_children(t_pipes *data);
 
 /* Execution */
+int				execute_builtin(t_pipes *p_data);
+void			handle_path(char **path_cmd, t_pipes *p_data);
+void			handle_no_path(char **path_cmd, t_pipes *p_data, int i);
 void			execute_command(t_pipes *p_data);
 
 /* Utilisation */
 void			init_p_data(t_pipes *p_data, t_config *ms_data);
 void			free_fd(int ***fd, int len);
-void			unlink_hd(t_pipes *p_data);
+void			clean_exit(char *message, t_pipes *p_data,
+					int c_one, int c_two);
 
 /* Redirection */
 int				get_infile(t_pipes *p_data, t_btree *cmd);
 int				get_outfile(t_pipes *p_data, t_btree *cmd);
 int				get_redirections(t_pipes *p_data);
 void			get_here_docs(t_config *ms_data);
+void			get_name_here_doc(t_config *minishell, t_btree *cmd, int *i);
 
 #endif /* MINISHELL_H */

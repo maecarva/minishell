@@ -6,6 +6,7 @@
 		"readline.h": "c",
 		"history.h": "c",
 		"fcntl.h": "c",
-		"ft_btree.h": "c"
+		"ft_btree.h": "c",
+		"typeinfo": "c"
 	}
 }

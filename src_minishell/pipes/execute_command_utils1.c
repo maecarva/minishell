@@ -6,11 +6,11 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 12:46:00 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/26 13:18:25 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/27 13:27:39 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipes.h"
+#include "minishell.h"
 
 int	execute_builtin(t_pipes *d)
 {

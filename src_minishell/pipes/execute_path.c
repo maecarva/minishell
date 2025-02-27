@@ -6,11 +6,11 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 12:52:34 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/26 13:21:11 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/27 13:27:50 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipes.h"
+#include "minishell.h"
 
 static void	access_path(char **path_cmd, t_pipes *p_data)
 {
