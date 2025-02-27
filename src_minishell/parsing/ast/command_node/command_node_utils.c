@@ -41,6 +41,7 @@ char	**get_cmd_array(t_dlist *start, t_dlist *end)
 	char	*token;
 
 	tmp = start;
+	totallen = 0;
 	while (tmp)
 	{
 		token = ptr_to_lexertoklist(tmp->content)->token;
@@ -57,8 +58,6 @@ char	**get_cmd_array(t_dlist *start, t_dlist *end)
 		tmp = tmp->next;
 	}
 	cmd = ft_calloc(sizeof(char *), totallen + 1);
-	if (!cmd)
-		return (NULL);
 	return (cmd);
 }
 

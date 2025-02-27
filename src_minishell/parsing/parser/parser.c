@@ -16,6 +16,8 @@ t_btree	*error_parsing(char *message, t_parser **parser, int code)
 {
 	if (message)
 		ft_putendl_fd(message, STDERR_FILENO);
+	if (!parser || !*parser)
+		return (NULL);
 	(*parser)->config->last_error_code = code;
 	if ((*parser)->lexed)
 		free_token_list(&(*parser)->lexed);
@@ -69,7 +71,8 @@ t_btree	*parse_cmd(char *cmd, t_config *config)
 		return (error_parsing(NULL, &parser, 2));
 	if (check_invalid_input(parser->trimmed, config))
 		return (error_parsing(NULL, &parser, 2));
-	expand_token(&parser->trimmed, config->environnement, config, false);
+	if (ft_strchr(parser->trimmed, '$'))
+		expand_token(&(parser->trimmed), config->environnement, config, false);
 	if (ft_strlen(parser->trimmed) == 0)
 		return (error_parsing(NULL, &parser, 0));
 	if (!lexer(parser->trimmed, &parser->lexed))
