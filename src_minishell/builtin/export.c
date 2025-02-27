@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 14:29:27 by maecarva          #+#    #+#             */
-/*   Updated: 2025/02/27 11:46:24 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/27 14:13:44 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ bool	is_valid_env_name(char *name)
 
 	if (!name || name[0] == '\0' || ft_isdigit(name[0]) == 1 || name[0] == '=')
 		return (false);
-	i = 1;
+	i = 0;
 	while (name[i])
 	{
 		if (ft_isalnum(name[i]) == 0 && name[i] != '_')
@@ -61,9 +61,6 @@ bool	is_valid_env_name(char *name)
 	return (true);
 }
 
-// clean quotes peut fail
-
-// static void	
 void	export_loop(char *cmd, t_config *ms_data, char *tmp)
 {
 	int		is_plus;
@@ -77,11 +74,7 @@ void	export_loop(char *cmd, t_config *ms_data, char *tmp)
 	j = tmp - cmd - is_plus;
 	name = ft_substr(cmd, 0, j);
 	if (!name)
-	{
-		perror("malloc");
-		ms_data->last_error_code = ERROR_CODE;
-		clear_minishell(ms_data);
-	}
+		clean_export(NULL, NULL, NULL, ms_data);
 	if (!is_valid_env_name(name))
 	{
 		print_err(cmd, ms_data);
@@ -90,12 +83,7 @@ void	export_loop(char *cmd, t_config *ms_data, char *tmp)
 	}
 	value = ft_substr(cmd, j + 1 + is_plus, ft_strlen(&cmd[j + 1]));
 	if (!value)
-	{
-		perror("malloc");
-		free(name);
-		ms_data->last_error_code = ERROR_CODE;
-		clear_minishell(ms_data);
-	}
+		clean_export(NULL, NULL, name, ms_data);
 	clean_quotes(&value);
 	add_to_env(name, value, ms_data, is_plus);
 	ft_free_simple_ptr(&name);

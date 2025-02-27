@@ -26,3 +26,7 @@ leaks !!
 signaux !!
 execute command /* || p_data->cmds[0][0] == '\0'*/ ??
 export $=hallo
+
+export hello
+export                // doit affcher hello mais quand on fait env, n affiche pas 
+

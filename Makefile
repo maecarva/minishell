@@ -81,7 +81,8 @@ SRC = src_minishell/main.c \
 	  src_minishell/builtin/export.c \
 	  src_minishell/builtin/builtins_utils/cd_utils.c \
 	  src_minishell/builtin/export_sort.c \
-	  src_minishell/builtin/export_utils.c \
+	  src_minishell/builtin/export_utils1.c \
+	  src_minishell/builtin/export_utils2.c \
 	  src_minishell/redirection/infile.c \
 	  src_minishell/redirection/outfile.c \
 	  src_minishell/redirection/redirections.c \
