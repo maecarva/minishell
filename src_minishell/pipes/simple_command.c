@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 10:28:34 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/25 11:20:23 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/26 15:40:55 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,7 @@ static void	simple_child(t_pipes *p_data)
 	{
 		p_data->fd_infile = open(p_data->name_infile, O_RDONLY, 0644);
 		if (p_data->fd_infile == -1)
-		{
-			perror("open");
-			p_data->ms_data->last_error_code = ERROR_CODE;
-			clear_minishell(p_data->ms_data);
-		}
+			clean_exit("open", p_data, -1, -1);
 	}
 	if (!p_data->name_outfile)
 		p_data->fd_outfile = 1;
@@ -32,35 +28,22 @@ static void	simple_child(t_pipes *p_data)
 	{
 		p_data->fd_outfile = open(p_data->name_outfile, p_data->flags, 0644);
 		if (p_data->fd_outfile == -1)
-		{
-			perror("open");
-			ft_close(&p_data->fd_infile);
-			p_data->ms_data->last_error_code = ERROR_CODE;
-			clear_minishell(p_data->ms_data);
-		}
+			clean_exit("open", p_data, p_data->fd_infile, -1);
 	}
 	if (dup2(p_data->fd_infile, STDIN_FILENO) == -1)
-	{
-		perror("dup2");
-		ft_close(&p_data->fd_infile);
-		ft_close(&p_data->fd_outfile);
-		p_data->ms_data->last_error_code = ERROR_CODE;
-		clear_minishell(p_data->ms_data);
-	}
+		clean_exit("dup2", p_data, p_data->fd_infile, p_data->fd_outfile);
 	ft_close(&p_data->fd_infile);
 	if (dup2(p_data->fd_outfile, STDOUT_FILENO) == -1)
-	{
-		perror("dup2");
-		ft_close(&p_data->fd_outfile);
-		p_data->ms_data->last_error_code = ERROR_CODE;
-		clear_minishell(p_data->ms_data);
-	}
+		clean_exit("dup2", p_data, p_data->fd_outfile, -1);
 	ft_close(&p_data->fd_outfile);
 	p_data->cmds = ((t_node2 *)(p_data->ms_data->ast->item))->command;
 	p_data->type = ((t_node2 *)(p_data->ms_data->ast->item))->type;
 	execute_command(p_data);
 }
-void	simple_parent(t_pipes *p_data)
+
+//clean_exit(char *message, t_pipes *p_data, int c_one, int c_two);
+
+static void	simple_parent(t_pipes *p_data)
 {
 	if (!p_data->name_infile)
 		p_data->fd_infile = 0;
@@ -68,11 +51,7 @@ void	simple_parent(t_pipes *p_data)
 	{
 		p_data->fd_infile = open(p_data->name_infile, O_RDONLY, 0644);
 		if (p_data->fd_infile == -1)
-		{
-			perror("open");
-			p_data->ms_data->last_error_code = ERROR_CODE;
-			clear_minishell(p_data->ms_data);
-		}
+			clean_exit("open", p_data, -1, -1);
 	}
 	if (!p_data->name_outfile)
 		p_data->fd_outfile = 1;
@@ -80,46 +59,17 @@ void	simple_parent(t_pipes *p_data)
 	{
 		p_data->fd_outfile = open(p_data->name_outfile, p_data->flags, 0644);
 		if (p_data->fd_outfile == -1)
-		{
-			perror("open");
-			ft_close(&p_data->fd_infile);
-			p_data->ms_data->last_error_code = ERROR_CODE;
-			clear_minishell(p_data->ms_data);
-		}
+			clean_exit("open", p_data, p_data->fd_infile, -1);
 	}
 	if (dup2(p_data->fd_infile, STDIN_FILENO) == -1)
-	{
-		perror("dup2");
-		ft_close(&p_data->fd_infile);
-		ft_close(&p_data->fd_outfile);
-		p_data->ms_data->last_error_code = ERROR_CODE;
-		clear_minishell(p_data->ms_data);
-	}
+		clean_exit("dup2", p_data, p_data->fd_infile, p_data->fd_outfile);
 	ft_close(&p_data->fd_infile);
 	if (dup2(p_data->fd_outfile, STDOUT_FILENO) == -1)
-	{
-		perror("dup2");
-		ft_close(&p_data->fd_outfile);
-		p_data->ms_data->last_error_code = ERROR_CODE;
-		clear_minishell(p_data->ms_data);
-	}
+		clean_exit("dup2", p_data, p_data->fd_outfile, -1);
 	ft_close(&p_data->fd_outfile);
 	p_data->cmds = ((t_node2 *)(p_data->ms_data->ast->item))->command;
 	p_data->type = ((t_node2 *)(p_data->ms_data->ast->item))->type;
-	if (p_data->type == ECHO)
-		execute_echo(((t_node2 *)(p_data->ms_data->ast->item))->command, p_data->ms_data);
-	else if (((t_node2 *)(p_data->ms_data->ast->item))->type == PWD)
-		execute_pwd(((t_node2 *)(p_data->ms_data->ast->item))->command, p_data->ms_data);
-	else if (((t_node2 *)(p_data->ms_data->ast->item))->type == ENV)
-		execute_env(((t_node2 *)(p_data->ms_data->ast->item))->command, p_data->ms_data);
-	else if (((t_node2 *)(p_data->ms_data->ast->item))->type == EXIT)
-		execute_exit(((t_node2 *)(p_data->ms_data->ast->item))->command, p_data->ms_data);
-	else if (((t_node2 *)(p_data->ms_data->ast->item))->type == CD)
-		execute_cd(((t_node2 *)(p_data->ms_data->ast->item))->command, p_data->ms_data);
-	else if (((t_node2 *)(p_data->ms_data->ast->item))->type == UNSET)
-		execute_unset(((t_node2 *)(p_data->ms_data->ast->item))->command, p_data->ms_data);
-	else if (((t_node2 *)(p_data->ms_data->ast->item))->type == EXPORT)
-		execute_export(((t_node2 *)(p_data->ms_data->ast->item))->command, p_data->ms_data);
+	execute_builtin(p_data);
 }
 
 void	simple_command(t_pipes *p_data)

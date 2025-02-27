@@ -6,13 +6,13 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 13:33:12 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/03 10:02:58 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/26 12:18:30 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_btree.h"
 
-int ft_btree_level_count(t_btree *root)
+int	ft_btree_level_count(t_btree *root)
 {
 	int	level_left;
 	int	level_right;
