@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 11:38:51 by maecarva          #+#    #+#             */
-/*   Updated: 2025/02/18 13:22:00 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/27 11:51:36 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ t_config	*init(int ac, char **av, char **env)
 		return (clear_minishell(minishell), NULL);
 	if (init_config(ac, av,minishell) == INIT_ERROR)
 		return (clear_minishell(minishell), NULL);
-	// signals_interactive_mode();
+	signals_interactive_mode();
 	init_shlvl(minishell);
 	return (minishell);
 }

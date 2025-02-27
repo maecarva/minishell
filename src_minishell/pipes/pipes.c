@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:10:04 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/26 12:38:42 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/27 11:55:17 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,6 @@ void	check_children(t_pipes *p_data)
 	while (pid > 0)
 	{
 		pid = waitpid(-1, &status, 0);
-		if (pid == -1 && errno != ECHILD)
-			ft_perror("waitpid", ERROR_CODE);
 		exit_code = WEXITSTATUS(status);
 		if (exit_code == ERROR_CODE)
 			p_data->ms_data->last_error_code = ERROR_CODE;
@@ -75,6 +73,7 @@ void	pipes(t_config *ms_data)
 {
 	t_pipes	p_data;
 
+	signals_non_interactive_mode();
 	init_p_data(&p_data, ms_data);
 	if (p_data.nb_pipes == 0)
 		simple_command(&p_data);
@@ -85,4 +84,5 @@ void	pipes(t_config *ms_data)
 		last_parent(&p_data);
 	}
 	check_children(&p_data);
+	signals_interactive_mode();
 }

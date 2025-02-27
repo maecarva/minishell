@@ -24,3 +24,4 @@ A gerer:
 leaks !!
 signaux !!
 execute command /* || p_data->cmds[0][0] == '\0'*/ ??
+export $=hallo
