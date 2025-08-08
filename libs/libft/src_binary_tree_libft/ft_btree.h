@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 17:05:23 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/04 11:36:04 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/26 12:19:16 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ t_btree	*ft_btree_create_node(void *item);
 void	ft_btree_insert_data(t_btree **root, void *item,
 			int (*cmpf)(void *, void *));
 void	*ft_btree_search_item(t_btree *root, void *data_ref,
-		int (*cmpf)(void *, void *));
+			int (*cmpf)(void *, void *));
 
-		
 #endif

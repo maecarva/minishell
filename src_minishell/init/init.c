@@ -3,39 +3,132 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maecarva <maecarva@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 11:38:51 by maecarva          #+#    #+#             */
-/*   Updated: 2025/02/03 14:40:53 by maecarva         ###   ########.fr       */
+/*   Updated: 2025/02/27 15:30:54 by maecarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include_minishell/minishell.h"
 
+extern int last_signal_received;
+
+char	*get_minishell_pid(void)
+{
+	int		fd;
+	char	*fline;
+	char	*pid;
+	int		i;
+
+	i = 0;
+	pid = NULL;
+	fline = NULL;
+	fd = open("/proc/self/stat", O_RDONLY);
+	if (fd == -1)
+		return ("-1");
+	if (get_next_line(fd, &fline) != 0)
+	{
+		ft_close(&fd);
+		if (fline != NULL)
+			free(fline);
+		return ("-1");
+	}
+	while (fline[i] && ft_isdigit(fline[i]))
+		i++;
+	pid = ft_substr(fline, 0, i);
+	free(fline);
+	ft_close(&fd);
+	if (!pid)
+		return ("-1");
+	return (pid);
+}
+
 int	init_config(int ac, char **av, t_config *minishell)
 {
+	char	*tmp;
+
 	minishell->ac = ac;
 	minishell->av = av;
-	minishell->current_path = get_value_by_name(minishell->environnement, "PWD");
+	minishell->current_path = get_value_by_name(minishell->environnement,
+			"PWD");
 	if (minishell->current_path == NULL)
 		return (INIT_ERROR);
-	minishell->prompt = ft_strjoin(get_value_by_name(minishell->environnement, "LOGNAME"), " ~> \x1B[32mminishell #\x1B[37m ");
+	tmp = get_value_by_name(minishell->environnement, "LOGNAME");
+	if (!tmp)
+		return (INIT_ERROR);
+	minishell->prompt = ft_strjoin(tmp, " ~> \x1B[32mminishell #\x1B[37m ");
+	free(tmp);
 	if (minishell->prompt == NULL)
 		return (INIT_ERROR);
+	minishell->pidstr = get_minishell_pid();
 	return (INIT_OK);
+}
+
+char	**init_no_env(void)
+{
+	char	**env;
+	char	pwd[MAX_PATH];
+
+	ft_bzero(pwd, MAX_PATH);
+	getcwd(pwd, MAX_PATH);
+	env = ft_calloc(NO_ENV_DEFAULT_SIZE + 1, sizeof(char *));
+	if (!env || *pwd == '\0')
+		return (NULL);
+	env[0] = ft_strdup("PATH=/usr/local/sbin:/usr/local/bin:/usr/bin");
+	env[1] = ft_strjoin("PWD=", pwd);
+	env[2] = ft_strdup("SHLVL=1");
+	env[3] = ft_strdup("_=/usr/bin/env");
+	env[4] = ft_strdup("TERM=xterm-256color");
+	env[5] = ft_strdup("LOGNAME=👻 (unknown)");
+	env[NO_ENV_DEFAULT_SIZE] = NULL;
+	return (env);
+}
+
+void	init_shlvl(t_config *minishell)
+{
+	char	**exp;
+	char	*tmp;
+	int		value;
+
+	exp = ft_calloc(sizeof(char *), 3);
+	if (!exp)
+		return ((void)clear_minishell(minishell));
+	exp[0] = ft_strdup("export");
+	tmp = get_value_by_name(minishell->environnement, "SHLVL");
+	if (!tmp)
+		return (ft_free_double_ptr(&exp));
+	value = ft_atoi(tmp) + 1;
+	free(tmp);
+	tmp = ft_itoa(value);
+	exp[1] = ft_strjoin("SHLVL=", tmp);
+	free(tmp);
+	exp[2] = NULL;
+	execute_export(exp, minishell);
+	ft_free_double_ptr(&exp);
 }
 
 t_config	*init(int ac, char **av, char **env)
 {
 	t_config	*minishell;
 
+	// if (isatty(STDIN_FILENO) == 0
+	// 	|| isatty(STDOUT_FILENO) == 0
+	// 	|| isatty(STDERR_FILENO) == 0)
+	// 	return (NULL);
 	minishell = ft_calloc(sizeof(t_config), 1);
 	if (!minishell)
 		return (NULL);
-	minishell->environnement = init_environnement(env);
+	if (!env || !*env)
+		minishell->environnement = init_no_env();
+	else
+		minishell->environnement = init_environnement(env);
 	if (!minishell->environnement)
 		return (clear_minishell(minishell), NULL);
-	if (init_config(ac, av,minishell) == INIT_ERROR)
+	if (init_config(ac, av, minishell) == INIT_ERROR)
 		return (clear_minishell(minishell), NULL);
+	last_signal_received = AWAITING_SIGNAL;
+	signals_interactive_mode();
+	init_shlvl(minishell);
 	return (minishell);
 }

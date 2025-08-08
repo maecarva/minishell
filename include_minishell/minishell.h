@@ -6,62 +6,104 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 14:41:06 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/04 16:30:43 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/27 14:14:56 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-/******************************************************************************/
-/*                                LIBRARIES                                   */
-/******************************************************************************/
+/* Libraries */
 
-/* Read Command */
-#include <stdio.h>
-#include <readline/readline.h>
-#include <readline/history.h>
+/* A definir */
+// # include <readline/readline.h>
 
-/* Process and System Calls */
-# include <sys/types.h>    /* For pid_t */
-# include <sys/wait.h>     /* For wait() */
-# include <unistd.h>       /* For pipe(), read(), write(), close(), fork() */
+/* A definir */
+// # include <readline/history.h>
 
-/* Memory Management */
-# include <stdlib.h>       /* For exit(), free(), malloc() */
+/* For pid_t */
+# include <sys/types.h>
 
-/* Error Handling */
-# include <errno.h>        /* For errno variable */
-# include <stdio.h>        /* For printf(), perror() */
+/* For wait(), waitpid() */
+# include <sys/wait.h>
+
+/* For pipe(), read(), write(), close(), fork() */
+# include <unistd.h>
+
+/* For exit(), free(), malloc() */
+# include <stdlib.h>
+
+/* For errno variable */
+# include <errno.h>
+
+/* For printf(), perror() */
+# include <stdio.h>
+
+/* For bool variables (true == 1 or false == 0)*/
 # include <stdbool.h>
 
-/* File Operations */
-# include <fcntl.h>        /* For open(), O_RDONLY, O_WRONLY, etc. */
+/* For open(), O_RDONLY, O_WRONLY, etc. */
+# include <fcntl.h>
 
-/* Custom Libraries */
+/* Our own libraries */
+
 # include "../libs/libft/include_libft/libft.h"
-// # include "../libs/gnl/include_gnl/get_next_line.h"
+# include "../libs/gnl/include_gnl/get_next_line.h"
+/* A definir */
+# include <readline/readline.h>
 
-// include pipes lib
-# include "pipes.h"
+/* A definir */
+# include <readline/history.h>
 
-/* Bool */
-# include <stdbool.h>
+/* directory */
+# include <dirent.h>
 
-/******************************************************************************/
-/*                                CONSTANTS                                   */
-/******************************************************************************/
+/* For stat */
+# include <sys/stat.h>
 
-# define ERROR_CODE 42      /* Generic error code */
-# define ERROR_COMMAND 127  /* Command not found error code */
+# include <stdarg.h>
+
+/* Number constants */
+
+/* For Errors that we cannot handle : malloc, open, ... */
+# define ERROR_CODE -42
+
+/* Invalid Command */
+# define ERROR_COMMAND 127
+
+/* Command found but not executable */
+# define CFBNE 126
+
+/* Is a directory */
+# define IS_A_DIRECTORY 126
+
+/* ? */
 # define ENV_PARSING_ERROR 1
+
+/* ? */
 # define ENV_PARSING_OK 0
+
+/* ? */
 # define INIT_ERROR 1
+
+/* ? */
 # define INIT_OK 0
 
-/******************************************************************************/
-/*                                COLORS                                      */
-/******************************************************************************/
+# define MAX_PATH 2048
+
+# define GETALLFILES 1
+# define SEARCHFORFILES 2
+
+# define NO_ENV_DEFAULT_SIZE 6
+
+# define SHELL_NAME ""
+
+// signals
+# define SIGQUIT_RECEIVED 131
+# define SIGINT_RECEVEID 130
+# define AWAITING_SIGNAL -2
+
+/* Colors */
 
 # define KNRM  "\x1B[0m"
 # define KRED  "\x1B[31m"
@@ -72,72 +114,130 @@
 # define KCYN  "\x1B[36m"
 # define KWHT  "\x1B[37m"
 
-/******************************************************************************/
-/*                                STRUCTURES                                  */
-/******************************************************************************/
+/* Structures */
 
-typedef struct s_minishell
+/* ? */
+typedef struct s_cmd
 {
-	char	*filename;
-	int		fd_infile;
-	int		fd_outfile;
-	char	*path_name;
-	char	**environnement;
-	t_btree	*tree;
-}	t_minishell;
+	char	*cmd;
+	bool	quotes;
+	bool	redirection;
+	char	*input_file;
+	char	*output_file;
+	bool	here_doc;
+	char	*identifier;
+}	t_cmd;
 
-typedef struct s_command
-{
-	char	*command;
-	char	*flags; //lste de flags
-	t_list	*arguments;
-	bool	quotes;  // quotes == 1 (true) for "" or blank and quotes == 0 (false) for ''
-}	t_command;
-
+/* ? */
 typedef struct s_envvar
 {
 	char	*name;
 	char	*value;
 }	t_envvar;
 
-typedef	struct s_config {
+// PARSING
+/* Enumerate tokens */
+
+typedef enum e_lexertok
+{
+	PIPE_TOKEN,
+	TRUNCATE,
+	APPEND,
+	REDIRECT_INPUT,
+	HEREDOC,
+	CMD,
+	ARGS,
+	FILE_ARG,
+	ECHO,
+	CD,
+	PWD,
+	EXPORT,
+	UNSET,
+	ENV,
+	EXIT,
+	OR,
+	AND,
+	PARENTHESIS_L,
+	PARENTHESIS_R,
+	ERROR,
+	NONE
+}	t_lexertok;
+
+typedef struct s_lexertoklist
+{
+	char		*token;
+	t_lexertok	type;
+}	t_lexertoklist;
+
+/* Main structure */
+typedef struct s_config
+{
 	int		ac;
 	char	**av;
-	t_list	*environnement;
-	t_list	*env_commands; // inutile ?
+	char	**environnement;
+	char	*name_infile;
+	char	*name_outfile;
 	char	*current_path;
 	char	*prompt;
+	t_btree	*ast;
+	t_btree	*dont_fucking_touch_me;
 	int		last_error_code;
+	char	*pidstr;
+	t_list	*here_docs;
 }	t_config;
 
-// PARSING
-typedef enum e_token
+typedef struct s_parser
 {
-	PIPE, //
-	R_LEFT, // <
-	R_RIGHT, // >
-	COMMAND,
-}	t_token;
+	t_btree		*ast;
+	char		*trimmed;
+	t_dlist		*lexed;
+	t_config	*config;
+}	t_parser;
 
+/* Char constants */
 # define PIPECHAR		'|'
 # define R_LEFTCHAR		'<'
 # define R_RIGHTCHAR	'>'
-
-# define SPECIALS_TOKEN	"|<>"
+# define HERE_DOC		"<<"
+# define SPECIALS_TOKEN	"|<>&()"
 # define WHITESPACES	" \t\n\v\f\r"
+# define EXPAND_CHARSET "$?\'\""
 
-typedef	struct s_cmd
+/* Error Messages */
+# define SYNTAX_OUT	"bash: syntax error near unexpected token `>'\n"	
+# define SYNTAX_APPEND	"bash: syntax error near unexpected token `>>'\n"
+# define SYNTAX_NEWLINE	"bash: syntax error near unexpected token `newline'\n"
+# define SYNTAX_PR " syntax error near unexpected token `)'\n"
+# define SYNTAX_PL " syntax error near unexpected token `('\n"
+# define SYNTAX_PIPE " syntax error near unexpected token `|'\n"
+# define SYNTAX_AND " syntax error near unexpected token `&'\n"
+
+/* Prototypes */
+typedef struct s_node2
 {
-	char	*cmd;
-	bool	quotes;
-}	t_cmd;
+	t_lexertok	type;
+	char		**command;
+	char		*file;
+}	t_node2;
 
-typedef struct s_node
+/* Pipes structure */
+typedef struct s_pipes
 {
-	t_token	type;
-	t_cmd	*cmd;
-}	t_node;
-
+	int			**fd;
+	bool		do_not_wait;
+	int			nb_pipes;
+	char		*name_infile;
+	char		*name_outfile;
+	int			fd_infile;
+	int			fd_outfile;
+	int			to_close_one;
+	int			to_close_two;
+	char		**cmds;
+	t_lexertok	type;
+	int			flags;
+	int			pid_last_parent;
+	t_config	*ms_data;
+}	t_pipes;
 
 /******************************************************************************/
 /*                                PROTOTYPES                                  */
@@ -146,24 +246,155 @@ typedef struct s_node
 /* Add your function prototypes here */
 
 // init
-t_config	*init(int ac, char **av, char **env);
-void		clear_minishell(t_config *minishell);
+t_config		*init(int ac, char **av, char **env);
+int				clear_minishell(t_config *minishell);
+void			clear_here_doc(t_btree *root);
+
 // // env
-t_list		*init_environnement(char **env);
-t_envvar	*ptr_to_envvar(void	*content);
-char		*get_value_by_name(t_list *env, char *name);
+char			**init_environnement(char **env);
+char			*get_value_by_name(char **envp, char *name);
+char			*get_var_ptr(char **envp, char *name);
 
-// signals
-void	init_signals(void);
-t_btree	*arbre_bidon();
+/* Signals */
+void			signals_interactive_mode(void);
+void			signals_non_interactive_mode(void);
+void			refresh_signal(t_config *minishell);
 
-// parsing
-t_btree	*parse_cmd(char *cmd);
+/*		PARSING		*/
+// rules
+bool			is_only_whitespaces(char *cmd);
+bool			check_quotes(char *cmd);
+void			and_brain(char c, bool *sq, bool *dq, int *andcount);
+void			parenthesis_brain(char c, int *state, int *parenthesis);
+bool			check_invalid_input(char *cmd, t_config *minishell);
+t_btree			*parse_cmd(char *cmd, t_config *config);
+// lexer
+bool			lexer(char *cmd, t_dlist **lexed_list);
+void			extract_quoted(char *cmd, int *i, int *start, int *end);
+bool			no_quotes(bool *quotes);
+t_lexertok		get_token_type(char *token, t_dlist **dlist);
+bool			add_to_token_list(t_dlist **dlist,
+					char *cmd, int start, int end);
+void			free_token_list(t_dlist **dlist);
+t_dlist			*spliter(char *cmd);
+t_lexertoklist	*ptr_to_lexertoklist(void *token);
+void			print_token_list(t_dlist **dlist);
+void			handle_redirections(t_btree **node,
+					t_dlist *start, t_dlist *end);
+// expander
+bool			expander(t_dlist **lexed_list, t_config *config);
+char			**expand_wildcards(char **cmd);
+char			**realloc_tab(char ***prev, int *size);
+char			**get_all_files(bool hidden);
+void			expand_tilde(char **s, t_config *minishell);
+void			expand_token(char **tokenstr, char **envp,
+					t_config *config, bool expand_specials);
+bool			is_special_var(char *s);
+void			suppress_element(t_dlist **lst);
+t_dlist			*create_arg_list(char	**files, t_dlist *before);
+void			free_array(char **a, int size, int dont_free_idx);
+int				expand_last_error(char **str, t_config *config, int *index);
+int				expand_pid(char **str, t_config *config, int *index);
+int				expand_classic(char **str, t_config *config,
+					int *index, bool expand_specials);
+void			free_array(char **a, int size, int dont_free_idx);
+void			delete_token_invalid_var(t_dlist **tmp, t_dlist **tmp2);
+void			expander_quote_brain(char *s, int *i, int *state, bool *expand);
 
+void			clean_quotes(char **s);
 // ast
-void	construct_ast(t_btree **ast, char **cmd_split, int cmd_len);
-t_btree	*create_special_node(t_token nodetype);
-t_btree	*create_command_node(char **cmd_split);
-void	clear_ast(t_btree *ast);
+bool			create_ast(t_btree **ast, t_dlist *tokenlist, t_config *config);
+int				count_groups(t_dlist *start, t_dlist *end);
+void			construct(t_btree **ast, t_dlist *start,
+					t_dlist *end, bool split3);
+bool			multiple_and_or(t_dlist *start, t_dlist *end);
+void			handle_and_or_ast(t_btree **ast, t_dlist *start,
+					t_dlist *end, bool split3);
+void			handle_parenthesis_ast(t_btree **ast, t_dlist *start,
+					t_dlist *end, bool split3);
+bool			list_contain_pipe(t_dlist *start, t_dlist *end,
+					t_dlist **pipeelem);
+bool			list_contain_operator(t_dlist *start, t_dlist *end);
+bool			get_last_and_or(t_dlist *start, t_dlist *end, t_dlist **op);
+bool			get_first_and_or(t_dlist *start, t_dlist *end, t_dlist **op);
+void			get_first_valid_operator(t_dlist **start, t_dlist **end,
+					t_dlist **op);
+bool			list_contain_parenthesis(t_dlist *start, t_dlist *end);
+bool			same_parenthesis(t_dlist *start, t_dlist *end);
+t_btree			*create_operator_node(t_lexertok type);
+t_btree			*create_cmd_node(t_dlist *start, t_dlist *end);
+int				count_token_type(t_dlist *start, t_dlist *end,
+					int	*redirtokcount);
+char			**extractcmd(t_dlist *start, t_dlist *end);
+void			free_ast(t_btree **ast);
+
+// wildcards
+int				tab_size(char **splited);
+/*		END PARSING		*/
+
+/* Builtin functions */
+
+void			execute_pwd(char **cmd, t_config *minishell);
+void			execute_env(char **cmd, t_config *minishell);
+void			execute_exit(char **cmd, t_config *minishell);
+void			execute_cd(char **cmd, t_config *minishell);
+void			print_cd_err(char *message, t_config *minishell);
+void			print_cd_errs(char *msg1, char *msg2, char *msg3,
+					t_config *minishell);
+void			execute_unset(char **cmd, t_config *minishell);
+char			**duplicate_env_without_var(char *varname, t_config *minishell);
+void			execute_export(char **cmd, t_config *minishell);
+void			execute_echo(char **cmd, t_config *minishell);
+void			print_invalid_option(char *name, char *s);
+void			export_sort(t_config *minishell);
+void			copy_add_env(t_config *ms_data, char **env, char *name,
+					char *value);
+void			add_to_env(char *name, char *value, t_config *ms_data,
+					int is_plus);
+void			clean_export(char *str1, char *str2, char *str3,
+					t_config *ms_data);
+
+/* Debuging */
+void			print_arbre(t_btree *root, int level);
+
+/* Others (en cours) */
+void			execute_ast(t_btree *original_ast, t_config *ms_data);
+// void	move_in_ast(t_config **ms_data);
+void			check_type_execute(t_config *ms_data);
+
+/* EXEC */
+/* Errors */
+void			error_message(char *s1, char *s2, char *s3);
+
+/* Pipes */
+void			pipes(t_config *ms_data);
+void			simple_command(t_pipes *p_data);
+void			first_parent(t_pipes *p_data);
+void			infinite_parent(t_pipes *p_data);
+void			last_parent(t_pipes *p_data);
+void			check_children(t_pipes *data);
+void			clean_exit(char *message, t_pipes *p_data, int c_one, int c_two);
+
+/* Execution */
+int				execute_builtin(t_pipes *p_data);
+void			handle_path(char **path_cmd, t_pipes *p_data);
+void			handle_no_path(char **path_cmd, t_pipes *p_data, int i);
+void			execute_command(t_pipes *p_data);
+int				execute_builtin(t_pipes *d);
+void			handle_no_path(char **path_cmd, t_pipes *p_data, int i);
+void			handle_path(char **path_cmd, t_pipes *p_data);
+
+/* Utilisation */
+void			init_p_data(t_pipes *p_data, t_config *ms_data);
+void			free_fd(int ***fd, int len);
+void			clean_exit(char *message, t_pipes *p_data,
+					int c_one, int c_two);
+
+/* Redirection */
+int				get_infile(t_pipes *p_data, t_btree *cmd);
+int				get_outfile(t_pipes *p_data, t_btree *cmd);
+int				get_redirections(t_pipes *p_data);
+void			get_here_docs(t_config *ms_data);
+void			get_name_here_doc(t_config *minishell, t_btree *cmd, int *i);
 
 #endif /* MINISHELL_H */

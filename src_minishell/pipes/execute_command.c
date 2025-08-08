@@ -6,72 +6,78 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:29:18 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/04 16:25:37 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/26 13:57:28 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include_minishell/minishell.h"
+#include "minishell.h"
 
-static char	*find_path_cmd(char **paths, char **cmds)
+/* || p_data->cmds[0][0] == '\0'*/
+
+static void	get_good_message_one(t_pipes *p_data)
 {
-	int		i;
-	char	*path_cmd;
-
-	i = -1;
-	while (paths[++i])
+	if (p_data->cmds[0] == NULL)
 	{
-		path_cmd = ft_str_three_join(paths[i], "/", cmds[0]);
-		if (!path_cmd)
-		{
-			ft_free_double_ptr(&paths);
-			ft_free_double_ptr(&cmds);
-			ft_perror("malloc", ERROR_CODE);
-		}
-		if (access(path_cmd, X_OK) == 0)
-			return (path_cmd);
-		free(path_cmd);
+		p_data->ms_data->last_error_code = EXIT_SUCCESS;
+		clear_minishell(p_data->ms_data);
 	}
-	return (NULL);
+	else if (p_data->cmds[0][0] == '\0')
+	{
+		error_message(SHELL_NAME, p_data->cmds[0], ": command not found");
+		p_data->ms_data->last_error_code = ERROR_COMMAND;
+		clear_minishell(p_data->ms_data);
+	}
+	else if (ft_str_is_only_charset(p_data->cmds[0], ".") == true)
+	{
+		error_message(SHELL_NAME, p_data->cmds[0], ": command not found");
+		p_data->ms_data->last_error_code = ERROR_COMMAND;
+		clear_minishell(p_data->ms_data);
+	}
 }
 
-static void	no_path(char ***cmds, char **path_cmd, char ***paths, char *cmd)
+static void	get_good_message_two(t_pipes *p_data)
 {
-	*cmds = ft_split(cmd, ' ');
-	if (!*cmds)
+	if (ft_strcmp(p_data->cmds[0], "./") == 0
+		|| ft_strcmp(p_data->cmds[0], "../") == 0)
 	{
-		ft_free_double_ptr(paths);
-		ft_perror("malloc", ERROR_CODE);
+		error_message(SHELL_NAME, p_data->cmds[0], ": Is a directory");
+		p_data->ms_data->last_error_code = CFBNE;
+		clear_minishell(p_data->ms_data);
 	}
-	*path_cmd = find_path_cmd(*paths, *cmds);
-	if (!*path_cmd)
+	else if (p_data->cmds[0][0] == '.'
+			&& p_data->cmds[0][1] != '/' && p_data->cmds[0][1] != '.'
+			&& p_data->cmds[0][1] != '\0')
 	{
-		ft_putstr_fd("command not found: ", 2);
-		ft_putendl_fd((*cmds)[0], 2);
-		ft_free_double_ptr(paths);
-		ft_free_double_ptr(cmds);
-		exit(ERROR_COMMAND);
+		error_message(SHELL_NAME, p_data->cmds[0], ": command not found");
+		p_data->ms_data->last_error_code = ERROR_COMMAND;
+		clear_minishell(p_data->ms_data);
 	}
-	ft_free_double_ptr(paths);
 }
 
-void	execute_command(char **envp, t_btree *arbrebidon)
+void	execute_command(t_pipes *p_data)
 {
-	char	**cmds;
-	char	**paths;
 	char	*path_cmd;
 	int		i;
 
 	i = 0;
-	while (envp[i] != NULL && ft_strncmp(envp[i], "PATH=", 5) != 0)
+	get_good_message_one(p_data);
+	get_good_message_two(p_data);
+	if (execute_builtin(p_data) == 1)
+		clear_minishell(p_data->ms_data);
+	while (p_data->ms_data->environnement[i] != NULL
+		&& ft_strncmp(p_data->ms_data->environnement[i], "PATH=", 5) != 0)
 		i++;
-	paths = ft_split(envp[i] + 5, ':');
-	if (!paths)
-		ft_perror("malloc", ERROR_CODE);
-	no_path(&cmds, &path_cmd, &paths, ((t_node *)(arbrebidon->item))->cmd->cmd);
-	if (execve(path_cmd, cmds, envp) == -1)
+	if (p_data->ms_data->environnement[i] == NULL
+		|| p_data->ms_data->environnement[i][0] == '\0'
+		|| p_data->cmds[0][0] == '/' || p_data->cmds[0][0] == '.')
+		handle_path(&path_cmd, p_data);
+	else
+		handle_no_path(&path_cmd, p_data, i);
+	if (execve(path_cmd, p_data->cmds, p_data->ms_data->environnement) == -1)
 	{
-		ft_free_double_ptr(&cmds);
+		perror("execve");
 		ft_free_simple_ptr(&path_cmd);
-		ft_perror("execve", ERROR_CODE);
+		p_data->ms_data->last_error_code = ERROR_CODE;
+		clear_minishell(p_data->ms_data);
 	}
 }

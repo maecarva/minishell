@@ -12,60 +12,36 @@
 
 #include "../../include_minishell/minishell.h"
 
-t_envvar	*add_env_var(char *name, char *value)
-{
-	t_envvar	*var;
-
-	var = ft_calloc(sizeof(t_envvar), 1);
-	if (!var)
-		return (NULL);
-	var->name = name;
-	var->value = value;
-	return (var);
-}
-
-int	extract_env_var(char *var, t_envvar **envvar)
+int	original_env_size(char **env)
 {
 	int	i;
-	char	*name;
-	char	*value;
 
-	name = NULL;
-	value = NULL;
 	i = 0;
-	while (var[i] && var[i] != '=')
+	while (env[i] != NULL)
 		i++;
-	name = ft_calloc(sizeof(char), i + 1);
-	if (!(name))
-		return (ENV_PARSING_ERROR);
-	ft_strlcpy(name, var, i + 1);
-	value = ft_strdup(var + i + 1);
-	if (!(value))
-		return (free(name), ENV_PARSING_ERROR);
-	*envvar = add_env_var(name, value);
-	if (!(*envvar))
-		return (ENV_PARSING_ERROR);
-	return (ENV_PARSING_OK);
+	return (i);
 }
 
-t_list	*init_environnement(char **env)
+char	**init_environnement(char **env)
 {
-	t_list		*env_list;
-	t_envvar	*tmp;
-	t_list		*tmpelem;
+	char	**envp;
+	int		env_size;
+	int		i;
 
-	env_list = NULL;
-	tmp = NULL;
-	tmpelem = NULL;
-	while (*env)
+	i = 0;
+	env_size = original_env_size(env);
+	envp = ft_calloc(sizeof(char *), env_size + 1);
+	if (!envp)
+		return (NULL);
+	while (env[i])
 	{
-		if (extract_env_var(*env, &tmp))
-			return (printf("Free list pls.\n"), NULL);
-		tmpelem = ft_lstnew(tmp);
-		if (!tmpelem)
-			return (printf("Failed to create list elem\n"), NULL);
-		ft_lstadd_back(&env_list, tmpelem);
-		env++;
+		if (env[i][0] == '_' && env[i][1] == '=')
+			envp[i] = ft_strdup("_=/usr/bin/env");
+		else
+			envp[i] = ft_strdup(env[i]);
+		if (!envp[i])
+			return (ft_free_double_ptr(&envp), NULL);
+		i++;
 	}
-	return (env_list);
+	return (envp);
 }

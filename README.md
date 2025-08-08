@@ -32,3 +32,23 @@ typedef struct s_btree
   type d item (cmd, pipe, ...)
   
 }	t_btree;
+
+
+
+typedef	struct s_config {
+	int		argc;
+	char	**argv;
+	char	**environnement;
+	t_btree	*tree;
+	char	*current_path;
+	char	*prompt;
+	int		last_error_code;
+}	t_config;
+
+A free:
+  environnement
+  tree
+  current_path
+  prompt ??
+
+valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --track-origins=yes --suppressions=readline.supp ./minishell

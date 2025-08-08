@@ -6,86 +6,83 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:10:04 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/02/04 17:16:56 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/02/27 11:55:17 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include_minishell/minishell.h"
+#include "minishell.h"
 
-void	free_fds(int **fd, int len)
-{
-	int	i;
+// void	check_children(t_pipes *p_data)
+// {
+// 	pid_t	pid;
+// 	int		status;
+// 	int		exit_code;
 
-	i = 0;
-	while (i < len)
-	{
-		free(fd[i]);
-		i++;
-	}
-	free(fd);
-}
+// 	pid = 1;
+// 	while (pid > 0)
+// 	{
+// 		pid = waitpid(-1, &status, 0);
+// 		if (pid == -1 && errno != ECHILD)
+// 			ft_perror("waitpid", ERROR_CODE);
+// 		exit_code = WEXITSTATUS(status);
+// 		if (exit_code == ERROR_CODE)
+// 			p_data->ms_data->last_error_code = ERROR_CODE;
+// 		if (pid == p_data->pid_last_parent)
+// 		{
+// 			if (exit_code == ERROR_COMMAND || exit_code == ERROR_CODE
+// 				|| exit_code == EXIT_FAILURE || exit_code == CFBNE
+// 				|| exit_code == 2)
+// 			{
+// 				if (p_data->ms_data->last_error_code != ERROR_CODE)	
+// 				p_data->ms_data->last_error_code = exit_code;
+// 			}
+// 			else
+// 				p_data->ms_data->last_error_code = 0;
+// 		}
+// 	}
+// }
 
-void	check_children(t_pipes *data)
+void	check_children(t_pipes *p_data)
 {
 	pid_t	pid;
 	int		status;
 	int		exit_code;
 
 	pid = 1;
+	if (p_data->do_not_wait == true)
+		return ;
 	while (pid > 0)
 	{
 		pid = waitpid(-1, &status, 0);
-		if (pid == -1 && errno != ECHILD)
-			ft_perror("waitpid", ERROR_CODE);
 		exit_code = WEXITSTATUS(status);
 		if (exit_code == ERROR_CODE)
-			exit(ERROR_CODE);
-		if (pid == data->pid_last_parent)
+			p_data->ms_data->last_error_code = ERROR_CODE;
+		if (pid == p_data->pid_last_parent)
 		{
-			if (exit_code == ERROR_COMMAND || exit_code == ERROR_CODE
-				|| exit_code == EXIT_FAILURE)
-				exit(exit_code);
+			if (p_data->ms_data->last_error_code != ERROR_CODE)
+			{
+				p_data->ms_data->last_error_code = exit_code;
+				if (exit_code == 214)
+					p_data->ms_data->last_error_code = 1;
+			}
 		}
 	}
 }
 
-int	**create_fds(int len)
+void	pipes(t_config *ms_data)
 {
-	int	**fd;
-	int	i;
+	t_pipes	p_data;
 
-	fd = malloc(sizeof(int *) * (len));
-	if (!fd)
-		return (0);
-	i = 0;
-	while (i < len)
+	signals_non_interactive_mode();
+	init_p_data(&p_data, ms_data);
+	if (p_data.nb_pipes == 0)
+		simple_command(&p_data);
+	else
 	{
-		fd[i] = malloc(sizeof(int) * 2);
-		if (!fd[i])
-		{
-			free_fds(fd, i);
-			return (0);
-		}
-		i++;
+		first_parent(&p_data);
+		infinite_parent(&p_data);
+		last_parent(&p_data);
 	}
-	return (fd);
-}
-
-void	init_p_data(t_pipes *p_data, t_btree *tree, char **envp)
-{
-	p_data->environnement = envp;
-	p_data->tree = tree;
-	p_data->nb_pipes = 1;
-	p_data->fd = create_fds(p_data->nb_pipes);
-	p_data->fd_infile = 0;
-	p_data->fd_outfile = 1;
-	p_data->pid_last_parent = -1;
-}
-
-void	pipes(t_pipes *p_data)
-{
-	first_parent(p_data);
-	infinite_parent(p_data);
-	last_parent(p_data);
-	check_children(p_data);
+	check_children(&p_data);
+	signals_interactive_mode();
 }

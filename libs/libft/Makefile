@@ -6,7 +6,7 @@
 #    By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/08 14:24:44 by ebonutto          #+#    #+#              #
-#    Updated: 2025/02/04 16:39:39 by ebonutto         ###   ########.fr        #
+#    Updated: 2025/02/27 14:26:55 by ebonutto         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,8 +16,9 @@ CFLAGS = -Werror -Wall -Wextra -g
 AR = ar rcs
 SRC_PATH = src_libft/
 SRC_LINKED_LIST_PATH = src_linked_list_libft/
-SRC_BINARY_TREE_PATH= src_binary_tree_libft/
 SRC_EXTRA_PATH = src_extra_libft/
+SRC_DOUBLE_LINKED_LIST_PATH = src_double_linked_list/
+SRC_BINARY_TREE_PATH= src_binary_tree_libft/
 OBJ_PATH = obj_libft/
 INCLUDE = -I include_libft
 
@@ -66,14 +67,6 @@ SRC_LINKED_LIST = ft_lstnew.c \
 					ft_lstiter.c \
 					ft_lstmap.c
 
-SRC_BINARY_TREE = ft_btree_create_node.c \
-					ft_btree_apply_prefix.c \
-					ft_btree_apply_infix.c \
-					ft_btree_apply_suffix.c \
-					ft_btree_insert_data.c \
-					ft_btree_search_item.c \
-					ft_btree_level_count.c
-
 SRC_EXTRA = ft_abs.c \
 			ft_close.c \
 			ft_error.c \
@@ -85,11 +78,42 @@ SRC_EXTRA = ft_abs.c \
 			ft_min.c \
 			ft_only_space.c \
 			ft_perror.c \
+			ft_skip_spaces.c \
 			ft_str_three_join.c \
 			ft_strcmp.c \
-			ft_swap.c
+			ft_swap.c \
+			ft_split_charset.c \
+			ft_count_char_in_str.c \
+			ft_count_char_in_str_rev.c \
+			ft_only_whitespaces_after.c \
+			ft_is_in_charset.c \
+			ft_first_char_in_charset_rev.c \
+			ft_first_char_in_charset.c \
+			ft_str_is_only_charset.c \
+			ft_atol.c \
+			ft_strisnumber.c \
+			ft_islong.c \
+			ft_strcpy.c \
+			ft_tabdup.c
 
-OBJ = $(addprefix $(OBJ_PATH), $(SRC:.c=.o) $(SRC_LINKED_LIST:.c=.o) $(SRC_EXTRA:.c=.o) $(SRC_BINARY_TREE:.c=.o))
+
+SRC_DOUBLE_LINKED_LIST = dll_add_back.c \
+						 dll_new.c \
+						 dll_clear.c \
+						 dll_size.c \
+						 dll_size_between.c \
+						 dll_insert.c
+
+SRC_BINARY_TREE = ft_btree_create_node.c \
+					ft_btree_apply_prefix.c \
+					ft_btree_apply_infix.c \
+					ft_btree_apply_suffix.c \
+					ft_btree_insert_data.c \
+					ft_btree_search_item.c \
+					ft_btree_level_count.c
+
+OBJ = $(addprefix $(OBJ_PATH), $(SRC:.c=.o) $(SRC_LINKED_LIST:.c=.o) $(SRC_EXTRA:.c=.o) $(SRC_BINARY_TREE:.c=.o) $(SRC_DOUBLE_LINKED_LIST:.c=.o))
+
 
 all: $(NAME)
 
@@ -101,11 +125,15 @@ $(OBJ_PATH)%.o: $(SRC_LINKED_LIST_PATH)%.c
 	mkdir -p $(OBJ_PATH)
 	$(CC) $(CFLAGS) -o $@ -c $< $(INCLUDE)
 
+$(OBJ_PATH)%.o: $(SRC_EXTRA_PATH)%.c
+	mkdir -p $(OBJ_PATH)
+	$(CC) $(CFLAGS) -o $@ -c $< $(INCLUDE)
+
 $(OBJ_PATH)%.o: $(SRC_BINARY_TREE_PATH)%.c
 	mkdir -p $(OBJ_PATH)
 	$(CC) $(CFLAGS) -o $@ -c $< $(INCLUDE)
 
-$(OBJ_PATH)%.o: $(SRC_EXTRA_PATH)%.c
+$(OBJ_PATH)%.o: $(SRC_DOUBLE_LINKED_LIST_PATH)%.c
 	mkdir -p $(OBJ_PATH)
 	$(CC) $(CFLAGS) -o $@ -c $< $(INCLUDE)
 

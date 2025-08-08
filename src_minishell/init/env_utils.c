@@ -6,31 +6,89 @@
 /*   By: maecarva <maecarva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 14:38:45 by maecarva          #+#    #+#             */
-/*   Updated: 2025/02/03 14:39:30 by maecarva         ###   ########.fr       */
+/*   Updated: 2025/02/15 17:40:07 by maecarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include_minishell/minishell.h"
 
-t_envvar	*ptr_to_envvar(void	*content)
+void	get_name(char *name, char *var)
 {
-	if (!content)
-		return (NULL);
-	return ((t_envvar *)content);
+	int	i;
+
+	if (!name || !var)
+		return ;
+	i = 0;
+	while (var[i] && var[i] != '=' && i < MAX_PATH)
+	{
+		name[i] = var[i];
+		i++;
+	}
 }
 
-char	*get_value_by_name(t_list *env, char *name)
+char	*search_var(char *n, char **envp, int i, char *name)
 {
-	t_list		*tmp;
-	t_envvar	*tmpvar;
+	char	*tmp;
+	char	*value;
 
-	tmp = env;
-	while (tmp)
+	while (envp[i])
 	{
-		tmpvar = ptr_to_envvar(tmp->content);
-		if (ft_strncmp(name, tmpvar->name, ft_strlen(name)) == 0)
-			return (tmpvar->value);
-		tmp = tmp->next;
+		ft_bzero(n, MAX_PATH);
+		get_name(n, envp[i]);
+		if (n[0] != '\0')
+		{
+			if (ft_strncmp(n, name, ft_strlen(name)) == 0
+				&& envp[i][ft_strlen(name)] == '=')
+			{
+				tmp = ft_strchr(envp[i], '=') + 1;
+				if (!tmp)
+					return (NULL);
+				value = ft_strdup(tmp);
+				if (!value)
+					return (NULL);
+				return (value);
+			}
+		}
+		i++;
+	}
+	return (NULL);
+}
+
+char	*get_value_by_name(char **envp, char *name)
+{
+	int		i;
+	char	n[MAX_PATH];
+
+	i = 0;
+	if (!envp)
+		return (NULL);
+	if (ft_strlen(name) == 0)
+		return (NULL);
+	return (search_var(n, envp, i, name));
+}
+
+char	*get_var_ptr(char **envp, char *name)
+{
+	int		i;
+	char	n[MAX_PATH];
+
+	i = 0;
+	if (!envp)
+		return (NULL);
+	if (ft_strlen(name) == 0)
+		return (NULL);
+	while (envp[i])
+	{
+		ft_bzero(n, MAX_PATH);
+		get_name(n, envp[i]);
+		if (n[0] != '\0')
+		{
+			if (ft_strncmp(n, name, ft_strlen(n)) == 0)
+			{
+				return (envp[i]);
+			}
+		}
+		i++;
 	}
 	return (NULL);
 }
